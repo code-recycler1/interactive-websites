@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Function Prompt</title>
+</head>
+
+<body>
+    <!-- This <div> acts as a placeholder for displaying results on the web page. 
+        We’ll insert text into it later using JavaScript. -->
+    <div id="divResult"></div>
+
+    <script>
+        // Declare a variable named 'confirmation' to store the user's response.
+        let confirmation;
+
+        // The confirm() function shows a dialog box with "OK" and "Cancel" buttons.
+        // It returns true if the user clicks OK, or false if they click Cancel.
+        confirmation = confirm("Is John sure?");
+
+        // The prompt() function displays a dialog box asking the user for input.
+        // The first argument is the message shown to the user.
+        // The second argument ('postal code') is the default text shown in the input field.
+        // Whatever the user types is returned as a string.
+        let postalCode = prompt('Enter your postal code', 'postal code');
+
+        // Combine a message string with the user's input value.
+        // Example result: "The postal code you entered was: 12345"
+        let text = 'The postal code you entered was: ' + postalCode;
+
+        // document.getElementById('divResult') selects the <div> element with the given id.
+        // .innerHTML inserts the text into that element, updating the visible content on the page.
+        document.getElementById('divResult').innerHTML = text;
+    </script>
+</body>
+
+</html>

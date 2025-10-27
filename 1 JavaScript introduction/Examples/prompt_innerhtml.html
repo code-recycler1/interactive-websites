@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Function Prompt: Event Handler</title>
+</head>
+
+<body>
+    <!-- This <div> acts as a placeholder for displaying results on the web page. 
+                We’ll insert text into it later using JavaScript. -->
+    <div id="divResult"></div>
+
+    <script>
+        /* 
+        The prompt() function displays a dialog box asking the user to enter information.
+        - The first argument is the message shown in the dialog.
+        - The second argument is the default text that appears in the input field.
+        The function returns whatever the user types, as a string.
+        */
+        let postalCode = prompt('Enter your postal code', 'postal code');
+
+        /* 
+        Here we create a string that combines fixed text with the user's input.
+        For example, if the user types "12345", then:
+        text = "The postal code you entered was: 12345"
+        */
+        let text = 'The postal code you entered was: ' + postalCode;
+
+        /* 
+        document.getElementById('divResult') finds the <div> element whose id is "divResult".
+        The innerHTML property replaces the content inside that <div>
+        with whatever string we assign to it (in this case, our message).
+        */
+        document.getElementById('divResult').innerHTML = text;
+    </script>
+</body>
+
+
+</html>

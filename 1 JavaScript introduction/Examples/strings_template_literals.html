@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="nl">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strings template literals</title>
+    <link rel="shortcut icon" href="#">
+
+</head>
+
+<body>
+
+    <script>
+        // ------- Strings -------------------------
+        // A simple string using single quotes.
+        let string = 'The revolution will not be televised.';
+
+
+        // ❌ Examples of invalid string syntax:
+        /*
+        let badString1 = This is a test;      // Missing quotes entirely
+        let badString2 = 'This is a test;     // Missing closing quote
+        let badString3 = This is a test';     // Missing opening quote
+        */
+        // Strings must always start and end with matching quotes — single (' ') or double (" ").
+
+
+        // ✅ Both single and double quotes are valid in JavaScript.
+        let sgl = 'Single quotes.';
+        let dbl = "Double quotes";
+
+
+        // Mixing quote types lets you include quotes *inside* strings without escaping.
+        let sglDbl = 'Would you eat a "fish supper"?';  // Double quotes inside single
+        let dblSgl = "I'm feeling blue.";               // Single quote inside double
+
+
+        // Escaping quotes:
+        // If you need the same quote type inside the string, use a backslash (\) before it.
+        // The backslash "escapes" the quote so JavaScript knows it's part of the text, not the end of the string.
+        // let bigmouth = 'I've got no right to take my place...'; // ❌ Syntax error
+        let bigmouth = 'I\'ve got no right to take my place...';   // ✅ Correct
+
+
+        // String concatenation (joining multiple strings using the + operator)
+        let one = 'Hello, ';
+        let two = 'how are you?';
+        let joined = one + two; // "Hello, how are you?"
+
+
+        // You can also concatenate text and variables inline:
+        let response = one + 'I am fine — ' + two;
+        // Output: "Hello, I am fine — how are you?"
+
+
+        // ------- Template literals -------------------------
+        // Template literals use backticks (`) instead of single or double quotes.
+        // They support variables and multi-line text directly, without the need for concatenation or \n.
+        let song = 'Fight the Youth'; // Regular string
+        song = `Fight the Youth`;     // Template literal (looks the same but more flexible)
+
+        let score = 9;
+        let highestScore = 10;
+        let output;
+
+        // Traditional string concatenation (less readable):
+        output = 'I like the song "' + song + '". I gave it a score of ' + (score / highestScore * 100) + '%.';
+
+        // Using a template literal — cleaner and easier to read:
+        output = `I like the song "${song}". I gave it a score of ${score / highestScore * 100}%.`;
+
+        // Traditional string with newline using \n:
+        output = 'I like the song "' + song + '".\nI gave it a score of ' + (score / highestScore * 100) + '%.';
+
+        // Template literal with an actual line break — no need for \n:
+        output = `I like the song "${song}".
+    I gave it a score of ${score / highestScore * 100}%.`;
+
+        // Display the final message in an alert box.
+        alert(output);
+    </script>
+
+</body>
+
+</html>

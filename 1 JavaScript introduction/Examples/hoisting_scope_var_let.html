@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoisting scope var let</title>
+    <link rel="shortcut icon" href="#">
+</head>
+
+<body>
+
+    <script>
+        // ================================================================
+        //  FUNCTION SCOPE (using var)
+        // ================================================================
+            /*
+            In JavaScript, variables declared with 'var' are function-scoped.
+            That means they are visible anywhere inside the same function,
+            even if they are declared inside a block (like an if statement).
+            */
+        
+            /*
+            function foo() {
+                if (true) {
+                    var v = "var inside the if block";
+                    console.log(v); // ✅ Works — logs "var inside the if block"
+                }
+        
+                // Because 'var' ignores block boundaries,
+                // the variable 'v' is still accessible here.
+                v = "var outside the if block";
+                console.log(v); // ✅ Logs "var outside the if block"
+            }
+        
+            foo();
+            */
+        
+        
+        // ================================================================
+        //  BLOCK SCOPE (using let)
+        // ================================================================
+            /*
+            Variables declared with 'let' (or 'const') are block-scoped.
+            That means they only exist inside the block (e.g., between { and } )
+            where they were declared.
+            */
+        
+            /*
+            function bar() {
+                if (true) {
+                    let l = "let inside the if block";
+                    console.log(l); // ✅ Works — logs "let inside the if block"
+                }
+        
+                // ❌ 'l' no longer exists here because it's outside its block.
+                console.log(l); // ❌ ReferenceError: l is not defined
+            }
+        
+            bar();
+            */
+        
+            // Key difference:
+            // - var → function-scoped (leaks out of blocks)
+            // - let / const → block-scoped (contained within { } )
+        
+        
+        // ================================================================
+        //  HOISTING
+        // ================================================================
+            /*
+            Hoisting means that variable and function declarations
+            are processed before any code is executed.
+        
+            So you can call a function *before* it appears in the code,
+            because the function declaration is "hoisted" to the top
+            of its scope by the JavaScript engine.
+            */
+        
+            /*
+            test(); // ✅ Works, even though the function is defined below.
+        
+            function test() {
+            alert("Ik ben een functie"); // Dutch for "I am a function"
+            }
+        
+            test(); // ✅ Also works after the declaration.
+            */
+    </script>
+
+</body>
+
+</html>

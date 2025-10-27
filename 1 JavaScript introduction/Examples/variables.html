@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variables and Operators</title>
+    <link href="css/style.css" rel="stylesheet">
+
+    <style>
+        /* Small style reset for readability — removes paragraph spacing */
+        section p {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="container">
+        <h1>Variables and Operators in JavaScript</h1>
+
+        <!-- ============================================================= -->
+        <!-- VARIABLES -->
+        <!-- ============================================================= -->
+        <section>
+            <h2>Variables</h2>
+            <p>number1</p>
+            <p>number2</p>
+            <p>string1</p>
+            <p>string2</p>
+            <p data-info="the string 17">string3</p>
+            <p data-info="the string 3">string4</p>
+            <p>bool1</p>
+            <p>bool2</p>
+            <p>ar1</p>
+            <p>obj1</p>
+            <p>var1</p>
+            <p>var2</p>
+        </section>
+
+        <!-- ============================================================= -->
+        <!-- CHECKING DATA TYPES -->
+        <!-- ============================================================= -->
+        <section>
+            <h2>Check Data Type</h2>
+            <p>typeof(number1)</p>
+            <p>typeof(number2)</p>
+            <p>typeof(string1)</p>
+            <p>typeof(string2)</p>
+            <p>typeof(string3)</p>
+            <p>typeof(string4)</p>
+            <p data-info="an array is an object!">typeof(ar1)</p>
+            <p>typeof(obj1)</p>
+            <p>typeof(bool1)</p>
+            <p>typeof(bool2)</p>
+            <p>typeof(var1)</p>
+        </section>
+
+        <!-- ============================================================= -->
+        <!-- ARITHMETIC OPERATORS -->
+        <!-- ============================================================= -->
+        <section>
+            <h2>Arithmetic Operators</h2>
+            <p>number1</p>
+            <p>number2</p>
+            <p>string3</p>
+            <p>string4</p>
+            <p>&nbsp;</p>
+            <p>number1 + number2</p>
+            <p>number1 - number2</p>
+            <p>number1 * number2</p>
+            <p>number1 / number2</p>
+            <p>number1 % number2</p>
+            <p></p>
+            <p style="color:blue" data-info="number * string = number!!!">number2 * string3</p>
+            <p style="color:blue" data-info="number + string = string!!!">number2 + string3</p>
+            <p style="color:blue" data-info="string + string = string!!!">string3 + string4</p>
+            <p style="color:blue">number1 / 0</p>
+            <p></p>
+            <p data-info="pre-increment: add one first, then display">++number2</p>
+            <p data-info="post-increment: display first, then add one">number2++</p>
+            <p data-info="previous increment now becomes visible">number2</p>
+            <p data-info="pre-decrement: subtract one first, then display">--number2</p>
+            <p data-info="post-decrement: display first, then subtract one">number2--</p>
+            <p data-info="previous decrement now becomes visible">number2</p>
+        </section>
+
+        <!-- ============================================================= -->
+        <!-- COMPARISON OPERATORS -->
+        <!-- ============================================================= -->
+        <section>
+            <h2>Comparison Operators</h2>
+            <p>number1</p>
+            <p>number2</p>
+            <p>string3</p>
+            <p>string4</p>
+            <p>&nbsp;</p>
+            <p>(number1 == number2)</p>
+            <p>!(number1 == number2)</p>
+            <p>(number1 &lt; number2)</p>
+            <p>(number1 &gt; number2)</p>
+            <p>(number1 &lt;= number2)</p>
+            <p>(number1 &gt;= number2)</p>
+            <p>(number1 != number2)</p>
+            <p></p>
+            <p style="color:blue" data-info="equal to">(number1 == string3)</p>
+            <p style="color:blue" data-info="equal to AND same data type">(number1 === string3)</p>
+            <p style="color:blue" data-info="string '17' &lt; string '3' !!!">(string3 &lt; string4)</p>
+            <p style="color:blue" data-info="number 17 &gt; number 3">(parseInt(string3) &gt; parseInt(string4))</p>
+        </section>
+
+        <!-- ============================================================= -->
+        <!-- PARSEINT() AND PARSEFLOAT() -->
+        <!-- ============================================================= -->
+        <section>
+            <h2>parseInt() and parseFloat()</h2>
+            <p>parseInt('3')</p>
+            <p>parseInt('54.74')</p>
+            <p>parseInt('14a7')</p>
+            <p data-info="Not A Number">parseInt('de78')</p>
+            <p>parseFloat('3')</p>
+            <p>parseFloat('54.74')</p>
+            <p>parseFloat(' 30 40 50 ')</p>
+        </section>
+
+        <!-- ============================================================= -->
+        <!-- LOGICAL OPERATORS -->
+        <!-- ============================================================= -->
+        <section>
+            <h2>Logical Operators</h2>
+            <p>number1</p>
+            <p>number2</p>
+            <p>&nbsp;</p>
+            <p>(number1 == number2)</p>
+            <p>!(number1 == number2)</p>
+            <p>(number1 == 17 &amp;&amp; number2 &lt; 2)</p>
+            <p>(number1 == 17 || number2 &lt; 2)</p>
+        </section>
+
+        <!-- ============================================================= -->
+        <!-- STRING OPERATORS -->
+        <!-- ============================================================= -->
+        <section>
+            <h2>String Operators</h2>
+            <p>string1</p>
+            <p>string2</p>
+            <p>&nbsp;</p>
+            <p>string1 + string2</p>
+            <p>string1 + " " + string2</p>
+            <p data-info="string1 = string1 + string2">string1 += string2</p>
+            <p>string1</p>
+        </section>
+
+    </main>
+
+    <!-- jQuery library (used for dynamic DOM manipulation) -->
+    <script src="js/jquery.min.js"></script>
+
+    <script>
+        $(function () {
+            // ------------------------------------------------------------
+            // Declare and initialize variables
+            // ------------------------------------------------------------
+            let number1 = 17;
+            let number2 = 3;
+            let string1 = 'day';
+            let string2 = 'John';
+            let string3 = '17';
+            let string4 = '3';
+            let bool1 = true;
+            let bool2 = false;
+            let ar1 = ['mon', 'tue', 'wed'];
+            let obj1 = new Object;
+            let var1;           // undefined
+            let var2 = null;    // explicitly empty value
+
+            // ------------------------------------------------------------
+            // jQuery script (you don’t need to fully understand this yet)
+            // ------------------------------------------------------------
+            // For each <p> inside a <section>, evaluate its content as JavaScript
+            // and display the result next to it.
+            $('section p').each(function () {
+                let $function = $.trim($(this).text());     // get and trim text inside <p>
+                let $info = $.trim($(this).data('info'));  // get any data-info attribute
+
+                // Only process <p> elements that have some text (a JS expression)
+                if ($function.length > 0) {
+                    // Evaluate the text as JavaScript code
+                    let result = eval($function);
+
+                    // If there's additional info, display it as a grey comment
+                    if ($info.length > 0) {
+                        $info = '&nbsp;&nbsp;&nbsp;<span style="color:grey">// ' + $info + '</span>';
+                    }
+
+                    // If result is a string, display it in quotes and red color
+                    if (typeof (result) === 'string') {
+                        $(this).append(' = <span style="color:red">"' + result + '"</span>' + $info);
+                    } else {
+                        // For numbers, booleans, etc., show the value directly
+                        $(this).append(' = <span style="color:red">' + result + '</span>' + $info);
+                    }
+                } else {
+                    // If paragraph is empty, add a line break for spacing
+                    $(this).append('<br>');
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
