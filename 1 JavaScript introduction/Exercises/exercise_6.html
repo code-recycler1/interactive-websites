@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Introduction - Exercise 6</title>
+</head>
+
+<body>
+    <div id="container"></div>
+
+    <script>
+        const browserName = navigator.appName;
+        const browserVersion = navigator.appVersion;
+        const text = `Browser Name: ${browserName} | Browser Version: ${browserVersion}`;
+
+        const container = document.getElementById('container');
+
+        container.innerHTML = text;
+
+        /*
+        Notes:
+            - navigator.appName and navigator.appVersion provide browser information (though they are legacy and not always reliable in modern browsers).
+        */
+    </script>
+
+</body>
+
+</html>

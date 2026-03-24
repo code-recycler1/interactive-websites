@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Introduction - Exercise 2</title>
+</head>
+
+<body>
+
+    <script>
+        let number = 0;
+        let counter = 10;
+        let name = "Jan";
+        let smaller = true;
+        let ok = false;
+
+        number += 10;       // 10
+        counter++;          // 11
+        number += counter;  // 21
+        number++;           // 22
+
+        smaller = (number < 20); // false
+        ok = (name != "jan") && smaller; // true && false => false
+
+        document.write(`number: ${number}<br>`);
+        document.write(`counter: ${counter}<br>`);
+        document.write(`name: ${name}<br>`);
+        document.write(`smaller: ${smaller}<br>`);
+        document.write(`ok: ${ok}<br>`);
+
+        /*
+        Results of the operations:
+            - number = 22
+            - counter = 11
+            - smaller = false (because 22 is not < 20)
+            - ok = false (because "Jan" != "jan" is true, but smaller is false, so true && false → false)
+        */
+    </script>
+
+</body>
+
+</html>

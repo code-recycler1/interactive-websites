@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript introduction - Exercise 7</title>
+</head>
+
+<body>
+    <div id="container"></div>
+
+    <script>
+        const input1 = prompt('Enter the first number:', '0');
+        const input2 = prompt('Enter the second number:', '0');
+
+        const num1 = parseFloat(input1);
+        const num2 = parseFloat(input2);
+
+        const sum = num1 + num2;
+
+        const container = document.getElementById('container');
+        container.innerHTML = `
+        <h1>The JavaScript calculator</h1>
+            ${num1} plus ${num2} equals ${sum}
+        `;
+
+        /*
+        Notes:
+            - prompt() returns strings, so parseFloat() is required to ensure numeric addition instead of string concatenation.
+        */
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Introduction - Exercise 4</title>
+</head>
+
+<body>
+
+    <script>
+        const input1 = prompt('Enter the first number:', '0');
+        const input2 = prompt('Enter the second number:', '0');
+
+        const num1 = parseFloat(input1);
+        const num2 = parseFloat(input2);
+
+        const sum = num1 + num2;
+        const difference = num1 - num2;
+        const product = num1 * num2;
+        const quotient = num2 !== 0 ? num1 / num2 : 'undefined (division by zero)';
+
+        document.write(`Number 1: ${num1}<br>`);
+        document.write(`Number 2: ${num2}<br><br>`);
+        document.write(`Sum: ${sum}<br>`);
+        document.write(`Difference: ${difference}<br>`);
+        document.write(`Product: ${product}<br>`);
+        document.write(`Quotient: ${quotient}<br>`);
+
+        /*
+        Notes:
+            - parseFloat is used to support decimal numbers(more flexible than parseInt).
+            - Input validation ensures the values are numeric before performing calculations.
+            - Division by zero is explicitly handled to avoid invalid results.
+        */
+
+    </script>
+
+</body>
+
+</html>

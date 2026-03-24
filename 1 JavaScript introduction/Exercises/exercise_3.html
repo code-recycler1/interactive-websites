@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Introduction - Exercise 3</title>
+</head>
+
+<body>
+
+    <script>
+        const firstName = prompt('Enter your first name:');
+        const lastName = prompt('Enter your last name:');
+
+        const fullName = `${firstName.trim()} ${lastName.trim()}`;
+
+        const isCorrect = confirm(`You entered: "${fullName}".\nIs this spelled correctly?`);
+
+        alert(isCorrect ? `Confirmed name: ${fullName}` : 'Name was not confirmed.');
+
+        /*
+        Notes:
+            - prompt() returns null if the user cancels.
+            - confirm() returns a boolean: true (OK) or false (Cancel).
+        */
+    </script>
+
+</body>
+
+</html>
