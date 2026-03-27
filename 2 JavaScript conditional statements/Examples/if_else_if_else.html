@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>If-Else</title>
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <main class="container">
+        <h1>If-Else</h1>
+
+        <!-- EXAMPLE 1: BASIC IF-ELSE -->
+        <section>
+            <h2>Example 1: Simple form</h2>
+            <script>
+                // PROMPT: Returns user input as a STRING, or null if cancelled
+                let length = prompt("Enter your height in cm.", "");
+
+                // Simple conditional: executes one of two code blocks
+                if (length < 100) {
+                    // Executes when condition is TRUE (height less than 100cm)
+                    document.write('<p>You are still too short.</p>');
+                } else {
+                    // Executes when condition is FALSE (height 100cm or greater)
+                    document.write('<p>You may enter this attraction alone.</p>');
+                }
+            </script>
+        </section>
+
+        <!-- EXAMPLE 2: ELSE-IF CHAIN (MULTIPLE CONDITIONS) -->
+        <section>
+            <h2>Example 2: Nested form</h2>
+            <script>
+                // Checks conditions in order from top to bottom
+                // Executes the FIRST matching block, then exits the entire structure
+                if (length < 100) {
+                    // First condition: heights below 100cm
+                    document.write('<p>You are still too short.</p>');
+                } else if (length < 120) {
+                    // Second condition: heights 100-119cm (since first condition was false)
+                    document.write('<p>You may enter, but only with someone taller than 120cm.</p>');
+                } else {
+                    // Catch-all: heights 120cm or greater
+                    document.write('<p>You may enter this attraction alone.</p>');
+                }
+                // NOTE: Order matters - if we swapped conditions, logic would break
+            </script>
+        </section>
+
+        <!-- EXAMPLE 3: ADDITIONAL ELSE-IF BRANCH -->
+        <section>
+            <h2>Example 3: Nested form</h2>
+            <script>
+                // Adds a fourth condition to handle tall riders
+                if (length < 100) {
+                    // Range: 0-99cm
+                    document.write('<p>You are still too short.</p>');
+                } else if (length < 120) {
+                    // Range: 100-119cm
+                    document.write('<p>You may enter, but only with someone taller than 120cm.</p>');
+                } else if (length > 180) {
+                    // Range: 181cm and above
+                    document.write('<p>Oops, too tall.</p>');
+                } else {
+                    // Range: 120-180cm
+                    document.write('<p>You may enter this attraction alone.</p>');
+                }
+            </script>
+        </section>
+
+        <!-- EXAMPLE 4: IF-ELSE WITHOUT BRACES -->
+        <section>
+            <h2>Example 4: Without braces</h2>
+            <script>
+                // Demonstrates valid syntax where braces {} are omitted
+                // WARNING: This pattern is FRAGILE and error-prone - NOT recommended for production
+
+                // Without braces, only the FIRST statement after each condition is conditional
+                if (length < 100)
+                    // This line only executes when length < 100
+                    document.write("<p>Too short.</p>");
+                // The 'else if' attaches to the previous if statement
+                else if (length < 120)
+                    // This line only executes when 100 ≤ length < 120
+                    document.write("<p>Need supervisor.</p>");
+                else
+                    // This line only executes when length ≥ 120
+                    document.write("<p>Allowed.</p>");
+
+                // ⚠️ CRITICAL FLAW DEMONSTRATION:
+                // If you added a second line to any branch without adding braces, it would execute
+                // UNCONDITIONALLY, causing silent logic bugs that are hard to debug.
+                //
+                // Example of what breaks this:
+                // if (length < 100)
+                //     document.write("<p>Too short.</p>");
+                //     document.write("<p>This runs for EVERYONE!</p>"); // NOT conditional!
+                //
+                // Always use braces {} even for single-line statements to prevent this.
+            </script>
+        </section>
+    </main>
+</body>
+
+</html>

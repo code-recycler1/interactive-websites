@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conditional operator</title>
+
+<body>
+    <h1>Conditional operator</h1>
+    <div id="divResult"></div>
+
+    <script>
+        // 1. Initializations
+        let question = 'What is 20 + 60?';
+        let answer = 80;
+        let correct = '<h2>Great, keep it up!</h2>';
+        let incorrect = '<h2>Too bad, better luck next time!</h2>';
+
+        // 2. Ask the question
+        // parseInt() converts string input to integer, with fallback '0' if input is empty
+        let response = parseInt(prompt(question, '0'));
+
+        // 3. Check the answer using strict equality (===)
+        // Ternary operator: condition ? valueIfTrue : valueIfFalse
+        let result = (response === answer) ? correct : incorrect;
+
+        // 4. Write result to the screen
+        // SAFER than document.write() - updates specific element without page overwrite
+        document.getElementById('divResult').innerHTML = result;
+    </script>
+</body>
+
+</html>

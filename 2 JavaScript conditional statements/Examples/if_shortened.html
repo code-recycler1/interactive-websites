@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conditional operator</title>
+</head>
+
+<body>
+    <h1>Conditional operator</h1>
+    <div id="divResult"></div>
+
+    <script>
+        // Variable declaration - stores the current day
+        let day = "thursday";
+
+        // Conditional (ternary) operator: condition ? valueIfTrue : valueIfFalse
+        // Checks if day is Saturday OR Sunday
+        let message = (day == "saturday" || day == "sunday")
+            ? "It's the weekend"      // Executes if condition is true
+            : "Unfortunately, still work time"; // Executes if condition is false
+
+        // DOM manipulation: inserts the message into the div element
+        // SAFER than document.write() - updates specific element without page overwrite
+        document.getElementById('divResult').innerHTML = message;
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript conditional statements - Exercise 2</title>
+</head>
+
+<body>
+
+    <script>
+        // Ask the user to enter a number via prompt dialog
+
+        let number = parseInt(prompt("Enter a number between 10 and 20:", "10"));
+
+
+        // Case 1: Number is less than 10
+        if (number < 10) {
+            // CHALLENGE 1: Include the entered number in the message
+            alert(`The number ${number} is smaller than 10.`);
+        }
+        // Case 2: Number is greater than 20
+        else if (number > 20) {
+            // CHALLENGE 1: Include the entered number in the message
+            alert(`The number ${number} is greater than 20.`);
+        }
+        // Case 3: Number is between 10 and 20 (inclusive)
+        else {
+            // CHALLENGE 2: Calculate the square using exponentiation
+
+            // Method 1: Using Math.pow() - traditional approach
+            // let square = Math.pow(number, 2);
+
+            // Method 2: Using exponentiation operator (**) - ES2016+ (modern approach)
+            // This is the cleaner, more readable syntax
+            let square = number ** 2;
+
+            // Display the result to the user
+            alert(`The number ${number} is between 10 and 20. Its square is ${square}.`);
+        }
+    </script>
+</body>
+
+</html>

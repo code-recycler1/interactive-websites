@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <title>JavaScript conditional statements - Exercise 6</title>
+</head>
+
+<body>
+    <div class="container">
+
+        <h3>How much do I weigh on another planet?</h3>
+
+        <div class="row">
+            <div class="col-md-12">
+                <img id="imgPlanet" src="img/question_mark.jpg" alt="Planet image" style="width: 200px; height: 200px;">
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <div id="myWeight"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        // Planet data: gravity multipliers and corresponding image paths
+        const PLANETS = {
+            'moon': {
+                name: 'Moon',
+                multiplier: 0.166,
+                image: 'img/moon.jpg',
+                displayName: 'Moon'
+            },
+            'jupiter': {
+                name: 'Jupiter',
+                multiplier: 2.36,
+                image: 'img/jupiter.jpg',
+                displayName: 'Jupiter'
+            },
+            'mars': {
+                name: 'Mars',
+                multiplier: 0.39,
+                image: 'img/mars.jpg',
+                displayName: 'Mars'
+            },
+            'venus': {
+                name: 'Venus',
+                multiplier: 0.9,
+                image: 'img/venus.jpg',
+                displayName: 'Venus'
+            },
+            'neptune': {
+                name: 'Neptune',
+                multiplier: 1.12,
+                image: 'img/neptune.jpg',
+                displayName: 'Neptune'
+            }
+        };
+        
+        // Get reference to DOM elements
+        const imgPlanet = document.getElementById('imgPlanet');
+        const myWeightDiv = document.getElementById('myWeight');
+        
+        // ----- STEP 1: ASK FOR USER'S WEIGHT -----
+        let weight = parseFloat(prompt("Enter your weight on Earth (in kg):", ""));
+                  
+        if (weight <= 0) {
+            myWeightDiv.innerHTML = '<strong>Please enter a valid positive weight. Refresh the page to try again.</strong>';
+        } else {
+            // ----- STEP 2: ASK FOR PLANET CHOICE -----
+            let choice = prompt("Choose a planet:\nA. Moon\nB. Jupiter\nC. Mars\nD. Venus\nE. Neptune\n\nEnter the letter of your choice:", "");
+            
+            // Validate planet choice
+            if (choice === null) {
+                myWeightDiv.innerHTML = '<strong>Operation cancelled. Please refresh the page to try again.</strong>';
+            } else {
+                // ----- CHALLENGE 1: ACCEPT BOTH UPPERCASE AND LOWERCASE -----
+                // Convert input to lowercase for case-insensitive comparison
+                let planetKey = '';
+                let selectedPlanet = null;
+                
+                // Map user input to planet keys
+                switch (choice.toLowerCase()) {
+                    case 'a':
+                    case 'moon':
+                        planetKey = 'moon';
+                        selectedPlanet = PLANETS.moon;
+                        break;
+                    case 'b':
+                    case 'jupiter':
+                        planetKey = 'jupiter';
+                        selectedPlanet = PLANETS.jupiter;
+                        break;
+                    case 'c':
+                    case 'mars':
+                        planetKey = 'mars';
+                        selectedPlanet = PLANETS.mars;
+                        break;
+                    case 'd':
+                    case 'venus':
+                        planetKey = 'venus';
+                        selectedPlanet = PLANETS.venus;
+                        break;
+                    case 'e':
+                    case 'neptune':
+                        planetKey = 'neptune';
+                        selectedPlanet = PLANETS.neptune;
+                        break;
+                    default:
+                        // Invalid choice
+                        selectedPlanet = null;
+                        break;
+                }
+                
+                if (selectedPlanet === null) {
+                    // Display "Wrong choice" message
+                    myWeightDiv.innerHTML = '<strong>Wrong choice. Please refresh the page and select A, B, C, D, or E.</strong>';
+                } else {
+                    // ----- CALCULATE WEIGHT ON SELECTED PLANET -----
+                    let weightOnPlanet = weight * selectedPlanet.multiplier;
+                    
+                    // ----- CHALLENGE 3: ROUND TO 2 DECIMAL PLACES -----
+                    // Using toFixed(2) to round to 2 decimal places
+                    let roundedWeight = weightOnPlanet.toFixed(2);
+                    
+                    // ----- CHALLENGE 2: CHANGE THE IMAGE -----
+                    // Update the image source based on selected planet
+                    // Note: Ensure the image files exist in the img folder
+                    imgPlanet.src = selectedPlanet.image;
+                    // Update alt text for accessibility
+                    imgPlanet.alt = `Image of ${selectedPlanet.displayName}`;
+                    
+                    // ----- DISPLAY RESULT IN THE DIV -----
+                    // Format the output message
+                    let resultMessage = `
+                        <strong>You chose ${selectedPlanet.displayName}.</strong><br>
+                        Your weight on Earth: <strong>${weight} kg</strong><br>
+                        Your weight on ${selectedPlanet.displayName}: <strong>${roundedWeight} kg</strong><br>
+                        (Earth weight × ${selectedPlanet.multiplier} = ${roundedWeight} kg)
+                    `;
+                    
+                    myWeightDiv.innerHTML = resultMessage;
+                    
+                    // Optional: Also log to console for debugging
+                    console.log(`Selected: ${selectedPlanet.displayName}`);
+                    console.log(`Earth weight: ${weight} kg`);
+                    console.log(`Weight on ${selectedPlanet.displayName}: ${roundedWeight} kg`);
+                }
+            }
+        }
+        
+        // ----- ALTERNATIVE: SWITCH STATEMENT VERSION (COMMENTED) -----
+        // Here's an alternative implementation using switch instead of mapping
+        
+        /*
+        let planetChoice = choice.toLowerCase();
+        let multiplier = 0;
+        let planetName = "";
+        let planetImage = "";
+        
+        switch (planetChoice) {
+            case 'a':
+            case 'moon':
+                multiplier = 0.166;
+                planetName = "Moon";
+                planetImage = "img/moon.jpg";
+                break;
+            case 'b':
+            case 'jupiter':
+                multiplier = 2.36;
+                planetName = "Jupiter";
+                planetImage = "img/jupiter.jpg";
+                break;
+            case 'c':
+            case 'mars':
+                multiplier = 0.39;
+                planetName = "Mars";
+                planetImage = "img/mars.jpg";
+                break;
+            case 'd':
+            case 'venus':
+                multiplier = 0.9;
+                planetName = "Venus";
+                planetImage = "img/venus.jpg";
+                break;
+            case 'e':
+            case 'neptune':
+                multiplier = 1.12;
+                planetName = "Neptune";
+                planetImage = "img/neptune.jpg";
+                break;
+            default:
+                myWeightDiv.innerHTML = '<strong>Wrong choice.</strong>';
+                multiplier = null;
+        }
+        
+        if (multiplier !== null) {
+            let weightOnPlanet = weight * multiplier;
+            let roundedWeight = weightOnPlanet.toFixed(2);
+            imgPlanet.src = planetImage;
+            imgPlanet.alt = `Image of ${planetName}`;
+            myWeightDiv.innerHTML = `
+                <strong>You chose ${planetName}.</strong><br>
+                Your weight on ${planetName}: <strong>${roundedWeight} kg</strong>
+            `;
+        }
+        */
+        
+        // ----- ADDITIONAL NOTES -----
+        //
+        // CHALLENGE 1 SOLUTION:
+        // Using .toLowerCase() on the user input allows both 'A' and 'a' to work
+        // Also supports full planet names for better user experience
+        //
+        // CHALLENGE 2 SOLUTION:
+        // Changing image source with document.getElementById('imgPlanet').src = newPath
+        // Also updated alt text for accessibility (WCAG compliant)
+        //
+        // CHALLENGE 3 SOLUTION:
+        // Using .toFixed(2) rounds to 2 decimal places and returns a string
+        // Alternative: Math.round(weightOnPlanet * 100) / 100
+        //
+        // GRAVITY MULTIPLIERS:
+        // Moon: 0.166 (1/6 of Earth's gravity)
+        // Jupiter: 2.36 (2.36 times Earth's gravity)
+        // Mars: 0.39 (39% of Earth's gravity)
+        // Venus: 0.9 (90% of Earth's gravity)
+        // Neptune: 1.12 (12% heavier than Earth)
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+</body>
+
+</html>

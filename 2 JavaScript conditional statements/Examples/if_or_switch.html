@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Switch</title>
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <main class="container">
+        <h1>Speed</h1>
+    </main>
+
+    <script>
+        // ----- VARIABLE DECLARATION -----
+        // Speed value to evaluate (in whatever unit the application uses)
+        let val = 800;
+
+        // ----- APPROACH 1: SWITCH WITH BOOLEAN EXPRESSION -----
+        // UNCOMMON PATTERN: switch(true) allows evaluating boolean expressions in cases
+        // This works because each case expression evaluates to true/false, and switch(true)
+        // matches the first case that evaluates to true
+        //
+        // ADVANTAGE: Cleaner syntax when checking ranges compared to if-else chain
+        // DISADVANTAGE: Less common pattern, may confuse developers unfamiliar with it
+
+        switch (true) {
+            // Case 1: Check if val is between 0 and 999 (inclusive of 0, exclusive of 1000)
+            // Evaluates to true when condition is met, false otherwise
+            case (0 <= val && val < 1000):
+                console.log('less than 1000');
+                break; // Exit switch once matched
+
+            // Case 2: Check if val is between 1000 and 1999
+            case (1000 <= val && val < 2000):
+                console.log('between 1000 and 2000');
+                break;
+
+            // Case 3: Check if val is between 2000 and 2999
+            case (2000 <= val && val < 3000):
+                console.log('between 2000 and 3000');
+                break;
+
+            // Default: Executes when no case matches (val is negative or 3000 or greater)
+            default:
+                console.log('???');
+                break; // Optional but good practice for consistency
+        }
+
+        // ----- APPROACH 2: TRADITIONAL IF-ELSE CHAIN -----
+        // This achieves the SAME LOGIC as the switch(true) above
+        // MORE COMMON PATTERN: Easier to understand for most developers
+        // BETTER CHOICE: Use if-else for range checks; use switch for discrete value matching
+
+        if (0 <= val && val < 1000) {
+            console.log('less than 1000');
+        } else if (1000 <= val && val < 2000) {
+            console.log('between 1000 and 2000');
+        } else if (2000 <= val && val < 3000) {
+            console.log('between 2000 and 3000');
+        } else {
+            console.log('???');
+        }
+    </script>
+</body>
+
+</html>

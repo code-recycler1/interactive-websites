@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript conditional statements - Exercise 3</title>
+</head>
+
+<body>
+
+    <script>
+        // Using switch(true) pattern to evaluate range conditions
+
+        let number = parseInt(prompt("Enter a number between 10 and 20:", ""));
+
+
+        // ----- SWITCH WITH BOOLEAN EXPRESSIONS -----
+        // The switch(true) pattern evaluates each case expression
+        // The first case that evaluates to true executes its block
+
+        switch (true) {
+            // Case 1: Number is less than 10
+            case (number < 10):
+                alert(`The number ${number} is smaller than 10.`);
+                break;
+
+            // Case 2: Number is greater than 20
+            case (number > 20):
+                alert(`The number ${number} is greater than 20.`);
+                break;
+
+            // Case 3: Number is between 10 and 20 (inclusive)
+            // This catches all remaining numbers in range 10-20
+            case (number >= 10 && number <= 20):
+                // Calculate square using exponentiation operator
+                let square = number ** 2;
+                alert(`The number ${number} is between 10 and 20. Its square is ${square}.`);
+                break;
+
+            // Default fallback (should never reach here with valid number)
+            default:
+                alert("Unexpected error. Please try again.");
+                break;
+        }
+
+
+        // ----- ALTERNATIVE: SWITCH WITH STRING CATEGORIES -----
+        // Another approach: determine category first, then switch on category string
+        // This can be cleaner when the logic is more complex
+
+        /*
+        let number = parseInt(prompt("Enter a number between 10 and 20:", ""));
+        
+        // Determine category first
+        let category;
+        
+        if (number < 10) {
+            category = "tooLow";
+        } else if (number > 20) {
+            category = "tooHigh";
+        } else {
+            category = "inRange";
+        }
+        
+        // Switch on category string (more readable than switch(true))
+        switch (category) {
+            case "tooLow":
+                alert(`The number ${number} is smaller than 10.`);
+                break;
+            case "tooHigh":
+                alert(`The number ${number} is greater than 20.`);
+                break;
+            case "inRange":
+                let square = number ** 2;
+                alert(`The number ${number} is between 10 and 20. Its square is ${square}.`);
+                break;
+            default:
+                alert("Unexpected error.");
+                break;
+        }
+
+        */
+    </script>
+</body>
+
+</html>

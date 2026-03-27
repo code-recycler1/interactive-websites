@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The switch() statement</title>
+</head>
+
+<body>
+    <h1>The switch() statement</h1>
+    <!-- Container element where the result message will be displayed -->
+    <div id="divResult"></div>
+
+    <script>
+        // ----- VARIABLE DECLARATIONS -----
+        // The value to test against the switch cases
+        let color = 'red';
+
+        // Will store the user-facing message based on the matched case
+        let message = '';
+
+        // Will store the English name of the color for styling purposes
+        let styleColor = '';
+
+        // ----- SWITCH STATEMENT -----
+        // Evaluates the expression (color) once and compares it to each case value
+        // Uses STRICT comparison (===) - matches value AND type
+        switch (color) {
+            // CASE FALL-THROUGH PATTERN
+            // Multiple cases can execute the same code block
+            // Here: both 'pink' and 'red' will execute the same block
+            case 'pink':
+            case 'red':
+                {
+                    // Block executes when color === 'pink' OR color === 'red'
+                    message = 'You have chosen red/pink as your color';
+                    styleColor = 'red';
+                    break;  // CRITICAL: Exits switch; without this, execution "falls through" to next case
+                }
+
+            case 'blue':
+                {
+                    // Executes when color === 'blue'
+                    message = 'You have chosen blue as your color';
+                    styleColor = 'blue';
+                    break;
+                }
+
+            case 'yellow':
+                {
+                    // Executes when color === 'yellow'
+                    message = 'You have chosen yellow as your color';
+                    styleColor = 'yellow';
+                    break;
+                }
+
+            default:
+                {
+                    // Executes when NO cases match
+                    // Always place default at the end (though syntactically can be anywhere)
+                    // Serves as error handling / fallback
+                    message = 'You have chosen an unknown color';
+                    styleColor = 'black';
+                    break;  // break in default is optional but good practice for consistency
+                }
+        }
+        // After break, execution continues here
+
+        // ----- DOM MANIPULATION -----
+        // Retrieve the div element by its ID
+        var elem = document.getElementById('divResult');
+
+        // Apply the selected color to the text
+        elem.style.color = styleColor;
+
+        // Insert the message into the div
+        elem.innerHTML = message;
+
+        // ----- SYNTAX REFERENCE -----
+        // This is the general structure of a switch statement:
+        // switch (testCondition) {
+        //     case expression1:
+        //         code;
+        //         break;    // Prevents fall-through to next case
+        //     case expression2:
+        //         code;
+        //         break;
+        //     default:      // Optional: handles unmatched cases
+        //         code;
+        // }
+        //
+        // KEY CONCEPTS:
+        // - Uses strict equality (===) for comparison
+        // - Without break, execution continues to the next case (fall-through)
+        // - Cases can be grouped to share the same code block
+        // - Default case is optional but recommended for error handling
+    </script>
+</body>
+
+</html>

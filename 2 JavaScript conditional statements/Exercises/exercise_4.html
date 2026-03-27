@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript conditional statements - Exercise 4</title>
+</head>
+
+<body>
+
+    <script>
+        // Ask the user for their age
+        
+        let age = parseInt(prompt("Please enter your age to calculate the cinema ticket price:", ""));
+        
+        // Using if-else structure with clear age ranges
+        
+        let priceMessage = "";
+        let price = 0;
+        
+        // Standard cinema ticket price (full price)
+        const FULL_PRICE = 12.50;
+        
+        if (age < 5) {
+            // Category a: Younger than 5 years old
+            price = 0;
+            priceMessage = `Age: ${age} years | Ticket price: FREE`;
+        } 
+        else if (age >= 5 && age <= 12) {
+            // Category b: Between 5 and 12 years old (inclusive)
+            price = FULL_PRICE / 2; // Half price
+            priceMessage = `Age: ${age} years | Ticket price: €${price.toFixed(2)} (half price)`;
+        } 
+        else if (age >= 13 && age <= 54) {
+            // Category c: Between 13 and 54 years old (inclusive)
+            price = FULL_PRICE; // Full price
+            priceMessage = `Age: ${age} years | Ticket price: €${price.toFixed(2)} (full price)`;
+        } 
+        else {
+            // Category d: 55 years and older
+            price = 0;
+            priceMessage = `Age: ${age} years | Ticket price: FREE (senior)`;
+        }
+        
+        // Show the result to the user
+        alert(priceMessage);
+
+    
+        // ----- ADDITIONAL FEATURES (OPTIONAL ENHANCEMENTS) -----
+        // The following code is commented out but shows possible improvements
+        
+        /*
+        // VERSION WITH PRICE CONSTANTS FOR BETTER MAINTAINABILITY
+        const PRICE_FULL = 12.50;
+        const PRICE_HALF = PRICE_FULL / 2;
+        const PRICE_FREE = 0;
+        
+        let age = parseInt(prompt("Please enter your age:", ""));
+        
+        let price;
+        let reason;
+        
+        if (age < 5) {
+            price = PRICE_FREE;
+            reason = "FREE (child under 5)";
+        } else if (age <= 12) {
+            price = PRICE_HALF;
+            reason = "half price (child 5-12)";
+        } else if (age <= 54) {
+            price = PRICE_FULL;
+            reason = "full price (adult 13-54)";
+        } else {
+            price = PRICE_FREE;
+            reason = "FREE (senior 55+)";
+        }
+        
+        alert(`Age: ${age} years | Ticket price: €${price.toFixed(2)} (${reason})`);
+
+        */
+        
+        // ----- SWITCH VERSION (USING SWITCH TRUE PATTERN) -----
+        // Alternative implementation using switch(true) for comparison
+        
+        /*
+        let age = parseInt(prompt("Please enter your age:", ""));
+        
+        let priceMessage = "";
+        
+        switch (true) {
+            case (age < 5):
+                priceMessage = `Age: ${age} years | Ticket price: FREE`;
+                break;
+            case (age >= 5 && age <= 12):
+                priceMessage = `Age: ${age} years | Ticket price: €${(12.50 / 2).toFixed(2)} (half price)`;
+                break;
+            case (age >= 13 && age <= 54):
+                priceMessage = `Age: ${age} years | Ticket price: €${12.50.toFixed(2)} (full price)`;
+                break;
+            case (age >= 55):
+                priceMessage = `Age: ${age} years | Ticket price: FREE (senior)`;
+                break;
+            default:
+                priceMessage = "Unexpected error.";
+                break;
+        }
+        
+        alert(priceMessage);
+
+        */
+    </script>
+</body>
+
+</html>
