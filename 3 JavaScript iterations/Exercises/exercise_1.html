@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript iterations - Exercise 1</title>
+</head>
+
+<body>
+  <!-- Output container where the plus signs will be displayed -->
+  <div id="result"></div>
+
+  <script>
+    // Ask the user for a number and convert it from a string to an integer.
+    // prompt() always returns a string, so parseInt() is necessary for
+    // the loop condition to work correctly.
+    const input = parseInt(prompt('Enter a number:'));
+
+    // Cache the output element before the loop
+    const output = document.getElementById('result');
+
+    // Guard against invalid input — if the user cancels, enters nothing,
+    // or enters something that isn't a number, parseInt returns NaN.
+    // Proceeding with NaN would cause the loop to never execute silently.
+    if (isNaN(input) || input < 0) {
+      output.textContent = 'Please enter a valid positive number.';
+    } else {
+      // Accumulate the plus signs in a string first,
+      // then write to the DOM once after the loop
+      let result = '';
+
+      // Loop exactly `input` times, adding one plus sign per iteration
+      for (let i = 0; i < input; i++) {
+        result += '+';
+      }
+
+      // Write the completed string to the DOM in a single operation
+      output.textContent = result;
+    }
+  </script>
+
+</body>
+
+</html>

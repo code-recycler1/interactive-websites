@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript iterations - Exercise 3</title>
+</head>
+
+<body>
+  <h2>Lion population — count only:</h2>
+  <div id="resultCount"></div>
+
+  <h2>Lion population — count and years:</h2>
+  <div id="resultFull"></div>
+
+  <script>
+    // --- CONSTANTS ---
+    const INITIAL_LIONS = 50;   // Starting population
+    const GROWTH_RATE = 1.15; // 15% annual increase (multiply by 1.15 each year)
+    const TARGET = 1000; // The population threshold we want to exceed
+
+    // Cache both output elements before the loop
+    const outputCount = document.getElementById('resultCount');
+    const outputFull = document.getElementById('resultFull');
+
+    // --- LOOP SETUP ---
+    let lions = INITIAL_LIONS;
+    let years = 0;
+    let resultFull = '';
+
+    // Array to collect each rounded population value.
+    // Using an array allows join() to place the separator between values only,
+    // avoiding a trailing ' - ' at the end of the string.
+    const countValues = [];
+
+    // A while loop is appropriate here because we don't know in advance
+    // how many iterations are needed — we loop until the condition is met.
+    // Growth happens first, then output, so the value that crosses 1000
+    // is always captured and displayed.
+    while (lions <= TARGET) {
+      // Math.round() removes decimal places — you can't have a fraction of a lion
+      const roundedLions = Math.round(lions);
+
+      // Add the rounded value to the array and build the detailed output string
+      countValues.push(roundedLions);
+      resultFull += 'Year ' + years + ': ' + roundedLions + ' lions<br />';
+
+      lions = lions * GROWTH_RATE; // Increase the population by 15%
+      years++;                     // Track how many years have passed
+    }
+
+    // join() places ' - ' between each value — no leading or trailing separator
+    outputCount.textContent = countValues.join(' - ');
+
+    // Write the detailed year-by-year result to the DOM in a single operation
+    outputFull.innerHTML = resultFull;
+  </script>
+
+</body>
+
+</html>

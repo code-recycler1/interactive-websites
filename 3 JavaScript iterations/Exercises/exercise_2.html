@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript iterations - Exercise 2</title>
+</head>
+
+<body>
+  <!-- Output container where each updated number will be displayed -->
+  <div id="result"></div>
+
+  <script>
+    // Ask the user for a starting number and convert it from string to integer.
+    // prompt() always returns a string, so parseInt() is required.
+    const input = parseInt(prompt('Enter a number:'));
+
+    // Cache the output element before the loop
+    const output = document.getElementById('result');
+
+    // Guard against invalid input — cancelled prompt, empty input,
+    // or a non-numeric string all produce NaN from parseInt().
+    if (isNaN(input)) {
+      output.textContent = 'Please enter a valid number.';
+    } else if (input >= 100) {
+      // If the starting number is already 100 or more, the loop condition
+      // is false from the start and the body would never execute.
+      // Inform the user rather than showing blank output.
+      output.textContent = 'The number is already 100 or more — nothing to add.';
+    } else {
+      // Use a while loop here rather than a for loop because we don't know
+      // in advance how many iterations are needed — that depends entirely
+      // on the user's input. While loops are the right tool when the number
+      // of iterations is unknown and driven by a condition.
+      let number = input;
+      let result = '';
+
+      while (number < 100) {
+        // Append the number to the result string.
+        // Each value appears on its own line via <br />.
+        result += number + '<br />';
+
+        number += 12; // Add 12 to the current number
+      }
+
+      // Write the fully built string to the DOM in a single operation
+      output.innerHTML = result;
+    }
+  </script>
+
+</body>
+
+</html>

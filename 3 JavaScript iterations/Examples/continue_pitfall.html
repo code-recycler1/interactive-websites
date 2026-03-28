@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The continue; statement - pitfall</title>
+</head>
+
+<body>
+    <h2>The continue; statement — pitfall</h2>
+    <!-- Output container for the multiplication results -->
+    <div id="divResult"></div>
+
+    <script>
+        // The number to multiply against (fixed at 10)
+        let number = 10,
+            // Counter that should step from 2 up to 10
+            counter = 2;
+
+        // Intended goal: print the multiplication table for even numbers only (2–10)
+        while (counter <= 10) {
+
+            // If the counter is ODD, skip to the next iteration...
+            if (counter % 2 !== 0) {
+                continue; // ⚠️ PITFALL: jumps back to the while condition immediately.
+                // Because counter++ is below this line, it never runs.
+                // counter stays at 3 forever → INFINITE LOOP.
+                // This will freeze the browser tab.
+            }
+
+            // This line only executes when counter is even
+            document.getElementById('divResult').innerHTML +=
+                counter + ' times ' + number + ' = ' + (counter * number) + '<br />';
+
+            counter++; // Counter is only incremented here — AFTER the continue check.
+            // Once counter hits an odd number, continue skips this line
+            // and the counter is never advanced again.
+        }
+    </script>
+</body>
+
+</html>

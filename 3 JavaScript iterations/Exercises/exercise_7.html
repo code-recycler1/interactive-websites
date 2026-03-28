@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript iterations - Exercise 7</title>
+</head>
+
+<body>
+  <h1>The while() loop</h1>
+  <div id="result"></div>
+
+  <script>
+    // --- CONSTANTS ---
+    const MULTIPLIER = 10; // The times table to display
+    const START = 1;  // First multiplier in the table
+    const END = 10; // Last multiplier in the table
+
+    // Cache the output element before the loop
+    const output = document.getElementById('result');
+
+    // --- LOOP SETUP ---
+    let i = START;
+    let result = '';
+
+    // A while loop is required by the exercise.
+    // The loop runs from START to END inclusive, building one line per iteration.
+    while (i <= END) {
+      result += i + ' × ' + MULTIPLIER + ' = ' + (i * MULTIPLIER) + '<br />';
+      i++; // Increment manually — while loops do not do this automatically
+    }
+
+    // Write the fully built string to the DOM in a single operation
+    output.innerHTML = result;
+  </script>
+
+</body>
+
+</html>

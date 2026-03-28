@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do While - user input</title>
+</head>
+
+<body>
+    <!-- Output container where each counter value will be printed -->
+    <div id="divResult"></div>
+
+    <script>
+        // Counter variable — starts at 1 and increments each iteration
+        let i = 1;
+
+        // Variable to store the user's answer from the confirmation dialog.
+        let answer;
+
+        // Cache the output element once before the loop starts.
+        // Avoids a redundant DOM lookup on every iteration.
+        const output = document.getElementById('divResult');
+
+        // DO-WHILE loop — the body always runs at least once before the
+        // condition is checked. This is the appropriate loop type here because
+        // we always want to show the first value and ask the question at least once,
+        // regardless of any pre-existing condition.
+        do {
+            // Append the current counter value to the output div
+            output.innerHTML += 'Variable: ' + i + '<br />';
+
+            // Show a browser confirmation dialog asking the user whether to continue.
+            // confirm() returns true if the user clicks OK, false if they click Cancel.
+            // This return value determines whether the loop runs again.
+            answer = confirm('Keep counting?');
+
+            // Increment the counter after displaying and asking,
+            // so the next iteration shows the updated value
+            i++;
+
+        } while (answer) // Loop continues as long as the user keeps clicking OK.
+        // The moment they click Cancel, answer is false and the loop ends.
+    </script>
+</body>
+
+</html>

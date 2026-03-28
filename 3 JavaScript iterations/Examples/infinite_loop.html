@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinite loop</title>
+</head>
+
+<body>
+    <h1>Infinite loop</h1>
+    <!-- This div is never actually written to — the script freezes before reaching any DOM output -->
+    <div id="divResult"></div>
+
+    <script>
+        // Two counters declared together using comma separation.
+        // Both start at 1.
+        let i = 1,
+            j = 1;
+
+        // ⚠️ INFINITE LOOP: the condition checks `j`, but `j` is never modified
+        // anywhere inside the loop body. It stays at 1 forever.
+        // `j <= 10` is always true → the loop never exits → the browser tab freezes.
+        while (j <= 10) {
+            console.log(i); // Logs `i` to the console, not `j`
+            i++;            // Only `i` is incremented — the wrong variable
+            // `j` is never incremented, so the condition never becomes false
+        }
+    </script>
+</body>
+
+</html>

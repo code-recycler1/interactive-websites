@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript iterations - Exercise 8</title>
+</head>
+
+<body>
+  <h1> The for() loop</h1>
+  <div id="result"></div>
+
+  <script>
+    // --- CONSTANTS ---
+    const MULTIPLIER = 10; // The times table to display
+    const START = 1;  // First multiplier in the table
+    const END = 10; // Last multiplier in the table
+
+    // Cache the output element before the loop
+    const output = document.getElementById('result');
+
+    let result = '';
+
+    // A for loop is the natural choice here — the range is fixed and known upfront.
+    // The initialisation (let i = START), condition (i <= END), and increment (i++)
+    // are all declared together in the header, making the loop's intent immediately clear.
+    for (let i = START; i <= END; i++) {
+      result += i + ' × ' + MULTIPLIER + ' = ' + (i * MULTIPLIER) + '<br />';
+    }
+
+    // Write the fully built string to the DOM in a single operation
+    output.innerHTML = result;
+  </script>
+
+</body>
+
+</html>

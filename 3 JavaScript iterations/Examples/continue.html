@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The continue; statement</title>
+</head>
+
+<body>
+    <h2>The continue; statement</h2>
+    <!-- Output container where the list of even numbers will be rendered -->
+    <div id="divResult"></div>
+
+    <script>
+        // The upper bound of the range — the loop will count from 1 up to and including this value
+        const max = 100;
+
+        // Cache a reference to the output element once, before the loop starts.
+        // This avoids calling getElementById on every iteration, which would be wasteful.
+        const output = document.getElementById('divResult');
+
+        // String that will accumulate each line of output.
+        // We build the full result here first, then write it to the DOM in one go at the end.
+        let result = '';
+
+        // Loop from 1 to 100 (inclusive), incrementing counter by 1 each iteration
+        for (let counter = 1; counter <= max; counter++) {
+
+            // Check if the current number is ODD (remainder when divided by 2 is not zero).
+            // If it is odd, `continue` skips the rest of this iteration and moves
+            // straight to the next one (counter++, then re-evaluate counter <= max).
+            // This means only even numbers make it past this check.
+            if (counter % 2 !== 0) {
+                continue;
+            }
+
+            // Only even numbers reach this line.
+            // Append a formatted string for this number to the result.
+            // `<br />` adds a line break so each number appears on its own line in the browser.
+            result += 'Number ' + counter + '<br />';
+        }
+
+        // Write the fully built string to the DOM in a single operation.
+        // Doing this once after the loop is far more efficient than updating
+        // innerHTML on every iteration, which would force the browser to
+        // re-parse and re-render the element 50 times unnecessarily.
+        output.innerHTML = result;
+    </script>
+</body>
+
+</html>

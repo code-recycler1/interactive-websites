@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript iterations - Exercise 5</title>
+</head>
+
+<body>
+  <div id="result"></div>
+
+  <script>
+    // --- CONSTANTS ---
+    const PASS_MARK = 50; // Results below this value trigger the "oh dear" message
+
+    // Cache the output element before the loop
+    const output = document.getElementById('result');
+
+    // Ask how many results will be entered and convert to integer.
+    // prompt() always returns a string, so parseInt() is required.
+    const n = parseInt(prompt('How many results do you want to enter?'));
+
+    // Guard against invalid input — cancelled prompt, empty input,
+    // or a non-numeric / negative value
+    if (isNaN(n) || n <= 0) {
+      output.textContent = 'Please enter a valid positive number of results.';
+    } else {
+      let result = '';
+      let total = 0; // Running total of all entered results, used to calculate the average
+
+      // A for loop is appropriate here — we know exactly how many
+      // iterations are needed (n times), making it the right choice over while.
+      for (let i = 1; i <= n; i++) {
+        // Prompt for each individual result
+        const value = parseInt(prompt('Enter result ' + i + ' of ' + n + ':'));
+
+        // Guard against invalid input mid-loop — treat non-numeric
+        // entries as 0 to keep the loop running and the average meaningful
+        const safeValue = isNaN(value) ? 0 : value;
+
+        // Add this result to the running total for the average calculation
+        total += safeValue;
+
+        // Prepare feedback based on whether the entered value is below the pass mark
+        let feedback;
+
+        // If the value is below the pass mark, show the "oh dear" message.
+        // Otherwise, show the "keep it up" message.
+        if (safeValue < PASS_MARK) {
+          feedback = 'Oh dear, will the next one be better?';
+        }
+        else {
+          feedback = 'Keep it up!';
+        }
+
+        // Show feedback for this result immediately
+        alert(feedback);
+      }
+
+      // Calculate the average after all results have been entered.
+      // toFixed(2) rounds to 2 decimal places for clean display.
+      const average = (total / n).toFixed(2);
+
+      // Append the closing message and average to the output string
+      result += 'Enough tries, your turn is over!\n';
+      result += 'Average of ' + n + ' results: ' + average
+
+      // Append a final message based on the average result
+      alert(result);
+    }
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript iterations - Exercise 4</title>
+</head>
+
+<body>
+  <div id="result"></div>
+
+  <script>
+    // --- CONSTANTS ---
+    const PRIZE_COST = 1899; // Cost of the computer prize in euros
+    const SPECIAL_TICKETS = 5;    // First N tickets are priced at their ticket number
+    const STANDARD_PRICE = 6;    // Price in euros for every ticket after the first 5
+
+    // Cache the output element before the loop
+    const output = document.getElementById('result');
+
+    // --- LOOP SETUP ---
+    let ticketsSold = 0;
+    let revenue = 0;
+    let result = '';
+
+    // A while loop is appropriate here — we don't know the exact number
+    // of tickets needed upfront; we loop until the condition is met.
+    // The condition checks for break-even or less — we exit the moment
+    // revenue strictly exceeds the prize cost (i.e. profit is made).
+    while (revenue <= PRIZE_COST) {
+      ticketsSold++;
+
+      // Tickets 1–5 are priced equal to their ticket number.
+      // All subsequent tickets cost a flat €6.
+      const ticketPrice = ticketsSold <= SPECIAL_TICKETS ? ticketsSold : STANDARD_PRICE;
+
+      revenue += ticketPrice;
+
+      // Record this ticket's contribution on its own line
+      result += 'Ticket ' + ticketsSold +
+        ' | Price: €' + ticketPrice +
+        ' | Total revenue: €' + revenue + '<br />';
+    }
+
+    // Summarise the final result after the loop
+    result += '<br /><strong>Profit reached after ' + ticketsSold + ' tickets sold.' +
+      ' Total revenue: €' + revenue +
+      ' (profit: €' + (revenue - PRIZE_COST) + ')</strong>';
+
+    // Write the fully built string to the DOM in a single operation
+    output.innerHTML = result;
+  </script>
+
+</body>
+
+</html>

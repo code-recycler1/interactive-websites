@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript iterations - Exercise 6</title>
+</head>
+
+<body>
+  <div id="result"></div>
+
+  <script>
+    // --- CONSTANTS ---
+    const SPEED_LIMIT = 50;  // Maximum allowed speed in km/h
+    const FINE_FIXED = 125; // Fixed portion of the fine in euros
+    const FINE_PER_KMH = 25;  // Fine amount in euros for each km/h over the limit
+
+    // Cache the output element
+    const output = document.getElementById('result');
+
+    // Ask the officer to enter the measured speed
+    const measuredSpeed = parseInt(prompt('Enter the measured speed (km/h):'));
+
+    // Guard against invalid input
+    if (isNaN(measuredSpeed) || measuredSpeed <= 0) {
+      output.textContent = 'Please enter a valid speed.';
+    } else if (measuredSpeed <= SPEED_LIMIT) {
+      // No fine if the driver is within the speed limit
+      output.textContent = 'Speed: ' + measuredSpeed + ' km/h — No fine. Within the limit.';
+    } else {
+      // --- CALCULATE VARIABLE PORTION VIA WHILE LOOP ---
+      // The exercise explicitly requires reducing the measured speed
+      // one km/h at a time until it reaches the limit, adding €25 each step.
+      // Note: the direct calculation would simply be (measuredSpeed - SPEED_LIMIT) * FINE_PER_KMH,
+      // but the loop approach is required here to practise the while construct.
+      let speed = measuredSpeed;
+      let variable = 0;
+
+      // Decrement speed by 1 each iteration and add the per-km/h fine.
+      // Loop continues until speed reaches the limit.
+      while (speed > SPEED_LIMIT) {
+        speed--;           // Reduce the measured speed by 1 km/h
+        variable += FINE_PER_KMH; // Add €25 for this km/h over the limit
+      }
+
+      // Total fine = fixed portion + variable portion
+      const total = FINE_FIXED + variable;
+
+      // Build and display the fine breakdown
+      output.innerHTML =
+        'Measured speed: <strong>' + measuredSpeed + ' km/h</strong><br />' +
+        'Speed limit: ' + SPEED_LIMIT + ' km/h<br />' +
+        'Excess: ' + (measuredSpeed - SPEED_LIMIT) + ' km/h<br /><br />' +
+        'Fixed fine: €' + FINE_FIXED + '<br />' +
+        'Variable fine: €' + variable + '<br />' +
+        '<strong>Total fine: €' + total + '</strong>';
+    }
+  </script>
+
+</body>
+
+</html>

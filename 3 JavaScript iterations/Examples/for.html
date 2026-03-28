@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For loop</title>
+</head>
+
+<body>
+    <!-- Output container where each round label will be printed -->
+    <div id="result"></div>
+
+    <script>
+        // The label prefix printed before each number
+        let text = "Round";
+
+        // Cache the output element once before the loop — avoids a redundant
+        // DOM lookup on every iteration
+        let el = document.getElementById('result');
+
+        // Loop from 1 up to and including 10 (i < 11 is equivalent to i <= 10)
+        for (let i = 1; i < 11; i++) {
+
+            // Skip round 3 entirely — continue jumps straight to the next iteration
+            // (i++ fires, then the condition i < 11 is re-checked).
+            // Round 3 will not appear in the output.
+            if (i === 3) {
+                continue;
+            }
+
+            // Append the current round label to the output div.
+            // Produces: "Round 1", "Round 2", "Round 4", ... "Round 10"
+            // (Round 3 is missing because of the continue above)
+            el.innerHTML += text + ' ' + i + '<br />';
+        }
+    </script>
+</body>
+
+</html>

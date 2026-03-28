@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>While</title>
+</head>
+
+<body>
+    <!-- Output container where each variable value will be printed -->
+    <div id="divResult"></div>
+
+    <script>
+        // Counter variable — starts at 0
+        let i = 0;
+
+        // Cache the output element once before the loop starts.
+        // Avoids a redundant DOM lookup on every iteration.
+        const output = document.getElementById('divResult');
+
+        // Loop continues as long as i is less than 10.
+        // Because i is incremented at the TOP of the loop body (before output),
+        // the printed values will be 1 through 10, not 0 through 9.
+        while (i < 10) {
+            i++; // Increment first — so the output reflects the updated value
+
+            // Append the current value of i to the cached output element.
+            // Produces: "Variable: 1" through "Variable: 10"
+            output.innerHTML += 'Variable: ' + i + '<br />';
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The break; statement</title>
+</head>
+
+<body>
+    <h1>The break; statement</h1>
+    <!-- This div will be used as the output container for our result -->
+    <div id="divResult"></div>
+
+    <script>
+        // The value we want the counter to reach before stopping the loop
+        let target = 17;
+
+        // Counter variable — starts at 0 and increments each iteration
+        let n = 0;
+
+        // An intentionally infinite loop: the condition "true" never becomes false on its own,
+        // so without a break statement this would run forever and freeze the browser tab.
+        while (true) {
+            n++; // Increment the counter by 1 on each iteration
+
+            // Once n reaches the target value, the break statement
+            // immediately exits the while loop, skipping any remaining iterations.
+            if (n === target) {
+                break;
+            }
+        }
+
+        // Write the final value of n into the page.
+        // At this point n is guaranteed to equal target (17),
+        // because that's the only exit condition from the loop above.
+        document.getElementById('divResult').innerHTML =
+            'n has reached the target: ' + n + '<br />';
+    </script>
+</body>
+
+</html>
