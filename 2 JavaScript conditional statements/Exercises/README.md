@@ -85,7 +85,7 @@ E. Neptune
 ![Exercise 6 Image 1](./Screenshots/Exercise_6-1.png)
 ![Exercise 6 Image 2](./Screenshots/Exercise_6-2.png)
 
-Display the message “Wrong choice” or “You chose...” in the div #myWeigth.
+Display the message “Wrong choice” or “You chose...” in the div #myWeight.
 
 **Challenge 1:** ensure that you don’t have to enter capital letters only, but that it also accepts the lowercase letter “a”, for example.
 
