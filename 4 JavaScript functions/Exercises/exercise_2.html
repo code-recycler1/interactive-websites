@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript functions - Exercise 2</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div id="divResult"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ----- HELPER FUNCTION: GET VALID NUMBER FROM USER -----
+        // Reusable function for input validation and cancellation handling
+        function getValidNumber(promptMessage, defaultValue = 0) {
+            let userInput = prompt(promptMessage, defaultValue);
+
+            // Handle user cancellation
+            if (userInput === null) {
+                return null;
+            }
+
+            // Convert to number and validate
+            let number = Number(userInput);
+
+            if (isNaN(number)) {
+                alert("Please enter a valid number.");
+                return null;
+            }
+
+            return number;
+        }
+
+        // ----- ARROW FUNCTION: CHECK MAX (OPTION 1 - MANUAL IMPLEMENTATION) -----
+        // Arrow function syntax: (parameters) => { return expression; }
+        // This version uses manual comparison (if-else)
+        // Uncomment to use this version instead of the Math.max version
+        /*
+        const checkMax = (number1, number2) => {
+            // Compare the two numbers and return the larger one
+            if (number1 > number2) {
+                return number1;
+            } else {
+                return number2;
+            }
+        };
+        */
+
+        // ----- ARROW FUNCTION: CHECK MAX (OPTION 2 - USING MATH.MAX) -----
+        // CHALLENGE SOLUTION: Using the built-in JavaScript Math.max() function
+        // Math.max() returns the largest of zero or more numbers
+        // This is the recommended approach as it's:
+        // - More concise and readable
+        // - Handles edge cases (Infinity, -Infinity)
+        // - Can easily be extended to compare more than two numbers
+        const checkMax = (number1, number2) => {
+            // Math.max() returns the largest number from the arguments
+            // Example: Math.max(5, 10) returns 10
+            return Math.max(number1, number2);
+        };
+
+        // ----- EVEN MORE CONCISE VERSION (ONE-LINER) -----
+        // When a function body is a single expression, you can omit braces and the return keyword
+        // This is called an "implicit return"
+        // const checkMax = (number1, number2) => Math.max(number1, number2);
+
+        // ----- MAIN EXECUTION -----
+        // Get two numbers from the user with proper validation
+        let number1 = getValidNumber("Enter the first number:", "0");
+
+        // Exit if user cancelled or entered invalid input
+        if (number1 === null) {
+            document.getElementById("divResult").innerHTML =
+                '<strong class="text-danger">Operation cancelled or invalid input. Please refresh the page to try again.</strong>';
+        } else {
+            let number2 = getValidNumber("Enter the second number:", "0");
+
+            if (number2 === null) {
+                document.getElementById("divResult").innerHTML =
+                    '<strong class="text-danger">Operation cancelled or invalid input. Please refresh the page to try again.</strong>';
+            } else {
+                // Call the arrow function to find the maximum number
+                let maximum = checkMax(number1, number2);
+
+                // Display the result with proper formatting
+                // Using template literals for cleaner string interpolation
+                let resultMessage = `
+                    <strong>Numbers entered:</strong> ${number1} and ${number2}<br>
+                    <strong>The largest number is:</strong> ${maximum}
+                `;
+
+                document.getElementById("divResult").innerHTML = resultMessage;
+
+                // Optional: Log to console for debugging
+                console.log(`Numbers: ${number1}, ${number2}`);
+                console.log(`Largest number: ${maximum}`);
+            }
+        }
+
+        // ----- ALTERNATIVE: ARROW FUNCTION WITHOUT CURLY BRACES (IMPLICIT RETURN) -----
+        // For single-expression arrow functions, you can omit the braces and return keyword
+        // This is the most concise form and is commonly used in modern JavaScript
+        /*
+        const checkMaxImplicit = (number1, number2) => Math.max(number1, number2);
+        
+        // Even more concise: If you have only one parameter, parentheses can be omitted
+        // But with two parameters, parentheses are required
+        */
+    </script>
+
+</body>
+
+</html>

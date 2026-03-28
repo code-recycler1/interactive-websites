@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local variable</title>
+</head>
+
+<body>
+    <h1>Local variable</h1>
+    <script>
+        function showMessage() {
+            // LOCAL VARIABLE
+            // `message` is declared with `let` inside this function.
+            // It is created when the function is called and destroyed when it returns.
+            // It exists only within the curly braces of this function.
+            let message = "Hello, I'm JavaScript!";
+            alert(message); // ✅ Works — we are inside the function where `message` exists
+        }
+
+        // Step 1 — call the function.
+        // `message` is created, the alert fires, then `message` is destroyed.
+        showMessage(); // → "Hello, I'm JavaScript!"
+
+        // Step 2 — ⚠️ ReferenceError: message is not defined.
+        // `message` was declared inside showMessage() with `let`, so it does not
+        // exist here in the outer scope. Once the function returned, the variable
+        // was destroyed. This line is deliberately broken to show that local
+        // variables are invisible and inaccessible outside their function.
+        alert(message); // ❌ ReferenceError — crashes here, nothing after this runs
+    </script>
+</body>
+
+</html>

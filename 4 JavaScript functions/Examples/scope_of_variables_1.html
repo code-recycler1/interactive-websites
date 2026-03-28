@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <title>Scope (visibility) of variables</title>
+    <style>
+        p {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+        <h1>Scope (visibility) of variables</h1>
+        <p id="line1"></p>
+        <p id="line2"></p>
+        <p id="line3"></p>
+        <p id="line4"></p>
+    </main>
+
+    <script>
+        // GLOBAL VARIABLE
+        // Declared outside any function — accessible from anywhere in the script,
+        // including inside functions. Starts at 0.
+        let sum = 0;
+
+        function calculateSum(number1, number2) {
+            // LOCAL VARIABLE
+            // `localSum` is declared with `let` inside this function.
+            // It only exists within the curly braces of this function —
+            // it is created when the function is called and destroyed when it returns.
+            // Attempting to access it outside this function throws a ReferenceError.
+            let localSum = number1 + number2;
+
+            // The global `sum` variable is modified here from inside the function.
+            // This is called a side effect — the function changes state outside its
+            // own scope. It works, but is generally considered bad practice because
+            // it makes code harder to reason about and test.
+            sum = number1 + number2;
+
+            return sum;
+        }
+
+        // Line 1: `sum` is still 0 — calculateSum has not been called yet
+        document.getElementById('line1').innerHTML = `1/ sum = ${sum}`;
+
+        // Line 2: calculateSum is called here — it modifies the global `sum`
+        // and returns the result (11), which is displayed directly
+        document.getElementById('line2').innerHTML = `2/ sum = ${calculateSum(5, 6)}`;
+
+        // Line 3: `sum` is now 11 — it was changed by the calculateSum call on line 2.
+        // This demonstrates that the function modified the global variable as a side effect.
+        document.getElementById('line3').innerHTML = `3/ sum = ${sum}`;
+
+        // Line 4: ⚠️ ReferenceError — `localSum` was declared inside calculateSum
+        // with `let`, so it is scoped to that function and does not exist here.
+        // This line is deliberately broken to demonstrate that local variables
+        // are not accessible outside the function they were declared in.
+        document.getElementById('line4').innerHTML = `4/ sum = ${localSum}`;
+    </script>
+</body>
+
+</html>

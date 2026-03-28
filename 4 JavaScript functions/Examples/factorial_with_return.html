@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factorial with return</title>
+</head>
+
+<body>
+    <h1>Returning a result from a function</h1>
+    <div id="divResult"></div>
+
+    <script>
+        // Ask the user for a number and convert it to an integer immediately.
+        // The second argument ("1") pre-fills the input field with a default value.
+        let number = parseInt(prompt("Enter a number", 1));
+
+        // Call the function and store the returned value in a variable.
+        // This separates the calculation from the display — each line has
+        // one clear responsibility.
+        // Note: calculateFactorial is declared below but hoisted to the top
+        // by the JS engine, so calling it here is valid.
+        let factorial = calculateFactorial(number);
+
+        // Display the result by writing both variables into the DOM.
+        // The calculation is already done — this line only handles output.
+        document.getElementById("divResult").innerHTML =
+            `The factorial of ${number} is: ${factorial}`;
+
+
+        // FUNCTION DECLARATION
+        // Calculates the factorial of a given value.
+        // The factorial of n (written n!) is the product of all positive integers up to n.
+        // Example: 5! = 1 × 2 × 3 × 4 × 5 = 120
+        // Special case: 0! = 1 by convention (the loop never runs, result stays 1).
+        function calculateFactorial(value) {
+            let result = 1;
+
+            // Multiply result by each integer from 1 up to and including `value`
+            for (let i = 1; i <= value; i++) {
+                result *= i; // Shorthand for result = result * i
+            }
+
+            // Return the final product to the caller — the returned value
+            // is what gets stored in `factorial` above
+            return result;
+        }
+    </script>
+
+</body>
+
+</html>

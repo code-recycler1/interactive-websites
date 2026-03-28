@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scope (visibility) of variables 2 - Outer variable</title>
+</head>
+
+<body>
+    <h1>Outer variable</h1>
+    <script>
+        // GLOBAL VARIABLE
+        // Declared outside all functions — accessible and modifiable from anywhere.
+        let userName = "John";
+
+        // FUNCTION 1 — modifies the global variable directly
+        function showMessage() {
+            // No `let` here — this assignment targets the global `userName`.
+            // The global variable is overwritten from inside the function.
+            // This is a side effect.
+            userName = "Bob";
+            let message = `Hello, ${userName}`;
+            alert(message); // → "Hello, Bob"
+        }
+
+        // FUNCTION 2 — declares a local variable with the same name as the global
+        function showMessageTwo() {
+            // `let` here creates a NEW local variable called `userName`.
+            // This shadows (hides) the global `userName` within this function.
+            // The global variable is NOT touched — the local one takes precedence.
+            let userName = "Sylvie";
+            let message = `Hello, ${userName}`;
+            alert(message); // → "Hello, Sylvie"
+        }
+
+        // EXECUTION ORDER:
+        // Step 1 — global userName is "John", not yet modified
+        alert(userName);        // → "John"
+
+        // Step 2 — showMessage() overwrites global userName with "Bob"
+        showMessage();          // → "Hello, Bob"
+
+        // Step 3 — global userName is now "Bob" (changed by showMessage)
+        alert(userName);        // → "Bob"
+
+        // Step 4 — showMessageTwo() creates its own local userName = "Sylvie"
+        // The global userName is not affected
+        showMessageTwo();       // → "Hello, Sylvie"
+
+        // Step 5 — global userName is still "Bob" (showMessageTwo did not touch it)
+        alert(userName);        // → "Bob"
+    </script>
+
+</body>
+
+</html>

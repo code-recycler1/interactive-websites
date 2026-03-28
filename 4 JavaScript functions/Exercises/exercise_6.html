@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript functions - Exercise 6: Speeding Fine Calculator</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Custom styles for better UX -->
+    <style>
+        .result-container {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .input-error {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+        }
+
+        .input-success {
+            border-color: #28a745;
+            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+        }
+
+        .card {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .fine-details {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container py-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h1 class="h3 mb-0">Calculate Speeding Fine</h1>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form id="fineForm">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="speed">Speed (km/h)</label>
+                                    <input type="number" class="form-control" id="speed" placeholder="Enter your speed"
+                                        min="0" max="300" step="1" autocomplete="off">
+                                    <small class="form-text text-muted">Enter your measured speed (0-300 km/h)</small>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="speedLimit">Allowed Speed (km/h)</label>
+                                    <input type="number" class="form-control" id="speedLimit"
+                                        placeholder="Enter the allowed speed" min="0" max="200" step="1"
+                                        autocomplete="off">
+                                    <small class="form-text text-muted">Enter the maximum permitted speed</small>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <button type="button" id="calculateBtn" class="btn btn-primary">
+                                    Calculate Fine
+                                </button>
+                                <button type="button" id="clearBtn" class="btn btn-secondary ml-2">
+                                    Clear All
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <div id="fine" class="result-container"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== CONSTANTS ====================
+        const FIXED_FINE = 100;          // €100 fixed fine
+        const FINE_PER_KM = 2.5;         // €2.50 per km/h over the limit
+        const MAX_SPEED = 300;           // Maximum realistic speed
+        const MAX_SPEED_LIMIT = 200;      // Maximum realistic speed limit
+
+        // ==================== DOM ELEMENTS ====================
+        const DOM = {
+            speedInput: document.getElementById('speed'),
+            speedLimitInput: document.getElementById('speedLimit'),
+            calculateBtn: document.getElementById('calculateBtn'),
+            clearBtn: document.getElementById('clearBtn'),
+            fineDiv: document.getElementById('fine')
+        };
+
+        // ==================== HELPER FUNCTIONS ====================
+
+        /**
+         * Displays a Bootstrap alert message in the fine div
+         * @param {string} type - Alert type: 'success', 'danger', 'warning', 'info'
+         * @param {string} title - Alert title
+         * @param {string} message - Alert message (can contain HTML)
+         * @param {string} [additionalInfo] - Optional additional information
+         */
+        function showAlert(type, title, message, additionalInfo = '') {
+            if (!DOM.fineDiv) return;
+
+            // Map alert types to Bootstrap classes
+            const alertClassMap = {
+                success: 'alert-success',
+                danger: 'alert-danger',
+                warning: 'alert-warning',
+                info: 'alert-info'
+            };
+
+            const alertClass = alertClassMap[type] || 'alert-info';
+
+            DOM.fineDiv.innerHTML = `
+                <div class="alert ${alertClass} alert-dismissible fade show" role="alert">
+                    <strong>${title}</strong><br>
+                    ${message}
+                    ${additionalInfo ? `<div class="fine-details mt-2 small">${additionalInfo}</div>` : ''}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            `;
+        }
+
+        /**
+         * Clears visual validation styling from input fields
+         */
+        function clearValidationStyles() {
+            if (DOM.speedInput) {
+                DOM.speedInput.classList.remove('input-error', 'input-success');
+            }
+            if (DOM.speedLimitInput) {
+                DOM.speedLimitInput.classList.remove('input-error', 'input-success');
+            }
+        }
+
+        /**
+         * Shows validation error styling on a specific input field
+         * @param {HTMLElement} input - The input element to mark as error
+         */
+        function markInputError(input) {
+            if (input) {
+                input.classList.add('input-error');
+                input.classList.remove('input-success');
+            }
+        }
+
+        /**
+         * Shows validation success styling on a specific input field
+         * @param {HTMLElement} input - The input element to mark as success
+         */
+        function markInputSuccess(input) {
+            if (input) {
+                input.classList.add('input-success');
+                input.classList.remove('input-error');
+            }
+        }
+
+        /**
+         * Validates the input values and returns an object with validation results
+         * @returns {Object} Validation result with isValid flag and error details
+         */
+        function validateInputs() {
+            clearValidationStyles();
+
+            const speedValue = DOM.speedInput?.value.trim() || '';
+            const speedLimitValue = DOM.speedLimitInput?.value.trim() || '';
+
+            // Check for empty fields
+            if (!speedValue) {
+                markInputError(DOM.speedInput);
+                return {
+                    isValid: false,
+                    errorType: 'warning',
+                    title: '⚠️ Missing Information',
+                    message: 'Please enter your speed.'
+                };
+            }
+
+            if (!speedLimitValue) {
+                markInputError(DOM.speedLimitInput);
+                return {
+                    isValid: false,
+                    errorType: 'warning',
+                    title: '⚠️ Missing Information',
+                    message: 'Please enter the allowed speed.'
+                };
+            }
+
+            // Convert to numbers
+            const speed = Number(speedValue);
+            const speedLimit = Number(speedLimitValue);
+
+            // Validate numeric values
+            if (isNaN(speed)) {
+                markInputError(DOM.speedInput);
+                return {
+                    isValid: false,
+                    errorType: 'danger',
+                    title: '❌ Invalid Input',
+                    message: 'Please enter a valid number for speed.'
+                };
+            }
+
+            if (isNaN(speedLimit)) {
+                markInputError(DOM.speedLimitInput);
+                return {
+                    isValid: false,
+                    errorType: 'danger',
+                    title: '❌ Invalid Input',
+                    message: 'Please enter a valid number for the allowed speed.'
+                };
+            }
+
+            // Validate ranges
+            if (speed < 0) {
+                markInputError(DOM.speedInput);
+                return {
+                    isValid: false,
+                    errorType: 'danger',
+                    title: '❌ Invalid Input',
+                    message: 'Speed cannot be negative.'
+                };
+            }
+
+            if (speedLimit < 0) {
+                markInputError(DOM.speedLimitInput);
+                return {
+                    isValid: false,
+                    errorType: 'danger',
+                    title: '❌ Invalid Input',
+                    message: 'Allowed speed cannot be negative.'
+                };
+            }
+
+            if (speed > MAX_SPEED) {
+                markInputError(DOM.speedInput);
+                return {
+                    isValid: false,
+                    errorType: 'warning',
+                    title: '⚠️ Unrealistic Speed',
+                    message: `Speed seems unrealistic. Maximum allowed is ${MAX_SPEED} km/h.`
+                };
+            }
+
+            if (speedLimit > MAX_SPEED_LIMIT) {
+                markInputError(DOM.speedLimitInput);
+                return {
+                    isValid: false,
+                    errorType: 'warning',
+                    title: '⚠️ Unrealistic Speed Limit',
+                    message: `Speed limit seems unrealistic. Maximum is ${MAX_SPEED_LIMIT} km/h.`
+                };
+            }
+
+            // All validations passed
+            markInputSuccess(DOM.speedInput);
+            markInputSuccess(DOM.speedLimitInput);
+
+            return {
+                isValid: true,
+                speed,
+                speedLimit
+            };
+        }
+
+        /**
+         * Calculates the speeding fine based on speed and speed limit
+         * @param {number} speed - Measured speed in km/h
+         * @param {number} speedLimit - Allowed speed in km/h
+         * @returns {Object} Fine calculation result
+         */
+        function calculateFine(speed, speedLimit) {
+            const speedOverLimit = speed - speedLimit;
+
+            if (speedOverLimit > 0) {
+                const fineAmount = (speedOverLimit * FINE_PER_KM) + FIXED_FINE;
+                const roundedFine = Math.round(fineAmount * 100) / 100;
+
+                return {
+                    hasViolation: true,
+                    speedOverLimit,
+                    fineAmount: roundedFine,
+                    calculation: {
+                        fixedFine: FIXED_FINE,
+                        variableFine: speedOverLimit * FINE_PER_KM,
+                        perKmRate: FINE_PER_KM
+                    }
+                };
+            }
+
+            return {
+                hasViolation: false,
+                speedOverLimit: 0,
+                fineAmount: 0
+            };
+        }
+
+        /**
+         * Displays the fine result with appropriate Bootstrap alert
+         * @param {Object} validationResult - Validated input values
+         */
+        function displayFineResult(validationResult) {
+            const { speed, speedLimit } = validationResult;
+            const fineResult = calculateFine(speed, speedLimit);
+
+            if (fineResult.hasViolation) {
+                // Display violation alert with detailed calculation
+                const additionalInfo = `
+                    <strong>Calculation:</strong><br>
+                    Fixed fine: €${fineResult.calculation.fixedFine.toFixed(2)}<br>
+                    Excess: ${fineResult.speedOverLimit} km/h × €${fineResult.calculation.perKmRate} = €${fineResult.calculation.variableFine.toFixed(2)}<br>
+                    <strong>Total: €${fineResult.fineAmount.toFixed(2)}</strong>
+                `;
+
+                showAlert(
+                    'danger',
+                    '⚠️ Speeding Fine',
+                    `The fine amounts to <strong>€ ${fineResult.fineAmount.toFixed(2)}</strong>.<br>
+                     Measured speed: ${speed} km/h.<br>
+                     Allowed speed: ${speedLimit} km/h.<br>
+                     Exceeded by: ${fineResult.speedOverLimit} km/h.`,
+                    additionalInfo
+                );
+            } else {
+                // Display success alert for no violation
+                showAlert(
+                    'success',
+                    '✓ No Violation',
+                    'Great! You were driving within the speed limit.',
+                    `Your speed: ${speed} km/h | Speed limit: ${speedLimit} km/h`
+                );
+            }
+        }
+
+        /**
+         * Main function to process the fine calculation
+         * Orchestrates validation, calculation, and display
+         */
+        function processFineCalculation() {
+            // Validate inputs
+            const validation = validateInputs();
+
+            if (!validation.isValid) {
+                // Show error/warning alert based on validation result
+                showAlert(
+                    validation.errorType,
+                    validation.title,
+                    validation.message
+                );
+                return;
+            }
+
+            // Display the fine result
+            displayFineResult(validation);
+
+            // Optional: Log to console for debugging
+            console.log(`Fine calculated: Speed=${validation.speed} km/h, Limit=${validation.speedLimit} km/h`);
+        }
+
+        /**
+         * Clears all input fields and removes any displayed alerts
+         */
+        function clearForm() {
+            // Clear input values
+            if (DOM.speedInput) DOM.speedInput.value = '';
+            if (DOM.speedLimitInput) DOM.speedLimitInput.value = '';
+
+            // Clear validation styles
+            clearValidationStyles();
+
+            // Clear the result div
+            if (DOM.fineDiv) DOM.fineDiv.innerHTML = '';
+
+            // Set focus back to the first input field for better UX
+            if (DOM.speedInput) DOM.speedInput.focus();
+
+            // Optional: Log to console
+            console.log('Form cleared');
+        }
+
+        // ==================== EVENT LISTENERS (MODERN JS) ====================
+        // Using addEventListener instead of inline onclick for better separation of concerns
+
+        // Calculate button event listener
+        if (DOM.calculateBtn) {
+            DOM.calculateBtn.addEventListener('click', processFineCalculation);
+        }
+
+        // Clear button event listener
+        if (DOM.clearBtn) {
+            DOM.clearBtn.addEventListener('click', clearForm);
+        }
+
+        // Keyboard support: Pressing Enter in any input field triggers calculation
+        if (DOM.speedInput) {
+            DOM.speedInput.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    processFineCalculation();
+                }
+            });
+        }
+
+        if (DOM.speedLimitInput) {
+            DOM.speedLimitInput.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    processFineCalculation();
+                }
+            });
+        }
+
+        // Optional: Real-time validation styling (removes error styling when user starts typing)
+        const removeErrorStyling = (input) => {
+            if (input) {
+                input.addEventListener('input', () => {
+                    input.classList.remove('input-error', 'input-success');
+                });
+            }
+        };
+
+        removeErrorStyling(DOM.speedInput);
+        removeErrorStyling(DOM.speedLimitInput);
+
+        // ==================== INITIALIZATION ====================
+        // Optional: Set focus to the first input field on page load
+        if (DOM.speedInput) {
+            DOM.speedInput.focus();
+        }
+
+        // Optional: Display welcome message on page load
+        showAlert(
+            'info',
+            'ℹ️ Welcome',
+            'Enter your speed and the speed limit, then click "Calculate Fine".',
+            'The fine is €100 + €2.50 per km/h above the limit.'
+        );
+    </script>
+
+    <!-- jQuery and Bootstrap JS for alert dismissal functionality -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

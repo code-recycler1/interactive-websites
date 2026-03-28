@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factorial form 2</title>
+</head>
+
+<body>
+    <form id="form1">
+        <table>
+            <tr>
+                <td>Enter a number: </td>
+                <td><input type="text" id="txtNumber"></td>
+                <td><input type="button" value="Calculate Factorial" id="btnCalculate"></td>
+                <td><a href="#" id="linkCalculate">Calculate Factorial</a></td>
+            </tr>
+        </table>
+    </form>
+
+    <div id="divResult"></div>
+
+    <script>
+        // Cache all referenced elements once
+        const input = document.getElementById('txtNumber');
+        const btnCalc = document.getElementById('btnCalculate');
+        const linkCalc = document.getElementById('linkCalculate');
+        const output = document.getElementById('divResult');
+
+        // Both the button and the link trigger the same handler.
+        btnCalc.addEventListener('click', calculateFactorial);
+        linkCalc.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent the '#' href from jumping to the top of the page
+            calculateFactorial();
+        });
+
+        function calculateFactorial() {
+            // parseInt() converts the string value to an integer before use.
+            // input.value always returns a string — never rely on implicit coercion.
+            const number = parseInt(input.value);
+
+            // Guard against invalid input:
+            // - isNaN catches empty input and non-numeric text
+            // - number < 0 catches negative numbers (no factorial defined)
+            // - !Number.isInteger catches decimals like 4.5
+            if (isNaN(number) || number < 0 || !Number.isInteger(number)) {
+                output.innerHTML = 'Please enter a valid positive whole number.';
+                return;
+            }
+
+            // CALCULATE THE FACTORIAL
+            // The factorial of n (written n!) is the product of all positive integers up to n.
+            // Example: 5! = 1 × 2 × 3 × 4 × 5 = 120
+            // Special case: 0! is defined as 1 by convention —
+            // the loop never executes for 0, so result stays at 1.
+            let result = 1;
+
+            for (let i = 1; i <= number; i++) {
+                result *= i; // Shorthand for result = result * i
+            }
+
+            // Display the result in the output div.
+            output.innerHTML = `Factorial of ${number} is ${result}`;
+        }
+    </script>
+</body>
+
+</html>

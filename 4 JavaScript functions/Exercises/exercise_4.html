@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript functions - Exercise 4</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Custom styles for better UX -->
+    <style>
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .result-highlight {
+            background-color: #f8f9fa;
+            border-left: 4px solid #ffc107;
+            font-weight: bold;
+        }
+
+        input[readonly] {
+            background-color: #e9ecef;
+            cursor: not-allowed;
+        }
+
+        .feedback-message {
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row p-3">
+            <div class="col-md-12">
+
+                <!-- FORM: Text Merger Form -->
+                <form id="mergeForm">
+                    <div class="form-group">
+                        <label for="txtInput1">First Text:</label>
+                        <input type="text" id="txtInput1" name="txtInput1" class="form-control"
+                            placeholder="Enter first text here..." autocomplete="off">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtInput2">Second Text:</label>
+                        <input type="text" id="txtInput2" name="txtInput2" class="form-control"
+                            placeholder="Enter second text here..." autocomplete="off">
+                    </div>
+
+                    <div class="form-group">
+                        <!-- BUTTON: Merge Button -->
+                        <button type="button" id="btnMerge" class="btn btn-warning">
+                            Merge Texts
+                        </button>
+
+                        <!-- BUTTON: Optional reset button for better UX -->
+                        <button type="button" id="btnClear" class="btn btn-secondary ml-2">
+                            Clear All
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtResult">Merged Result:</label>
+                        <input type="text" id="txtResult" name="txtResult" class="form-control result-highlight"
+                            placeholder="Merged text will appear here..." readonly>
+                    </div>
+
+                    <!-- FEEDBACK: Feedback area for user messages -->
+                    <div id="feedbackMessage" class="feedback-message"></div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ----- DOM ELEMENT REFERENCES -----
+        // Get references to all relevant DOM elements
+        const input1 = document.getElementById('txtInput1');
+        const input2 = document.getElementById('txtInput2');
+        const resultField = document.getElementById('txtResult');
+        const mergeButton = document.getElementById('btnMerge');
+        const clearButton = document.getElementById('btnClear');
+        const feedbackDiv = document.getElementById('feedbackMessage');
+
+        // ----- HELPER FUNCTION: DISPLAY FEEDBACK -----
+        // Shows temporary feedback messages to the user
+        function showFeedback(message, type = 'info') {
+            if (!feedbackDiv) return;
+
+            // Set appropriate Bootstrap alert class based on message type
+            let alertClass = '';
+            switch (type) {
+                case 'success':
+                    alertClass = 'text-success';
+                    break;
+                case 'error':
+                    alertClass = 'text-danger';
+                    break;
+                case 'warning':
+                    alertClass = 'text-warning';
+                    break;
+                default:
+                    alertClass = 'text-info';
+            }
+
+            feedbackDiv.innerHTML = `<span class="${alertClass}">${message}</span>`;
+        }
+
+        // ----- FUNCTION: MERGE TEXTS -----
+        // Merges two input strings and displays the result in the result field
+        // IMPROVEMENT: Added multiple merge options (basic, with separator, with transformation)
+        // IMPROVEMENT: Added input validation and feedback
+        function mergeTexts(text1, text2, options = {}) {
+            // Default options
+            const defaults = {
+                separator: '',           // Default: no separator between texts
+                trim: true,              // Remove whitespace from start/end
+                capitalizeFirst: false,  // Capitalize first letter of result
+                upperCase: false,        // Convert entire result to uppercase
+                lowerCase: false,        // Convert entire result to lowercase
+                maxLength: null          // Maximum length of result (null = no limit)
+            };
+
+            const settings = { ...defaults, ...options };
+
+            // Input validation
+            if (text1 === undefined || text2 === undefined) {
+                showFeedback('Invalid input: text values are missing', 'error');
+                return '';
+            }
+
+            // Trim if specified
+            let processedText1 = settings.trim ? String(text1).trim() : String(text1);
+            let processedText2 = settings.trim ? String(text2).trim() : String(text2);
+
+            // Merge the texts with optional separator
+            let result = processedText1 + settings.separator + processedText2;
+
+            // Apply transformations
+            if (settings.capitalizeFirst && result.length > 0) {
+                result = result.charAt(0).toUpperCase() + result.slice(1);
+            }
+
+            if (settings.upperCase) {
+                result = result.toUpperCase();
+            } else if (settings.lowerCase) {
+                result = result.toLowerCase();
+            }
+
+            // Apply length limit if specified
+            if (settings.maxLength && result.length > settings.maxLength) {
+                result = result.substring(0, settings.maxLength) + '...';
+                showFeedback(`Result truncated to ${settings.maxLength} characters`, 'warning');
+            }
+
+            return result;
+        }
+
+        // ----- FUNCTION: BASIC MERGE (ORIGINAL BEHAVIOR) -----
+        // Simple merge without any formatting - matches the original exercise requirement
+        function basicMerge(text1, text2) {
+            // Convert to string to handle any input type
+            return String(text1) + String(text2);
+        }
+
+        // ----- FUNCTION: CLEAR FORM -----
+        // Clears all input fields and result field
+        function clearForm() {
+            if (input1) input1.value = '';
+            if (input2) input2.value = '';
+            if (resultField) resultField.value = '';
+            showFeedback('Form cleared', 'info');
+
+            // Optional: Set focus back to first input
+            if (input1) input1.focus();
+        }
+
+        // ----- MAIN MERGE HANDLER -----
+        // Handles the merge button click event
+        function handleMerge() {
+            // Validate DOM elements exist
+            if (!input1 || !input2 || !resultField) {
+                console.error('Required form elements not found');
+                showFeedback('Form configuration error', 'error');
+                return;
+            }
+
+            // Get values from input fields
+            let text1 = input1.value;
+            let text2 = input2.value;
+
+            // ----- INPUT VALIDATION -----
+            // Check if both fields have content (optional - exercise doesn't require validation)
+            // but added for better UX
+            if (text1 === '' && text2 === '') {
+                showFeedback('Both fields are empty. Please enter some text.', 'warning');
+                // Still proceed with empty merge
+            } else if (text1 === '') {
+                showFeedback('First field is empty. Merging with empty text.', 'warning');
+            } else if (text2 === '') {
+                showFeedback('Second field is empty. Merging with empty text.', 'warning');
+            }
+
+            // ----- PERFORM MERGE -----
+            // OPTION 1: Basic merge (matches original exercise requirement)
+            let mergedResult = basicMerge(text1, text2);
+
+            // OPTION 2: Enhanced merge with options (uncomment to use)
+            // Example: Add space between texts, capitalize first letter
+            /*
+            let mergedResult = mergeTexts(text1, text2, {
+                separator: ' ',           // Add space between merged texts
+                trim: true,               // Remove whitespace from ends
+                capitalizeFirst: true     // Capitalize first letter of result
+            });
+            */
+
+            // OPTION 3: Multiple merge variants (uncomment for advanced usage)
+            /*
+            let mergedResult = mergeTexts(text1, text2, {
+                separator: ' - ',          // Custom separator
+                trim: true,
+                maxLength: 100             // Limit result length
+            });
+            */
+
+            // Display the result
+            resultField.value = mergedResult;
+
+            // Show success feedback
+            if (text1 !== '' || text2 !== '') {
+                showFeedback(`Successfully merged: "${mergedResult}"`, 'success');
+            }
+
+            // Log to console for debugging
+            console.log(`Merge operation: "${text1}" + "${text2}" = "${mergedResult}"`);
+        }
+
+        // ----- EVENT LISTENERS (SEPARATION OF CONCERNS) -----
+        // Attach event listeners programmatically instead of using inline onclick
+
+        if (mergeButton) {
+            mergeButton.addEventListener('click', handleMerge);
+        } else {
+            console.error('Merge button not found');
+        }
+
+        if (clearButton) {
+            clearButton.addEventListener('click', clearForm);
+        }
+
+        // ----- ALTERNATIVE: ORIGINAL APPROACH (COMMENTED) -----
+        // This shows the original teacher's solution (translated)
+        /*
+        function merge(input1, input2, result) {
+            let merged = input1 + input2;
+            result.value = merged;
+        }
+        */
+    </script>
+</body>
+
+</html>

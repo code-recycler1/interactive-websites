@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passing parameters 2</title>
+</head>
+
+<body>
+    <h1>Passing parameters 2</h1>
+    <div id="divResult"></div>
+
+    <script>
+        // GLOBAL VARIABLE
+        // The value we want to pass into the function.
+        let myName = "John";
+
+        // FUNCTION DECLARATION
+        // `name` is a parameter — a local variable that receives its value
+        // from whatever argument is passed when the function is called.
+        // It exists only inside this function.
+        function printName(name) {
+            // `name` here holds a copy of the value that was passed in.
+            // Changing `name` inside this function would NOT affect `myName` outside —
+            // primitive values like strings are passed by value, not by reference.
+            document.getElementById("divResult").innerHTML = `<h2>Your name is: ${name}</h2>`;
+        }
+
+        // Call the function and pass `myName` as the argument.
+        // The value of `myName` ("John") is copied into the `name` parameter.
+        // The two variables are independent from this point forward.
+        printName(myName);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parameters: Optional & Mandatory</title>
+</head>
+
+<body>
+    <script>
+        // 1. FUNCTION WITH NO PARAMETERS
+        // Called with no arguments — the function needs no input to do its job.
+        showMessage(); // → "Hello everyone!"
+
+        // 2. FUNCTION WITH A DEFAULT PARAMETER
+        // Only the first argument is passed — the second is omitted.
+        // The default value kicks in automatically for the missing argument.
+        showMessageFrom("Luc");          // → "Luc: no second parameter given"
+
+        // Both arguments provided — the default value is overridden by "Hello!".
+        showMessageFrom("Luc", "Hello!"); // → "Luc: Hello!"
+
+        // 3. FUNCTION WITH TWO REQUIRED PARAMETERS
+        // Both arguments provided — works as expected.
+        showMessageFromWhat("Luc", "Hello!"); // → "Luc: Hello!"
+
+        // Only one argument provided — `message` receives no value.
+        // JavaScript does not throw an error; the missing parameter is silently
+        // set to `undefined`. The output reflects this directly.
+        showMessageFromWhat("Luc");           // → "Luc: undefined"
+
+
+        // FUNCTION 1 — no parameters
+        // The simplest possible function — takes no input, always does the same thing.
+        function showMessage() {
+            alert("Hello everyone!");
+        }
+
+        // FUNCTION 2 — default parameter value
+        // If `message` is not passed by the caller, it automatically falls back
+        // to "no second parameter given". Default values are assigned with `=`
+        // in the parameter list. They only apply when the argument is `undefined`
+        // (omitted or explicitly passed as `undefined`) — not for `null` or `""`.
+        function showMessageFrom(from, message = "no second parameter given") {
+            alert(`${from}: ${message}`);
+        }
+
+        // FUNCTION 3 — two parameters, no defaults
+        // Both parameters are expected but neither is enforced by JavaScript.
+        // If an argument is missing, the parameter is `undefined` — no error is thrown.
+        // This is where default values (as in Function 2) or manual validation would help.
+        function showMessageFromWhat(from, message) {
+            alert(`${from}: ${message}`);
+        }
+    </script>
+</body>
+
+</html>

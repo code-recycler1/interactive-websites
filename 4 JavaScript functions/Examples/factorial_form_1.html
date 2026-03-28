@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factorial form 1</title>
+</head>
+
+<body>
+    <script>
+        // Ask the user for a number — the second argument ("1") pre-fills
+        // the input field with a default value of 1.
+        // prompt() always returns a string, so the result needs to be
+        // converted to a number before use.
+        let number = parseInt(prompt("Enter a number", 1));
+
+        // Call the function and display the result via alert.
+        // Note: the function declaration below is hoisted to the top of the
+        // script by the JavaScript engine, so calling it here — above where
+        // it is written — is valid. Function declarations are always hoisted;
+        // function expressions (let foo = function...) are not.
+        alert(`Factorial of ${number} is ${calculateFactorial(number)}`);
+
+
+        // FUNCTION DECLARATION
+        // Calculates the factorial of a given value.
+        // The factorial of n (written n!) is the product of all positive integers up to n.
+        // Example: 5! = 1 × 2 × 3 × 4 × 5 = 120
+        // Special case: 0! = 1 by convention (the loop never runs, result stays 1).
+        function calculateFactorial(value) {
+            // Start at 1 — multiplying by 0 would make the result 0
+            let result = 1;
+
+            // Multiply result by each integer from 1 up to and including `value`
+            for (let i = 1; i <= value; i++) {
+                result *= i; // Shorthand for result = result * i
+            }
+
+            // Return the final product to the caller
+            return result;
+        }
+    </script>
+</body>
+
+</html>

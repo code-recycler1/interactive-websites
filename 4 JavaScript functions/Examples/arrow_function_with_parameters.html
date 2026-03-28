@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arrow function with parameters</title>
+</head>
+
+<body>
+    <p id="title"></p>
+    <p id="subtitle"></p>
+
+    <script>
+        // ARROW FUNCTION WITH ONE PARAMETER
+        // Arrow functions are a concise alternative to regular function expressions.
+        // Syntax: (parameters) => { function body }
+        // The function is stored in `foo` and can be called by that name.
+        let foo = (message) => {
+            document.writeln("Hello!"); // Writes directly into the HTML document body
+            alert(`My message is: ${message}`); // Shows a browser dialog with the parameter value
+        };
+
+        // Call foo and pass a string as the `message` parameter.
+        // The parameter value is accessible inside the function body as `message`.
+        foo("Alert is working!");
+
+        // ARROW FUNCTION WITH TWO PARAMETERS
+        // Multiple parameters are separated by a comma inside the parentheses.
+        // Each parameter maps positionally to the argument passed when calling the function —
+        // `title` receives the first argument, `subtitle` receives the second.
+        let bar = (title, subtitle) => {
+            // Write the first argument into the element with id "title"
+            document.getElementById("title").innerHTML = title;
+            // Write the second argument into the element with id "subtitle"
+            document.getElementById("subtitle").innerHTML = subtitle;
+        };
+
+        // Call bar with two arguments — order matters, they map left to right
+        bar("I am a title", "I am a subtitle");
+    </script>
+</body>
+
+</html>

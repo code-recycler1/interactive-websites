@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anonymous function</title>
+</head>
+
+<body>
+    <h1>Anonymous function</h1>
+    <div id="divResult"></div>
+
+    <script>
+        // 1. ANONYMOUS FUNCTION
+        // addEventListener takes three arguments:
+        // - the event to listen for ('load')
+        // - the function to run when the event fires
+        // - whether to use capture phase (false = bubble phase, the standard default)
+
+        // The 'load' event fires when the page and all its resources
+        // (images, scripts, stylesheets) have fully loaded.
+
+        // The function passed here has no name — it is defined inline
+        // directly as the argument. This is called an anonymous function.
+        // It cannot be called or reused anywhere else in the code.
+        window.addEventListener('load', function () {
+            alert('All good');
+            // ... remaining code in the function
+        }, false);
+    </script>
+
+    <script>
+        // 2. NAMED FUNCTION
+        // The 'resize' event fires every time the browser window is resized.
+
+        // Here, a named function reference (`message`) is passed as the event handler
+        // instead of an inline anonymous function. The function is referenced by name
+        // only — no parentheses — because we want to pass the function itself,
+        // not call it immediately and pass its return value.
+        window.addEventListener('resize', message, false);
+
+        // Named function declaration — can be called by name from anywhere in the script.
+        // Unlike an anonymous function, this can also be reused by other event listeners
+        // or called directly elsewhere in the code.
+        function message() {
+            alert('All good');
+            // ... remaining code in the function
+        }
+    </script>
+
+</body>
+
+</html>

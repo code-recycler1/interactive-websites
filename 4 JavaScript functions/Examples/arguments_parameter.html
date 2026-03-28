@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The arguments parameter</title>
+</head>
+
+<body>
+    <h1>The arguments parameter</h1>
+    <div id="divResult"></div>
+
+    <script>
+        // 1. FUNCTION DECLARATION
+        // Calculates the volume of a 3D shape given height, width, and depth.
+        function getVolume(height, width, depth) {
+
+            // 2. VALIDATE ARGUMENT COUNT VIA arguments[]
+            // `arguments` is a built-in array-like object available inside every
+            // regular function (NOT arrow functions). It holds all values that were
+            // actually passed when the function was called, regardless of how many
+            // parameters are declared in the function signature.
+            // Here we use it to check that exactly 3 arguments were provided.
+            let res;
+            if (arguments.length !== 3) {
+                res = `<h2>Error: incorrect number of parameters</h2>`;
+                return res;
+            }
+
+            // 3. ARGUMENT COUNT IS CORRECT — PERFORM THE CALCULATION
+            let volume = height * width * depth;
+            res = `<h2>Volume: ${volume}</h2>`;
+
+            return res; // Return the result string to the caller
+        }
+
+        // 4. DELIBERATE WRONG CALL — only 2 arguments instead of 3
+        // This is intentional to demonstrate the arguments.length check.
+        // Because of the bug above, this currently renders: <h2>undefined</h2>
+        // With the fix applied, it would render the error message instead.
+        document.getElementById('divResult').innerHTML = getVolume(3, 4);
+
+        // 5. CORRECT CALL (commented out — uncomment to test the happy path)
+        // Passes all 3 required arguments → calculates and displays the volume.
+        // document.getElementById('divResult').innerHTML = getVolume(3, 4, 5);
+    </script>
+</body>
+
+</html>

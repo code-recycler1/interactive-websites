@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <title>Functions</title>
+</head>
+
+<body>
+    <main class="container">
+        <h1>Functions</h1>
+
+        <!-- 1. FUNCTION WITHOUT PARAMETERS -->
+        <h2>Function without parameters</h2>
+        <button class="button" id="btn1">Button 1</button>
+
+        <!-- 2. FUNCTION WITH PARAMETERS -->
+        <h2>Function with parameters</h2>
+        <button class="button" id="btn2">Button 2</button>
+        <button class="button" id="btn3">Button 3</button>
+
+        <!-- 3. FUNCTION WITH RETURN VALUE -->
+        <!-- Results are written into this paragraph via the DOM -->
+        <h2>Function with return value</h2>
+        <p id="factorialResult"></p>
+
+        <!-- 4. ANONYMOUS FUNCTION -->
+        <h2>Anonymous function</h2>
+        <button class="button" id="btn4">Button 4</button>
+        <button class="button" id="btn5">Button 5</button>
+
+    </main>
+
+    <script>
+        // --- FUNCTION 1: NO PARAMETERS ---
+        // Always produces the same output regardless of which element triggered it
+        function showButton1() {
+            alert("You clicked button 1.");
+        }
+
+        // --- FUNCTION 2: WITH PARAMETER ---
+        // One reusable function handles multiple buttons — the caller passes
+        // which button was clicked as an argument
+        function showButtonX(button) {
+            alert(`You clicked ${button}.`);
+        }
+
+        // --- FUNCTION 3: WITH RETURN VALUE ---
+        // Calculates the factorial of a number and returns a formatted string.
+        function calculateFactorial(number) {
+            let result = 1;
+            for (let i = 1; i <= number; i++) {
+                result = result * i;
+            }
+            // Returns a formatted string containing both the input and the result.
+            // The caller receives this string and can use it directly.
+            return `Factorial of ${number} = ${result}`;
+        }
+
+        // All three results are built into one string and written once.
+        document.getElementById('factorialResult').innerHTML =
+            `${calculateFactorial(2)}<br>` +
+            `${calculateFactorial(5)}<br>` +
+            `${calculateFactorial(10)}`;
+
+        // --- FUNCTION 4: ANONYMOUS FUNCTION ---
+        // Functionally identical to showButtonX — demonstrates that functions
+        // can be stored in variables and passed around like any other value.
+        let pressButton = function (button) {
+            alert(`You clicked ${button}.`);
+        }
+
+        // --- EVENT LISTENERS ---
+        // Each button triggers a function when clicked. 
+        // The first button calls a named function, the others call the same function with different arguments.
+        document.getElementById('btn1').addEventListener('click', showButton1);
+        document.getElementById('btn2').addEventListener('click', () => showButtonX('button 2'));
+        document.getElementById('btn3').addEventListener('click', () => showButtonX('button 3'));
+        document.getElementById('btn4').addEventListener('click', () => pressButton('button 4'));
+        document.getElementById('btn5').addEventListener('click', () => pressButton('button 5'));
+    </script>
+</body>
+
+</html>

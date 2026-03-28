@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript functions - Exercise 5</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Custom styles for better presentation -->
+    <style>
+        .multiplication-table {
+            max-width: 400px;
+            margin: 0 auto;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .multiplication-table .list-group-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+
+        .multiplication-table .list-group-item strong {
+            color: #007bff;
+            font-size: 1.2rem;
+        }
+
+        .table-header {
+            background-color: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+            font-weight: bold;
+        }
+
+        .result-container {
+            margin-top: 20px;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .error-message {
+            padding: 1rem;
+            border-radius: 4px;
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #6c757d;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row p-2">
+            <div class="col-md-12">
+                <h1 class="mb-4">Multiplication Table Generator</h1>
+
+                <!-- Input card for user to enter a number and generate the multiplication table -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Enter a Number</h5>
+                        <div class="form-group">
+                            <label for="numberInput">Number:</label>
+                            <input type="number" id="numberInput" class="form-control"
+                                placeholder="Enter a number (e.g., 5)" min="1" max="100" step="1">
+                            <small class="form-text text-muted">Enter a number between 1 and 100</small>
+                        </div>
+                        <button id="generateTableBtn" class="btn btn-primary">Generate Multiplication Table</button>
+                        <button id="clearBtn" class="btn btn-secondary ml-2">Clear</button>
+                    </div>
+                </div>
+
+                <!-- Container where the multiplication table will be displayed -->
+                <div id="tableContainer" class="result-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ----- DOM ELEMENT REFERENCES -----
+        const numberInput = document.getElementById('numberInput');
+        const generateBtn = document.getElementById('generateTableBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const tableContainer = document.getElementById('tableContainer');
+
+        // ----- CONFIGURATION -----
+        const CONFIG = {
+            minMultiplier: 1,      // Starting multiplier
+            maxMultiplier: 10,     // Ending multiplier (standard multiplication table)
+            defaultNumber: 5,      // Default number if none provided
+            maxNumber: 100,        // Maximum allowed number
+            minNumber: 1           // Minimum allowed number
+        };
+
+        // ----- HELPER FUNCTION: VALIDATE NUMBER -----
+        // Validates if the input is a valid number within allowed range
+        function isValidNumber(number) {
+            return !isNaN(number) &&
+                typeof number === 'number' &&
+                isFinite(number) &&
+                number >= CONFIG.minNumber &&
+                number <= CONFIG.maxNumber;
+        }
+
+        // ----- HELPER FUNCTION: SHOW ERROR MESSAGE -----
+        // Displays an error message in the table container
+        function showError(message) {
+            if (tableContainer) {
+                tableContainer.innerHTML = `
+                    <div class="error-message">
+                        <strong>Error:</strong> ${message}
+                    </div>
+                `;
+            }
+            console.error(message);
+        }
+
+        // ----- HELPER FUNCTION: SHOW LOADING STATE -----
+        // Shows a loading indicator while processing (useful for async operations)
+        function showLoading() {
+            if (tableContainer) {
+                tableContainer.innerHTML = '<div class="loading">Generating multiplication table...</div>';
+            }
+        }
+
+        // ----- MAIN FUNCTION: GENERATE MULTIPLICATION TABLE -----
+        // Creates an HTML string containing a Bootstrap list group with multiplication table
+        function generateMultiplicationTable(number, options = {}) {
+            // Default options
+            const defaults = {
+                startMultiplier: CONFIG.minMultiplier,
+                endMultiplier: CONFIG.maxMultiplier,
+                showHeader: true,
+                highlightEvenResults: false,
+                useAlternatingColors: true
+            };
+
+            const settings = { ...defaults, ...options };
+
+            // Input validation
+            if (!isValidNumber(number)) {
+                throw new Error(`Invalid number: ${number}. Please enter a number between ${CONFIG.minNumber} and ${CONFIG.maxNumber}.`);
+            }
+
+            // Convert to number (ensure it's a number type)
+            const num = Number(number);
+
+            // Build the multiplication table HTML
+            let html = '';
+
+            // Add header section with table info
+            html += `
+                <div class="multiplication-table">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Multiplication Table for ${num}</h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+            `;
+
+            // Generate each multiplication row
+            for (let multiplier = settings.startMultiplier; multiplier <= settings.endMultiplier; multiplier++) {
+                const result = num * multiplier;
+
+                // Optional: Highlight even results (multiples of 2)
+                const isEven = result % 2 === 0;
+                const highlightClass = settings.highlightEvenResults && isEven ? 'bg-light' : '';
+
+                // Optional: Add alternating row colors
+                const altClass = settings.useAlternatingColors && multiplier % 2 === 0 ? 'list-group-item-secondary' : '';
+
+                // Build list item with improved formatting
+                html += `
+                    <li class="list-group-item d-flex justify-content-between align-items-center ${highlightClass} ${altClass}">
+                        <span>
+                            <strong>${multiplier}</strong> × <strong>${num}</strong>
+                        </span>
+                        <span class="badge badge-primary badge-pill">
+                            = ${result}
+                        </span>
+                    </li>
+                `;
+            }
+
+            // Add footer with additional information
+            const totalSum = calculateSum(num, settings.startMultiplier, settings.endMultiplier);
+            html += `
+                        </ul>
+                        <div class="card-footer text-muted">
+                            <small>Range: ${settings.startMultiplier} × ${num} to ${settings.endMultiplier} × ${num}</small>
+                            <br>
+                            <small>Sum of all results: ${totalSum}</small>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            return html;
+        }
+
+        // ----- HELPER FUNCTION: CALCULATE SUM OF MULTIPLICATION RESULTS -----
+        // Calculates the sum of all multiplication results (optional enhancement)
+        function calculateSum(number, startMultiplier, endMultiplier) {
+            let sum = 0;
+            for (let i = startMultiplier; i <= endMultiplier; i++) {
+                sum += number * i;
+            }
+            return sum;
+        }
+
+        // ----- HELPER FUNCTION: GENERATE TABLE AND DISPLAY -----
+        // Main handler that gets the number from input and displays the table
+        function displayMultiplicationTable() {
+            // Validate container exists
+            if (!tableContainer) {
+                console.error('Table container not found');
+                return;
+            }
+
+            // Get value from input field
+            let inputValue = numberInput ? numberInput.value : '';
+
+            // If input is empty, use default number
+            if (inputValue === '') {
+                inputValue = CONFIG.defaultNumber;
+                if (numberInput) numberInput.value = CONFIG.defaultNumber;
+            }
+
+            // Convert to number
+            const number = Number(inputValue);
+
+            // Validate the number
+            if (!isValidNumber(number)) {
+                showError(`Please enter a valid number between ${CONFIG.minNumber} and ${CONFIG.maxNumber}.`);
+                return;
+            }
+
+            // Show loading state (optional, for better UX)
+            showLoading();
+
+            // Use setTimeout to simulate async (optional, gives visual feedback)
+            setTimeout(() => {
+                try {
+                    // Generate the multiplication table with enhanced options
+                    const tableHtml = generateMultiplicationTable(number, {
+                        startMultiplier: CONFIG.minMultiplier,
+                        endMultiplier: CONFIG.maxMultiplier,
+                        showHeader: true,
+                        highlightEvenResults: true,    // Highlight rows with even results
+                        useAlternatingColors: true      // Use alternating row colors
+                    });
+
+                    // Display the table
+                    tableContainer.innerHTML = tableHtml;
+
+                    // Log to console for debugging
+                    console.log(`Generated multiplication table for ${number}`);
+
+                } catch (error) {
+                    showError(error.message);
+                }
+            }, 1000); // Small delay for loading indicator effect
+        }
+
+        // ----- HELPER FUNCTION: CLEAR DISPLAY -----
+        // Clears the displayed table and optionally the input field
+        function clearDisplay(clearInput = true) {
+            if (tableContainer) {
+                tableContainer.innerHTML = '';
+            }
+
+            if (clearInput && numberInput) {
+                numberInput.value = '';
+                // Optional: Set focus back to input
+                numberInput.focus();
+            }
+
+            console.log('Display cleared');
+        }
+
+        // ----- EVENT LISTENERS -----
+        // Attach event listeners programmatically for better separation of concerns
+
+        if (generateBtn) {
+            generateBtn.addEventListener('click', displayMultiplicationTable);
+        } else {
+            console.error('Generate button not found');
+        }
+
+        if (clearBtn) {
+            clearBtn.addEventListener('click', () => clearDisplay(true));
+        }
+
+        // IMPROVEMENT: Add keyboard support - pressing Enter in input field generates table
+        if (numberInput) {
+            numberInput.addEventListener('keypress', function (event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    displayMultiplicationTable();
+                }
+            });
+        }
+
+        // IMPROVEMENT: Generate initial table on page load with default number
+        // This provides immediate visual feedback
+        if (numberInput) {
+            numberInput.value = CONFIG.defaultNumber;
+        }
+        displayMultiplicationTable();
+    </script>
+</body>
+
+</html>

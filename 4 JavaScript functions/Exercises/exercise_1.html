@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript functions - Exercise 1</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p>Calculate the sum, difference, and product</p>
+                <div id="result" class="text-danger"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ----- HELPER FUNCTION: GET VALID NUMBER FROM USER -----
+        // Improves code reusability and handles input validation consistently
+        function getValidNumber(promptMessage, defaultValue = 0) {
+            let userInput = prompt(promptMessage, defaultValue);
+
+            // Handle cancellation
+            if (userInput === null) {
+                return null;
+            }
+
+            // Convert to number and validate
+            let number = Number(userInput);
+
+            if (isNaN(number)) {
+                alert("Please enter a valid number.");
+                return null;
+            }
+
+            return number;
+        }
+
+        // ----- FUNCTION 1: CALCULATE SUM -----
+        // Adds two numbers and returns the result
+        // Parameters: number1, number2 (both numbers)
+        // Returns: sum of both numbers
+        function calculateSum(number1, number2) {
+            return number1 + number2;
+        }
+
+        // ----- FUNCTION 2: CALCULATE DIFFERENCE -----
+        // Subtracts the second number from the first
+        // Parameters: number1, number2 (both numbers)
+        // Returns: number1 - number2
+        function calculateDifference(number1, number2) {
+            return number1 - number2;
+        }
+
+        // ----- FUNCTION 3: CALCULATE PRODUCT -----
+        // Multiplies two numbers
+        // Parameters: number1, number2 (both numbers)
+        // Returns: product of both numbers
+        function calculateProduct(number1, number2) {
+            return number1 * number2;
+        }
+
+        // ----- MAIN EXECUTION -----
+        // Get two numbers from the user with proper validation
+        let number1 = getValidNumber("Enter the first number:", "0");
+
+        // Exit if user cancelled or entered invalid input
+        if (number1 === null) {
+            document.getElementById('result').innerHTML = '<strong class="text-danger">Operation cancelled or invalid input. Please refresh the page to try again.</strong>';
+        } else {
+            let number2 = getValidNumber("Enter the second number:", "0");
+
+            if (number2 === null) {
+                document.getElementById('result').innerHTML = '<strong class="text-danger">Operation cancelled or invalid input. Please refresh the page to try again.</strong>';
+            } else {
+                // Call the three functions with the provided numbers
+                let sum = calculateSum(number1, number2);
+                let difference = calculateDifference(number1, number2);
+                let product = calculateProduct(number1, number2);
+
+                // Build the result message using template literals for cleaner syntax
+                let resultMessage = `The entered numbers are ${number1} and ${number2}.<br>`;
+                resultMessage += `The sum is: ${sum}<br>`;
+                resultMessage += `The difference is: ${difference}<br>`;
+                resultMessage += `The product is: ${product}`;
+
+                // Display the result in the div
+                document.getElementById('result').innerHTML = resultMessage;
+
+                // Optional: Also log to console for debugging
+                console.log(`Numbers: ${number1}, ${number2}`);
+                console.log(`Sum: ${sum}, Difference: ${difference}, Product: ${product}`);
+            }
+        }
+    </script>
+
+</body>
+
+</html>

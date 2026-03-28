@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arrow functions</title>
+</head>
+
+<body>
+    <script>
+        // 1. TRADITIONAL FUNCTION EXPRESSION
+        // A function stored in a variable using the `function` keyword.
+        // Requires a full function body with curly braces, even for a single line.
+        let foo = function () {
+            document.writeln("Hello!");
+        }
+        foo(); // Call the function — outputs "Hello!" to the document
+
+        // 2. ARROW FUNCTION — CONCISE BODY (single expression)
+        // When an arrow function contains a single expression, the curly braces
+        // and `return` keyword can both be omitted. The expression is implicitly returned.
+        // This is the most compact form of an arrow function.
+        let bar = () => document.writeln("Hello again!");
+        bar(); // Call the function — outputs "Hello again!" to the document
+
+        // 3. ARROW FUNCTION — BLOCK BODY (multiple lines)
+        // When an arrow function contains multiple statements, curly braces are required.
+        // With curly braces, the `return` keyword must be written explicitly —
+        // there is no implicit return in a block body.
+        let tor = () => {
+            let temp = "Hello for the last time!\n"; // Start with a string variable
+            temp += "I am still working!"; // Append a second line to the string
+            return temp; // Explicit return required inside a block body
+        };
+
+        // Call tor() and pass its return value directly to document.writeln()
+        document.writeln(tor());
+    </script>
+</body>
+
+</html>
