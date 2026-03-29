@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array.filter() - Creating Subsets Based on Conditions</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-light">
+    <div class="container py-4">
+        <!-- Header Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1 class="display-5 fw-bold text-primary border-bottom pb-2">
+                    <i class="bi bi-funnel me-2"></i>Array.filter() Method
+                </h1>
+                <p class="lead text-secondary">Filter ages to show only adults (18 years or older)</p>
+            </div>
+        </div>
+
+        <!-- Interactive Demo Card -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <i class="bi bi-play-circle me-2"></i>Interactive Demo
+                    </div>
+                    <div class="card-body text-center">
+                        <button id="filterButton" class="btn btn-primary btn-lg px-4">
+                            <i class="bi bi-funnel me-2"></i>Show Adults (18+)
+                        </button>
+                        <div class="mt-3">
+                            <div id="result" class="alert alert-secondary filter-result mb-0">
+                                <i class="bi bi-info-circle me-2"></i>
+                                <em>Click the button to see filtered results</em>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Documentation Cards -->
+        <div class="row g-4">
+            <!-- Data Source Card -->
+            <div class="col-md-6">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-header bg-info text-white">
+                        <i class="bi bi-database me-2"></i>Data Source
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Original Ages Array</h5>
+                        <div class="code-example">
+                            <code>const ages = [32, 33, 16, 40, 7, 56];</code>
+                        </div>
+                        <p class="card-text text-secondary mt-2">
+                            <i class="bi bi-check-circle-fill text-success me-1"></i>
+                            Using <code>const</code> for immutability reference (ES6+ best practice)
+                        </p>
+                        <div class="alert alert-info small mb-0">
+                            <i class="bi bi-terminal me-2"></i>
+                            Console output: <code>Original ages array: [32, 33, 16, 40, 7, 56]</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Callback Card -->
+            <div class="col-md-6">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        <i class="bi bi-check2-square me-2"></i>Filter Callback Function
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Predicate Function: isAdult()</h5>
+                        <div class="code-example">
+                            <pre><code>function isAdult(age) {
+    return age >= 18;
+}</code></pre>
+                        </div>
+                        <p class="card-text text-secondary">
+                            <i class="bi bi-arrow-return-right me-1"></i>
+                            Returns <code>true</code> for elements to include, <code>false</code> to exclude
+                        </p>
+                        <div class="alert alert-success small mb-0">
+                            <i class="bi bi-stars me-2"></i>
+                            <strong>Alternative:</strong> Arrow function syntax<br>
+                            <code>const isAdult = (age) => age >= 18;</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Behavior Card -->
+            <div class="col-md-6">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-header bg-secondary text-white">
+                        <i class="bi bi-gear me-2"></i>How filter() Works
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Key Concepts</h5>
+                        <ul class="list-group list-group-flush mb-3">
+                            <li class="list-group-item bg-transparent ps-0">
+                                <i class="bi bi-file-earmark-plus text-success me-2"></i>
+                                Creates a <strong>NEW array</strong> (does NOT modify original)
+                            </li>
+                            <li class="list-group-item bg-transparent ps-0">
+                                <i class="bi bi-arrow-repeat me-2"></i>
+                                Callback invoked for each element in order
+                            </li>
+                            <li class="list-group-item bg-transparent ps-0">
+                                <i class="bi bi-copy me-2"></i>
+                                Returns shallow copy of elements that pass the test
+                            </li>
+                            <li class="list-group-item bg-transparent ps-0">
+                                <i class="bi bi-skip-forward me-2"></i>
+                                Empty slots in sparse arrays are skipped
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alternative Patterns Card -->
+            <div class="col-md-6">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-header bg-warning text-dark">
+                        <i class="bi bi-diagram-3 me-2"></i>Alternative Patterns
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Different Filter Callback Styles</h5>
+                        <div class="code-example mb-2">
+                            <strong>Inline arrow function:</strong><br>
+                            <code>const adults = ages.filter(age => age >= 18);</code>
+                        </div>
+                        <div class="code-example mb-2">
+                            <strong>External predicate:</strong><br>
+                            <code>const adults = ages.filter(isAdult);</code>
+                        </div>
+                        <div class="code-example mb-0">
+                            <strong>Multiple criteria:</strong><br>
+                            <code>const adultsUnder50 = ages.filter(age => age >= 18 && age < 50);</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Examples Card -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-dark text-white">
+                        <i class="bi bi-code-slash me-2"></i>Additional Filter Examples
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="border rounded p-3 h-100 bg-light">
+                                    <h6><i class="bi bi-123 me-2 text-primary"></i>Filter Even Numbers</h6>
+                                    <div class="code-example bg-white">
+                                        <code>numbers.filter(n => n % 2 === 0)</code>
+                                    </div>
+                                    <p class="small text-secondary mt-2 mb-0">
+                                        <i class="bi bi-arrow-right me-1"></i>
+                                        [1,2,3,4,5,6] → [2,4,6]
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="border rounded p-3 h-100 bg-light">
+                                    <h6><i class="bi bi-people me-2 text-primary"></i>Filter Active Users</h6>
+                                    <div class="code-example bg-white">
+                                        <code>users.filter(user => user.active)</code>
+                                    </div>
+                                    <p class="small text-secondary mt-2 mb-0">
+                                        <i class="bi bi-arrow-right me-1"></i>
+                                        Returns only users with <code>active: true</code>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="border rounded p-3 h-100 bg-light">
+                                    <h6><i class="bi bi-trash me-2 text-primary"></i>Remove Falsy Values</h6>
+                                    <div class="code-example bg-white">
+                                        <code>mixed.filter(Boolean)</code>
+                                    </div>
+                                    <p class="small text-secondary mt-2 mb-0">
+                                        <i class="bi bi-arrow-right me-1"></i>
+                                        Removes <code>false, null, undefined, 0, ""</code>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Reference Table -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <i class="bi bi-table me-2"></i>Quick Reference
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Method</th>
+                                        <th>Description</th>
+                                        <th>Returns</th>
+                                        <th>Modifies Original?</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>filter()</code></td>
+                                        <td>Creates new array with elements that pass the test</td>
+                                        <td><span class="badge bg-success">New Array</span></td>
+                                        <td><span class="badge bg-secondary">No</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>map()</code></td>
+                                        <td>Creates new array with transformed elements</td>
+                                        <td><span class="badge bg-success">New Array</span></td>
+                                        <td><span class="badge bg-secondary">No</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>forEach()</code></td>
+                                        <td>Executes function for each element</td>
+                                        <td><span class="badge bg-secondary">undefined</span></td>
+                                        <td><span class="badge bg-secondary">No (but can side-effect)</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>reduce()</code></td>
+                                        <td>Reduces array to single value</td>
+                                        <td><span class="badge bg-info">Single Value</span></td>
+                                        <td><span class="badge bg-secondary">No</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Takeaways Footer -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="alert alert-success">
+                    <i class="bi bi-lightbulb me-2 fs-5"></i>
+                    <strong>Key Takeaways:</strong>
+                    <ul class="mb-0 mt-2">
+                        <li><code>filter()</code> returns a <strong>NEW array</strong> — original array is immutable
+                        </li>
+                        <li>Callback must return <strong>boolean</strong>: <code>true</code> = include,
+                            <code>false</code> = exclude
+                        </li>
+                        <li>Use <code>const</code> for arrays that shouldn't be reassigned</li>
+                        <li>Prefer <code>addEventListener</code> over inline <code>onclick</code> for maintainability
+                        </li>
+                        <li>Empty slots in sparse arrays are <strong>ignored</strong> (callback not invoked)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="row mt-3">
+            <div class="col-12">
+                <hr>
+                <p class="text-center text-secondary small">
+                    <i class="bi bi-braces"></i> JavaScript Array Methods Demo |
+                    <i class="bi bi-console"></i> Open console (F12) for detailed logs
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Bootstrap JS Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // ============================================================
+        // SECTION 1: Data Source
+        // ============================================================
+        // Array of ages to be filtered. Using 'const' instead of 'var' 
+        // for block scoping and immutability reference.
+        // ES6+ best practice: prefer const for values that won't be reassigned
+        const ages = [32, 33, 16, 40, 7, 56];
+
+        // Store reference to the original array for educational display
+        console.log('Original ages array:', ages); // [32, 33, 16, 40, 7, 56]
+
+        // ============================================================
+        // SECTION 2: Filter Callback Function
+        // ============================================================
+        // Filter function that determines which elements pass the condition.
+        // Array.filter() expects a callback that returns:
+        //   - true: element is included in the new array
+        //   - false: element is excluded
+
+        /**
+         * Checks if an age qualifies as adult (18 or older)
+         * @param {number} age - The age value to evaluate
+         * @returns {boolean} - true if age >= 18, false otherwise
+         * 
+         * This is a predicate function - it only returns a boolean
+         * and has no side effects (pure function)
+         */
+        function isAdult(age) {
+            return age >= 18;
+        }
+
+        // Alternative: Arrow function syntax (more concise, commonly used)
+        // const isAdult = (age) => age >= 18;
+
+        // ============================================================
+        // SECTION 3: Alternative Filter Callback Patterns
+        // ============================================================
+        // Example 1: Inline arrow function (most common in modern code)
+        // const adults = ages.filter(age => age >= 18);
+
+        // Example 2: Using an external predicate function (as shown above)
+        // const adults = ages.filter(isAdult);
+
+        // Example 3: More complex condition with multiple criteria
+        // const adultsUnder50 = ages.filter(age => age >= 18 && age < 50);
+
+        // ============================================================
+        // SECTION 4: Main Function - Filter Execution
+        // ============================================================
+        /**
+         * Filters the ages array to show only adults and updates the DOM.
+         * 
+         * Key concepts:
+         * - Array.filter() creates a NEW array, it does NOT modify the original
+         * - The callback is invoked for each element in order
+         * - Filter returns a shallow copy of elements that pass the test
+         * - Empty slots in sparse arrays are skipped
+         */
+        function showFilteredAdults() {
+            // Get reference to the DOM element where results will be displayed
+            const resultElement = document.getElementById("result");
+
+            // Input validation: ensure the element exists before manipulating
+            if (!resultElement) {
+                console.error('Result element not found in DOM');
+                return;
+            }
+
+            // Apply filter to create a new array containing only adults
+            // ages remains unchanged; filteredAges is a new array instance
+            const filteredAges = ages.filter(isAdult);
+
+            // Alternative: Using arrow function directly (more common pattern)
+            // const filteredAges = ages.filter(age => age >= 18);
+
+            // Log for debugging and educational purposes
+            console.log('Original ages (unchanged):', ages);
+            console.log('Filtered adults (18+):', filteredAges);
+
+            // ============================================================
+            // SECTION 5: Display Formatting Options
+            // ============================================================
+            if (filteredAges.length === 0) {
+                resultElement.innerHTML = `
+                    <i class="bi bi-emoji-frown me-2"></i>
+                    <strong>No adults found.</strong> All ages are under 18.
+                `;
+                resultElement.className = "alert alert-warning filter-result mb-0";
+            } else {
+                resultElement.innerHTML = `
+                    <i class="bi bi-check-circle-fill me-2 text-success"></i>
+                    <strong>Adults (age ≥ 18):</strong><br>
+                    <code>[${filteredAges.join(', ')}]</code><br>
+                    <hr class="my-2">
+                    <small class="text-secondary">
+                        <i class="bi bi-database me-1"></i>
+                        Original array: <code>[${ages.join(', ')}]</code> (unchanged)
+                    </small>
+                `;
+                resultElement.className = "alert alert-success filter-result mb-0";
+            }
+        }
+
+        // ============================================================
+        // SECTION 6: Event Binding (Accessibility Improvement)
+        // ============================================================
+        // Using addEventListener for better separation of concerns
+
+        // Wait for DOM to be fully loaded before binding events
+        document.addEventListener('DOMContentLoaded', () => {
+            const button = document.getElementById('filterButton');
+
+            if (button) {
+                // Using addEventListener instead of inline onclick
+                button.addEventListener('click', showFilteredAdults);
+
+                // Add keyboard accessibility hint
+                button.setAttribute('aria-label', 'Show only adults aged 18 years or older');
+
+                // Add Bootstrap tooltip for better UX
+                button.setAttribute('data-bs-toggle', 'tooltip');
+                button.setAttribute('data-bs-title', 'Click to filter ages 18 and older');
+            } else {
+                console.error('Button element not found');
+            }
+
+            // Initialize Bootstrap tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+
+        // ============================================================
+        // SECTION 7: Additional Filter Examples & Learning Resources
+        // ============================================================
+        // These examples are logged to console for demonstration
+
+        // Example: Filter even numbers
+        const numbers = [1, 2, 3, 4, 5, 6];
+        const evens = numbers.filter(n => n % 2 === 0);
+        console.log('Even numbers:', evens); // [2, 4, 6]
+
+        // Example: Filter objects based on property
+        const users = [
+            { name: 'Alice', active: true },
+            { name: 'Bob', active: false },
+            { name: 'Charlie', active: true }
+        ];
+        const activeUsers = users.filter(user => user.active);
+        console.log('Active users:', activeUsers); // [{ name: 'Alice', active: true }, { name: 'Charlie', active: true }]
+
+        // Example: Filter out falsy values
+        const mixed = [0, 'hello', false, 42, null, 'world', undefined];
+        const truthy = mixed.filter(Boolean); // Boolean is the identity function
+        console.log('Truthy values:', truthy); // ['hello', 42, 'world']
+
+        console.log('\n=== FILTER METHOD SUMMARY ===');
+        console.log('✓ filter() returns a NEW array');
+        console.log('✓ Original array remains unchanged');
+        console.log('✓ Callback must return boolean');
+        console.log('✓ Empty slots are skipped');
+    </script>
+</body>
+
+</html>

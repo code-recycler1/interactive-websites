@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array Iteration Methods: for, while, do-while, for...in, forEach</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-light">
+    <div class="container py-4">
+        <!-- Header Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1 class="display-5 fw-bold text-primary border-bottom pb-2">
+                    <i class="bi bi-arrow-repeat me-2"></i>Array Iteration Methods Comparison
+                </h1>
+                <p class="lead text-secondary">
+                    <i class="bi bi-console me-2"></i>
+                    Open the browser console (F12) to see all iteration outputs.
+                </p>
+            </div>
+        </div>
+
+        <!-- Important Note Card -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="alert alert-warning border-start border-4 border-warning shadow-sm">
+                    <div class="d-flex">
+                        <div class="flex-shrink-0">
+                            <i class="bi bi-exclamation-triangle-fill fs-4 me-3"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <strong>⚠️ Important Note:</strong> The array contains an <strong>empty slot (hole)</strong>
+                            at index 2
+                            (between 'Mexico' and 'Belgium'). Different iteration methods handle holes differently.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Iteration Methods Overview Cards -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 shadow-sm iteration-method-card border-primary">
+                    <div class="card-header bg-primary text-white">
+                        <i class="bi bi-arrow-repeat me-2"></i>Traditional for
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Full control, all indices</h6>
+                        <p class="card-text small">Iterates ALL indices, holes become <code>undefined</code>. Best for
+                            index-based operations.</p>
+                        <span class="badge bg-info">✓ break/continue</span>
+                        <span class="badge bg-warning text-dark">holes: undefined</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 shadow-sm iteration-method-card border-secondary">
+                    <div class="card-header bg-secondary text-white">
+                        <i class="bi bi-arrow-left-right me-2"></i>while
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Dynamic conditions</h6>
+                        <p class="card-text small">Condition checked before each iteration. Manual index management
+                            required.</p>
+                        <span class="badge bg-info">✓ break/continue</span>
+                        <span class="badge bg-warning text-dark">holes: undefined</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 shadow-sm iteration-method-card border-secondary">
+                    <div class="card-header bg-secondary text-white">
+                        <i class="bi bi-arrow-down-up me-2"></i>do...while
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Guaranteed execution</h6>
+                        <p class="card-text small">Always executes at least once. Condition checked after each
+                            iteration.</p>
+                        <span class="badge bg-info">✓ break/continue</span>
+                        <span class="badge bg-warning text-dark">holes: undefined</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 shadow-sm iteration-method-card border-danger">
+                    <div class="card-header bg-danger text-white">
+                        <i class="bi bi-exclamation-triangle me-2"></i>for...in
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">⚠️ NOT for arrays</h6>
+                        <p class="card-text small">Iterates over enumerable property names. Avoid for arrays!</p>
+                        <span class="badge bg-danger">❌ Avoid</span>
+                        <span class="badge bg-warning text-dark">holes: enumerable</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 shadow-sm iteration-method-card border-success">
+                    <div class="card-header bg-success text-white">
+                        <i class="bi bi-check-lg me-2"></i>forEach()
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Recommended for side effects</h6>
+                        <p class="card-text small">Clean declarative syntax. Automatically SKIPS holes.</p>
+                        <span class="badge bg-secondary">✗ no early exit</span>
+                        <span class="badge bg-success">holes: SKIPPED</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 shadow-sm iteration-method-card border-info">
+                    <div class="card-header bg-info text-white">
+                        <i class="bi bi-infinity me-2"></i>for...of
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">ES6+ value iteration</h6>
+                        <p class="card-text small">Iterates over VALUES, supports early exit. Works with any iterable.
+                        </p>
+                        <span class="badge bg-info">✓ break/continue</span>
+                        <span class="badge bg-warning text-dark">holes: undefined</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 shadow-sm iteration-method-card border-primary">
+                    <div class="card-header bg-primary text-white">
+                        <i class="bi bi-table me-2"></i>entries()
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Index + value pairs</h6>
+                        <p class="card-text small">Provides both index and value. Holes appear as undefined.</p>
+                        <span class="badge bg-info">✓ break/continue</span>
+                        <span class="badge bg-warning text-dark">holes: undefined</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 shadow-sm iteration-method-card border-dark">
+                    <div class="card-header bg-dark text-white">
+                        <i class="bi bi-speedometer2 me-2"></i>Performance
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">O(n) operations</h6>
+                        <p class="card-text small">Traditional for loops fastest for large arrays (>100k). Choose
+                            readability first.</p>
+                        <span class="badge bg-dark">for: fastest</span>
+                        <span class="badge bg-secondary">forEach: clean</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Reference Table -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <i class="bi bi-table me-2"></i>Quick Reference Card
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-bordered mb-0 comparison-table">
+                                <thead class="table-dark">
+                                    <tr class="bg-primary text-white">
+                                        <th>Method</th>
+                                        <th>Handles Holes</th>
+                                        <th>Early Exit</th>
+                                        <th>Best Use Case</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>for</code></td>
+                                        <td><code>undefined</code></td>
+                                        <td><span class="badge bg-success">✓ break/continue</span></td>
+                                        <td>Index operations, performance-critical</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>while</code></td>
+                                        <td><code>undefined</code></td>
+                                        <td><span class="badge bg-success">✓ break/continue</span></td>
+                                        <td>Dynamic conditions, unknown length</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>do...while</code></td>
+                                        <td><code>undefined</code></td>
+                                        <td><span class="badge bg-success">✓ break/continue</span></td>
+                                        <td>Guaranteed first execution</td>
+                                    </tr>
+                                    <tr class="table-warning">
+                                        <td><code>for...in</code></td>
+                                        <td><span class="badge bg-warning">enumerable</span></td>
+                                        <td><span class="badge bg-success">✓ break/continue</span></td>
+                                        <td class="text-danger"><strong>❌ NOT for arrays</strong> (objects only)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>for...of</code></td>
+                                        <td><code>undefined</code></td>
+                                        <td><span class="badge bg-success">✓ break/continue</span></td>
+                                        <td>Value iteration with early exit</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>forEach()</code></td>
+                                        <td><span class="badge bg-success">SKIPPED</span></td>
+                                        <td><span class="badge bg-secondary">✗ No</span></td>
+                                        <td><span class="badge bg-success">✅ Default choice for side effects</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>entries()</code></td>
+                                        <td><code>undefined</code></td>
+                                        <td><span class="badge bg-success">✓ break/continue</span></td>
+                                        <td>Need index + value pairs</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Practical Recommendations Card -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        <i class="bi bi-lightbulb me-2"></i>Practical Recommendations
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="border rounded p-3 bg-light h-100">
+                                    <h6><i class="bi bi-star-fill text-warning me-2"></i>forEach() - DEFAULT CHOICE</h6>
+                                    <p class="small mb-0">Use when you need to perform operations on each element
+                                        without early exit.</p>
+                                    <code
+                                        class="d-block mt-2">countries.forEach(country => console.log(country));</code>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="border rounded p-3 bg-light h-100">
+                                    <h6><i class="bi bi-arrow-right-circle me-2 text-info"></i>for...of - Early
+                                        Termination</h6>
+                                    <p class="small mb-0">Use when you need <code>break</code> or <code>continue</code>
+                                        based on conditions.</p>
+                                    <code
+                                        class="d-block mt-2">for (const country of countries) { if (condition) break; }</code>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="border rounded p-3 bg-light h-100">
+                                    <h6><i class="bi bi-calculator me-2 text-primary"></i>Traditional for - Index
+                                        Operations</h6>
+                                    <p class="small mb-0">Use for complex index calculations or maximum performance with
+                                        large arrays.</p>
+                                    <code
+                                        class="d-block mt-2">for (let i = 0; i < arr.length; i++) { arr[i] *= 2; }</code>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="border rounded p-3 bg-light h-100">
+                                    <h6><i class="bi bi-x-circle text-danger me-2"></i>for...in - NEVER for Arrays</h6>
+                                    <p class="small mb-0">Includes inherited properties, string keys, and order is not
+                                        guaranteed.</p>
+                                    <code
+                                        class="d-block mt-2 text-danger">// AVOID: for (let key in array) { ... }</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hole Handling Warning -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="alert alert-danger border-start border-4 border-danger shadow-sm">
+                    <div class="d-flex">
+                        <div class="flex-shrink-0">
+                            <i class="bi bi-bug fs-4 me-3"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <strong>⚠️ Critical Note:</strong> The original array has an empty slot at index 2.
+                            <code>forEach()</code> skips it, while traditional loops treat it as <code>undefined</code>.
+                            <strong>Avoid sparse arrays in production code.</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Console Output Summary Card -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-dark text-white">
+                        <i class="bi bi-terminal me-2"></i>Console Output Summary
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-secondary console-output">
+                            <i class="bi bi-info-circle me-2"></i>
+                            <strong>Check the browser console (F12)</strong> for detailed output including:
+                            <ul class="mb-0 mt-2">
+                                <li>Original array with hole at index 2:
+                                    <code>['Brazil', 'Mexico', empty, 'Belgium', 'Germany', 'Sweden']</code>
+                                </li>
+                                <li>All 7 iteration method demonstrations with step-by-step logging</li>
+                                <li>Performance characteristics and best practice recommendations</li>
+                                <li>Hole handling differences between methods</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="row">
+            <div class="col-12">
+                <hr>
+                <p class="text-center text-secondary small">
+                    <i class="bi bi-braces"></i> JavaScript Array Iteration Methods |
+                    <i class="bi bi-console"></i> Console output includes all 7 methods |
+                    <i class="bi bi-exclamation-triangle"></i> Avoid sparse arrays in production
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Bootstrap JS Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // ============================================================
+        // DATA SOURCE: Array with a Hole (Empty Slot)
+        // ============================================================
+        // This array has a deliberate empty slot (sparse array element)
+        // Different iteration methods treat this hole differently
+        // - Some methods skip it (forEach, modern loops)
+        // - Some methods treat it as 'undefined' (for, while, do-while)
+        // - for...in enumerates enumerable properties, which includes holes
+
+        // NOTE: The empty slot is created by having two consecutive commas: , ,
+        // This creates an array with length 6 but element at index 2 is missing
+        let countries = ['Brazil', 'Mexico', , 'Belgium', 'Germany', 'Sweden'];
+        const arrayLength = countries.length;
+
+        console.log('=== ARRAY ITERATION DEMONSTRATION ===');
+        console.log('Original array:', countries);
+        console.log('Array length:', arrayLength);
+        console.log('Note: index 2 is an empty slot (hole)\n');
+
+        // ============================================================
+        // METHOD 1: Traditional FOR Loop
+        // ============================================================
+        console.log('╔════════════════════════════════════╗');
+        console.log('║  METHOD 1: TRADITIONAL FOR LOOP   ║');
+        console.log('╚════════════════════════════════════╝\n');
+
+        for (let i = 0; i < arrayLength; i++) {
+            console.log(`Index ${i}: ${countries[i]}`);
+        }
+        console.log('\n✓ for loop iterates ALL indices, holes become undefined\n');
+
+        // ============================================================
+        // METHOD 2: WHILE Loop
+        // ============================================================
+        console.log('╔══════════════════════════════════════╗');
+        console.log('║  METHOD 2: WHILE LOOP               ║');
+        console.log('╚══════════════════════════════════════╝\n');
+
+        let i = 0;
+        while (i < arrayLength) {
+            console.log(`Index ${i}: ${countries[i]}`);
+            i++;
+        }
+        console.log('\n✓ while loop also includes holes as undefined\n');
+
+        // ============================================================
+        // METHOD 3: DO...WHILE Loop
+        // ============================================================
+        console.log('╔══════════════════════════════════════╗');
+        console.log('║  METHOD 3: DO...WHILE LOOP          ║');
+        console.log('╚══════════════════════════════════════╝\n');
+
+        i = 0;
+        do {
+            console.log(`Index ${i}: ${countries[i]}`);
+            i++;
+        } while (i < arrayLength);
+        console.log('\n✓ do...while loop executes at least once, includes holes\n');
+
+        // ============================================================
+        // METHOD 4: FOR...IN Loop ⚠️ WARNING: NOT RECOMMENDED FOR ARRAYS
+        // ============================================================
+        console.log('╔══════════════════════════════════════╗');
+        console.log('║  METHOD 4: FOR...IN LOOP (⚠️ AVOID) ║');
+        console.log('╚══════════════════════════════════════╝\n');
+
+        for (let key in countries) {
+            console.log(`Key "${key}" (type: ${typeof key}): ${countries[key]}`);
+        }
+        console.log('\n⚠️ WARNING: for...in includes holes and is not recommended for arrays\n');
+
+        // ============================================================
+        // METHOD 5: forEach() Method (Modern, Recommended)
+        // ============================================================
+        console.log('╔══════════════════════════════════════╗');
+        console.log('║  METHOD 5: forEach() (Recommended)  ║');
+        console.log('╚══════════════════════════════════════╝\n');
+
+        countries.forEach((value, index, array) => {
+            console.log(`Index ${index}: ${value} (full array: ${array})`);
+        });
+        console.log('\n✓ forEach SKIPS holes - index 2 is not logged\n');
+
+        // ============================================================
+        // METHOD 6: FOR...OF Loop (ES6+, Modern Alternative)
+        // ============================================================
+        console.log('╔══════════════════════════════════════╗');
+        console.log('║  METHOD 6: for...of (ES6+ Addition) ║');
+        console.log('╚══════════════════════════════════════╝\n');
+
+        let idx = 0;
+        for (const value of countries) {
+            console.log(`Value ${idx++}: ${value}`);
+        }
+        console.log('\n✓ for...of includes holes as undefined but can break early\n');
+
+        // ============================================================
+        // METHOD 7: Advanced - Using entries() for Index + Value
+        // ============================================================
+        console.log('╔══════════════════════════════════════╗');
+        console.log('║  METHOD 7: entries() + for...of     ║');
+        console.log('╚══════════════════════════════════════╝\n');
+
+        for (const [index, value] of countries.entries()) {
+            console.log(`Entry ${index}: ${value}`);
+        }
+
+        // ============================================================
+        // PERFORMANCE & BEST PRACTICES SUMMARY
+        // ============================================================
+        console.log('\n╔══════════════════════════════════════════════════════════╗');
+        console.log('║  ITERATION METHODS - QUICK REFERENCE                    ║');
+        console.log('╚══════════════════════════════════════════════════════════╝');
+        console.log(`
+        ┌─────────────────┬──────────────┬─────────────────┬──────────────────┐
+        │ Method          │ Holes        │ Early Exit      │ Best Use Case    │
+        ├─────────────────┼──────────────┼─────────────────┼──────────────────┤
+        │ for             │ undefined    │ break/continue  │ Index operations │
+        │ while           │ undefined    │ break/continue  │ Unknown length   │
+        │ do...while      │ undefined    │ break/continue  │ At least 1 exec  │
+        │ for...in        │ enumerable   │ break/continue  │ ⚠️ Objects only  │
+        │ for...of        │ undefined    │ break/continue  │ Value iteration  │
+        │ forEach()       │ SKIPPED      │ ❌ No           │ Side effects     │
+        │ .entries()      │ undefined    │ break/continue  │ Need index+value │
+        └─────────────────┴──────────────┴─────────────────┴──────────────────┘
+        `);
+    </script>
+</body>
+
+</html>

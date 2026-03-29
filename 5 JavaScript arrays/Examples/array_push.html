@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array.push() - Adding Elements to the End</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-light">
+    <div class="container py-4">
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1 class="display-5 fw-bold text-primary border-bottom pb-2">
+                    <i class="bi bi-plus-circle me-2"></i>Array.push() - Add Elements to the End
+                </h1>
+                <p class="lead text-secondary">Add one or more elements to the end of an array</p>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div id="divResult"></div>
+
+        <!-- Console Info Footer -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="alert alert-secondary text-center">
+                    <i class="bi bi-console me-2"></i>
+                    <strong>Check the browser console (F12)</strong> for detailed output including:
+                    stack operations, event logging, async operations, performance comparisons, and edge cases.
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="row mt-3">
+            <div class="col-12">
+                <hr>
+                <p class="text-center text-secondary small">
+                    <i class="bi bi-braces"></i> JavaScript Array Methods Demo |
+                    <i class="bi bi-console"></i> Console (F12) contains all examples |
+                    <i class="bi bi-stack"></i> push() is O(1) - perfect for stack operations
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // ============================================================
+        // SECTION 1: Basic push() Usage
+        // ============================================================
+        let myArray = ["red", "yellow"];
+
+        console.log('=== BASIC push() DEMONSTRATION ===');
+        console.log('1. Original array:', myArray);
+
+        const newLength1 = myArray.push("blue");
+        console.log('2. After push("blue"):', myArray);
+        console.log('   Return value (new length):', newLength1);
+
+        const newLength2 = myArray.push("white", "black");
+        console.log('3. After push("white", "black"):', myArray);
+        console.log('   Return value (new length):', newLength2);
+
+        // ============================================================
+        // SECTION 2: Return Value and Return Type
+        // ============================================================
+        console.log('\n=== RETURN VALUE DETAILS ===');
+
+        let colors = ["red", "green"];
+        let result = colors.push("blue");
+
+        console.log('Original array after push:', colors);
+        console.log('push() returned:', result);
+
+        let correctChaining = [1, 2].concat([3]).concat([4]);
+        console.log('Correct chaining with concat():', correctChaining);
+
+        // ============================================================
+        // SECTION 3: Stack Operations (LIFO)
+        // ============================================================
+        console.log('\n=== STACK OPERATIONS (LIFO) ===');
+
+        let browserHistory = [];
+
+        browserHistory.push("Homepage");
+        browserHistory.push("Products");
+        browserHistory.push("Product Details");
+        browserHistory.push("Checkout");
+
+        console.log('Browser history stack:', browserHistory);
+
+        let currentPage = browserHistory.pop();
+        console.log('Navigated back from:', currentPage);
+        console.log('Remaining history:', browserHistory);
+
+        // ============================================================
+        // SECTION 4: Practical Use Cases
+        // ============================================================
+        console.log('\n=== PRACTICAL USE CASES ===');
+
+        let userInputs = [];
+
+        function addUserInput(value) {
+            userInputs.push(value);
+            console.log(`Added: "${value}" | Total items: ${userInputs.length}`);
+        }
+
+        addUserInput("JavaScript");
+        addUserInput("Array Methods");
+        addUserInput("push() Examples");
+        console.log('All user inputs:', userInputs);
+
+        let eventLog = [];
+
+        function logEvent(eventName, details) {
+            const timestamp = new Date().toISOString();
+            eventLog.push({ event: eventName, details, timestamp });
+            console.log(`Event logged: ${eventName} at ${timestamp}`);
+        }
+
+        logEvent("page_view", { page: "home" });
+        logEvent("click", { button: "submit" });
+        logEvent("form_submit", { success: true });
+        console.log('Event log:', eventLog);
+
+        let taskQueue = [];
+
+        function addTask(task) {
+            taskQueue.push(task);
+            console.log(`Task added: "${task}" | Queue size: ${taskQueue.length}`);
+        }
+
+        function processTask() {
+            if (taskQueue.length === 0) {
+                console.log("No tasks to process");
+                return null;
+            }
+            const task = taskQueue.shift();
+            console.log(`Processing: "${task}" | Remaining: ${taskQueue.length}`);
+            return task;
+        }
+
+        addTask("Email clients");
+        addTask("Write report");
+        addTask("Review code");
+        processTask();
+        processTask();
+
+        // ============================================================
+        // SECTION 5: push() vs Other Array Addition Methods
+        // ============================================================
+        console.log('\n=== push() VS OTHER ADDITION METHODS ===');
+
+        let demoArray = [1, 2, 3];
+
+        let pushLength = demoArray.push(4, 5);
+        console.log('push() result:', { array: demoArray, returned: pushLength });
+
+        demoArray = [1, 2, 3];
+        let unshiftLength = demoArray.unshift(0);
+        console.log('unshift() result:', { array: demoArray, returned: unshiftLength });
+
+        demoArray = [1, 2, 3];
+        let newArray = demoArray.concat([4, 5]);
+        console.log('concat() result:', { original: demoArray, newArray: newArray });
+
+        demoArray = [1, 2, 3];
+        let spreadArray = [...demoArray, 4, 5];
+        console.log('Spread operator result:', { original: demoArray, newArray: spreadArray });
+
+        console.log('\nComparison Table:');
+        console.table([
+            { Method: 'push()', 'Adds To': 'End', Returns: 'New length', Modifies: 'Yes', Multiple: 'Yes', Use: 'Stack operations' },
+            { Method: 'unshift()', 'Adds To': 'Start', Returns: 'New length', Modifies: 'Yes', Multiple: 'Yes', Use: 'Queue operations' },
+            { Method: 'concat()', 'Adds To': 'End', Returns: 'New array', Modifies: 'No', Multiple: 'Yes', Use: 'Non-mutating addition' },
+            { Method: 'spread (...)', 'Adds To': 'Any', Returns: 'New array', Modifies: 'No', Multiple: 'Yes', Use: 'Immutable patterns' }
+        ]);
+
+        // ============================================================
+        // SECTION 6: push() with Different Data Types
+        // ============================================================
+        console.log('\n=== push() WITH DIFFERENT DATA TYPES ===');
+
+        let mixedArray = [];
+
+        mixedArray.push(42);
+        console.log('After number:', mixedArray);
+
+        mixedArray.push("hello");
+        console.log('After string:', mixedArray);
+
+        mixedArray.push(true);
+        console.log('After boolean:', mixedArray);
+
+        mixedArray.push({ name: "Object", value: 100 });
+        console.log('After object:', mixedArray);
+
+        mixedArray.push([1, 2, 3]);
+        console.log('After nested array:', mixedArray);
+
+        mixedArray.push(function () { return "I'm a function"; });
+        console.log('After function:', mixedArray);
+
+        mixedArray.push(null, undefined);
+        console.log('After null and undefined:', mixedArray);
+
+        // ============================================================
+        // SECTION 7: Edge Cases and Gotchas
+        // ============================================================
+        console.log('\n=== EDGE CASES AND GOTCHAS ===');
+
+        let sparseArray = [1, , 3];
+        console.log('Sparse array before push:', sparseArray);
+        console.log('Length before:', sparseArray.length);
+
+        sparseArray.push(4);
+        console.log('Sparse array after push:', sparseArray);
+        console.log('Length after:', sparseArray.length);
+
+        let arrayLike = { 0: 'a', 1: 'b', length: 2 };
+        let convertedArray = Array.from(arrayLike);
+        convertedArray.push('c');
+        console.log('Converted array-like after push:', convertedArray);
+
+        let referenceArray = [];
+        let sharedObject = { value: 10 };
+
+        referenceArray.push(sharedObject);
+        referenceArray.push(sharedObject);
+
+        sharedObject.value = 99;
+
+        console.log('Array with same object reference twice:', referenceArray);
+
+        let uniqueArray = [];
+        let originalObject = { value: 10 };
+
+        uniqueArray.push({ ...originalObject });
+        uniqueArray.push({ ...originalObject });
+
+        originalObject.value = 99;
+        console.log('Array with cloned objects (safe):', uniqueArray);
+
+        // ============================================================
+        // SECTION 8: Performance Considerations
+        // ============================================================
+        console.log('\n=== PERFORMANCE CONSIDERATIONS ===');
+        console.log('• push() is O(1) - constant time, very fast');
+        console.log('• Does not require re-indexing other elements');
+        console.log('• Most efficient way to add to the end of an array');
+        console.log('• Preferred over arr[arr.length] = value for readability');
+
+        // ============================================================
+        // SECTION 9: Interactive Demo (DOM)
+        // ============================================================
+        const resultDiv = document.getElementById('divResult');
+        if (resultDiv) {
+            resultDiv.innerHTML = `
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <i class="bi bi-info-circle me-2"></i>Array.push() Demonstration
+                    </div>
+                    <div class="card-body">
+                        <div class="array-visual mb-3">
+                            <strong>Original Array:</strong> ["red", "yellow"]<br>
+                            <strong>After push("blue"):</strong> ["red", "yellow", "blue"]<br>
+                            <strong>After push("white", "black"):</strong> ["red", "yellow", "blue", "white", "black"]<br>
+                            <strong>Return value (new length):</strong> 5
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <i class="bi bi-lightbulb me-2"></i>
+                            <strong>💡 What is push()?</strong><br>
+                            <code>push()</code> adds one or more elements to the <strong>end</strong> of an array, 
+                            increases the array length, and returns the new length.
+                        </div>
+                        
+                        <h5 class="mt-3">Quick Reference</h5>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead class="table-dark">
+                                    <tr><th>Property</th><th>Description</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Syntax</td><td><code>array.push(element1, element2, ..., elementN)</code></td></tr>
+                                    <tr><td>Return Value</td><td>The new length of the array after adding elements</td></tr>
+                                    <tr><td>Modifies Original?</td><td><span class="badge bg-warning">✅ Yes - mutates the array</span></td></tr>
+                                    <tr><td>Changes Length</td><td><span class="badge bg-warning">✅ Yes - increases by number of elements added</span></td></tr>
+                                    <tr><td>Time Complexity</td><td><span class="badge bg-success">O(1)</span> - constant time</td></tr>
+                                    <tr><td>Use Case</td><td>Stack operations (LIFO), dynamic array building, logging</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="alert alert-success mt-3">
+                            <i class="bi bi-check-circle-fill me-2"></i>
+                            <strong>✅ Best Practices:</strong>
+                            <ul class="mb-0 mt-2">
+                                <li>Use <code>push()</code> when you need to add elements to the end of an array</li>
+                                <li>Combine with <code>pop()</code> for stack (LIFO) data structures</li>
+                                <li>Store the return value if you need to track array length after push</li>
+                                <li>Use <code>push()</code> instead of <code>array[array.length] = value</code> for better readability</li>
+                                <li>For immutable operations, use <code>concat()</code> or spread operator (<code>[...array, newItem]</code>)</li>
+                                <li>Clone objects before pushing if you need to avoid shared references</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="alert alert-warning">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            <strong>⚠️ Common Pitfalls:</strong>
+                            <ul class="mb-0 mt-2">
+                                <li><code>push()</code> returns the new <strong>length</strong>, not the array itself (prevents chaining)</li>
+                                <li>Modifies the original array - use <code>concat()</code> or spread if you need to preserve the original</li>
+                                <li>Pushing the same object reference multiple times creates multiple references to the same object</li>
+                                <li>Does not work directly on array-like objects without conversion</li>
+                                <li>Can cause performance issues if used in tight loops with large arrays and frequent reallocations</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-success text-white">
+                        <i class="bi bi-stack me-2"></i>Interactive Stack Demo (LIFO)
+                    </div>
+                    <div class="card-body">
+                        <div class="demo-box" id="stackDisplay">Stack: [] (empty)</div>
+                        <div class="row g-2 mt-3">
+                            <div class="col-md-5">
+                                <input type="text" id="pushValue" class="form-control" placeholder="Enter value to push" value="Item">
+                            </div>
+                            <div class="col-md-7">
+                                <div class="d-flex gap-2">
+                                    <button id="pushBtn" class="btn btn-primary flex-grow-1">
+                                        <i class="bi bi-plus-circle me-1"></i>Push
+                                    </button>
+                                    <button id="popBtn" class="btn btn-warning flex-grow-1">
+                                        <i class="bi bi-dash-circle me-1"></i>Pop
+                                    </button>
+                                    <button id="clearStackBtn" class="btn btn-danger flex-grow-1">
+                                        <i class="bi bi-trash me-1"></i>Clear
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="alert alert-info mt-3 mb-0">
+                            <small><i class="bi bi-info-circle me-1"></i> Try adding multiple items and see how push() adds them to the end. Use pop() to remove from the end (LIFO behavior).</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card shadow-sm">
+                    <div class="card-header bg-dark text-white">
+                        <i class="bi bi-code-square me-2"></i>Quick Examples
+                    </div>
+                    <div class="card-body">
+                        <div class="code-block">
+                            // Add single element<br>
+                            let arr = [1, 2];<br>
+                            arr.push(3);           // arr = [1, 2, 3]<br><br>
+                            
+                            // Add multiple elements<br>
+                            arr.push(4, 5, 6);      // arr = [1, 2, 3, 4, 5, 6]<br><br>
+                            
+                            // Get new length<br>
+                            let newLength = arr.push(7);  // newLength = 7<br><br>
+                            
+                            // Add from another array (spread)<br>
+                            let more = [8, 9];<br>
+                            arr.push(...more);      // arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // ============================================================
+            // SECTION 10: Interactive Stack Demo Implementation
+            // ============================================================
+            let stackDemo = [];
+            const stackDisplay = document.getElementById('stackDisplay');
+
+            function updateStackDisplay() {
+                if (stackDisplay) {
+                    const displayString = stackDemo.length === 0
+                        ? 'Stack: [] (empty)'
+                        : `Stack: [${stackDemo.join(', ')}] (length: ${stackDemo.length})`;
+                    stackDisplay.innerHTML = displayString;
+                }
+            }
+
+            const pushInput = document.getElementById('pushValue');
+            const pushBtn = document.getElementById('pushBtn');
+
+            if (pushBtn) {
+                pushBtn.addEventListener('click', () => {
+                    let value = pushInput ? pushInput.value.trim() : "Item";
+                    if (value === "") {
+                        value = "Item";
+                    }
+                    const newLength = stackDemo.push(value);
+                    updateStackDisplay();
+                    console.log(`Pushed: "${value}" | New length: ${newLength} | Stack:`, stackDemo);
+
+                    if (pushInput) pushInput.value = "";
+                    if (pushInput) pushInput.focus();
+                });
+            }
+
+            const popBtn = document.getElementById('popBtn');
+            if (popBtn) {
+                popBtn.addEventListener('click', () => {
+                    if (stackDemo.length === 0) {
+                        alert('Stack is empty! Nothing to pop.');
+                        return;
+                    }
+                    const popped = stackDemo.pop();
+                    updateStackDisplay();
+                    console.log(`Popped: "${popped}" | Remaining length: ${stackDemo.length} | Stack:`, stackDemo);
+                });
+            }
+
+            const clearBtn = document.getElementById('clearStackBtn');
+            if (clearBtn) {
+                clearBtn.addEventListener('click', () => {
+                    stackDemo = [];
+                    updateStackDisplay();
+                    console.log('Stack cleared');
+                });
+            }
+
+            updateStackDisplay();
+
+            if (pushInput) {
+                pushInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' && pushBtn) {
+                        pushBtn.click();
+                    }
+                });
+            }
+        }
+
+        // ============================================================
+        // SECTION 11: Additional Examples
+        // ============================================================
+        console.log('\n=== ADDITIONAL EXAMPLES ===');
+
+        let todoItems = [];
+
+        function addTodo(text) {
+            todoItems.push({ id: Date.now(), text, completed: false });
+            console.log(`Todo added: "${text}" | Total: ${todoItems.length}`);
+        }
+
+        addTodo("Learn JavaScript");
+        addTodo("Master array methods");
+        addTodo("Build a project");
+        console.log('Todo list:', todoItems);
+
+        const immutableAdd = (arr, ...items) => [...arr, ...items];
+
+        let originalList = [1, 2, 3];
+        let newList = immutableAdd(originalList, 4, 5, 6);
+
+        console.log('Immutable addition with spread:', {
+            original: originalList,
+            new: newList
+        });
+
+        let sourceArray = ['a', 'b', 'c'];
+        let destinationArray = ['x', 'y'];
+
+        destinationArray.push(...sourceArray);
+        console.log('Batch push with spread:', destinationArray);
+
+        // ============================================================
+        // FINAL SUMMARY
+        // ============================================================
+        console.log('\n=== push() COMPLETE SUMMARY ===');
+        console.log('✓ Adds elements to the END of an array');
+        console.log('✓ Returns the NEW length of the array');
+        console.log('✓ Mutates the original array');
+        console.log('✓ Increases length by number of elements added');
+        console.log('✓ O(1) time complexity - very efficient');
+        console.log('✓ Perfect for stack (LIFO) operations with pop()');
+        console.log('✓ Can add multiple elements at once');
+        console.log('✓ Works with any data type (mixed types allowed)');
+        console.log('✓ Use concat() or spread for immutable operations');
+    </script>
+</body>
+
+</html>

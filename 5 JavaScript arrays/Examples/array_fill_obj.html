@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array.fill() - Reference vs Value Behavior</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional: Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-light">
+    <div class="container py-4">
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1 class="display-5 fw-bold text-primary border-bottom pb-2">
+                    <i class="bi bi-arrow-repeat me-2"></i>Array.fill()
+                </h1>
+                <p class="lead text-secondary">Understanding reference vs value behavior when filling arrays</p>
+            </div>
+        </div>
+
+        <!-- Result Card -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <i class="bi bi-info-circle me-2"></i>Key Takeaways
+                    </div>
+                    <div class="card-body" id="result">
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Documentation Cards -->
+        <div class="row g-4">
+            <!-- Section 1: Primitives -->
+            <div class="col-md-6">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        <i class="bi bi-check-circle-fill me-2"></i>Primitives (Safe)
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">fill() with Numbers, Strings, Booleans</h5>
+                        <p class="card-text text-secondary">Primitives are copied by value - each element gets its own
+                            independent copy.</p>
+                        <div class="alert alert-info small">
+                            <i class="bi bi-lightbulb me-2"></i>
+                            <strong>Example:</strong> <code>new Array(10).fill(0)</code> creates 10 independent zeros
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Objects - Pitfall -->
+            <div class="col-md-6">
+                <div class="card h-100 shadow-sm border-danger">
+                    <div class="card-header bg-danger text-white">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>Objects - CRITICAL PITFALL
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">fill() with Objects Creates Shared References</h5>
+                        <p class="card-text text-secondary">All elements reference the <strong>same object</strong> in
+                            memory. Modifying one affects all!</p>
+                        <div class="alert alert-warning small">
+                            <i class="bi bi-bug me-2"></i>
+                            <strong>Common Bug:</strong> <code>new Array(3).fill({type: 'student'})</code> creates
+                            shared references
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Solution Pattern 1 -->
+            <div class="col-md-6">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-header bg-info text-white">
+                        <i class="bi bi-tools me-2"></i>Solution Pattern 1
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">fill(null).map() → Unique Objects</h5>
+                        <p class="card-text text-secondary">Fill with null (primitive) first, then map to create unique
+                            object instances.</p>
+                        <pre class="bg-dark text-light p-3 rounded small">new Array(3).fill(null).map(() => ({
+    type: 'student'
+}));</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: Solution Pattern 2 -->
+            <div class="col-md-6">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-header bg-info text-white">
+                        <i class="bi bi-stars me-2"></i>Solution Pattern 2 (Preferred)
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Array.from() - Cleaner Pattern</h5>
+                        <p class="card-text text-secondary">Single-pass creation without intermediate array. More
+                            readable and concise.</p>
+                        <pre class="bg-dark text-light p-3 rounded small">Array.from({ length: 10 }, () => ({
+    type: 'student'
+}));</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 5: forEach Context -->
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-secondary text-white">
+                        <i class="bi bi-code-square me-2"></i>Additional Context
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">forEach() - Iterating Arrays</h5>
+                        <p class="card-text text-secondary">Complementary method for iterating through array elements
+                            after creation.</p>
+                        <pre class="bg-dark text-light p-3 rounded small">let fruits = ['Apple', 'Banana'];
+fruits.forEach((item, index) => {
+    console.log(`Index ${index}: ${item}`);
+});</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Console Output Section -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-dark text-white">
+                        <i class="bi bi-terminal me-2"></i>Console Output
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-secondary">
+                            <i class="bi bi-info-circle me-2"></i>
+                            <strong>Check the browser console (F12)</strong> to see detailed output of all array
+                            examples.
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="border rounded p-3 bg-light">
+                                    <h6><i class="bi bi-database me-2"></i>Simple Array (10 zeros)</h6>
+                                    <div class="console-output small" id="simpleArrayDisplay"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="border rounded p-3 bg-light">
+                                    <h6><i class="bi bi-database me-2"></i>String Array (partial fill)</h6>
+                                    <div class="console-output small" id="stringArrayDisplay"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="border rounded p-3 bg-light">
+                                    <h6><i class="bi bi-share me-2"></i>Object Reference Array (BUG)</h6>
+                                    <div class="console-output small" id="objectRefDisplay"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="border rounded p-3 bg-light">
+                                    <h6><i class="bi bi-check-circle me-2 text-success"></i>Unique Object Array (FIX)
+                                    </h6>
+                                    <div class="console-output small" id="objectUniqueDisplay"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparison Table -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <i class="bi bi-table me-2"></i>Quick Reference
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Pattern</th>
+                                        <th>Behavior</th>
+                                        <th>Use Case</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>fill(primitive)</code></td>
+                                        <td><span class="badge bg-success">Safe</span> - Independent copies</td>
+                                        <td>Numbers, strings, booleans</td>
+                                    </tr>
+                                    <tr class="table-warning">
+                                        <td><code>fill(object)</code></td>
+                                        <td><span class="badge bg-danger">DANGER</span> - Shared references</td>
+                                        <td><strong>AVOID</strong> - Causes bugs</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>fill(null).map()</code></td>
+                                        <td><span class="badge bg-info">Works</span> - Unique objects</td>
+                                        <td>Creates intermediate array</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>Array.from({length}, fn)</code></td>
+                                        <td><span class="badge bg-success">Recommended</span> - Clean & efficient</td>
+                                        <td>Preferred pattern for unique objects</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="row mt-4">
+            <div class="col-12">
+                <hr>
+                <p class="text-center text-secondary small">
+                    <i class="bi bi-braces"></i> JavaScript Array Methods Demo |
+                    Open console (F12) for detailed logs
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Bootstrap JS Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // ============================================================
+        // SECTION 1: Basic Array.fill() with Primitive Values
+        // ============================================================
+        // Array.fill() works correctly with primitives (numbers, strings, booleans)
+        // because primitives are copied by value, not by reference.
+
+        // Initialize an array of 10 elements, all filled with the number 0
+        // new Array(10) creates a sparse array with length 10 but no elements
+        // .fill(0) populates all indices with the primitive value 0
+        let simpleArray = new Array(10).fill(0);
+        console.log('Simple array (10 zeros):', simpleArray);
+        // Output: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+        // Display in DOM
+        const simpleDisplay = document.getElementById('simpleArrayDisplay');
+        if (simpleDisplay) {
+            simpleDisplay.innerHTML = `[${simpleArray.join(', ')}]`;
+        }
+
+        // ============================================================
+        // SECTION 2: fill() with Start and End Parameters
+        // ============================================================
+        // Initialize an array of 10 elements, each containing an empty string
+        let stringArray = new Array(10).fill('');
+
+        // Fill the array with the string 'test' starting from index 3 (inclusive)
+        // up to the end of the array (exclusive). The end parameter is optional.
+        // SYNTAX: array.fill(value, startIndex, endIndex)
+        // - startIndex: index to begin filling (default 0)
+        // - endIndex: stop before this index (default array.length)
+        stringArray.fill('test', 3, stringArray.length);
+        console.log('String array with partial fill:', stringArray);
+        // Output: ['', '', '', 'test', 'test', 'test', 'test', 'test', 'test', 'test']
+        // Indices 0-2 remain as empty strings, indices 3-9 become 'test'
+
+        // Display in DOM
+        const stringDisplay = document.getElementById('stringArrayDisplay');
+        if (stringDisplay) {
+            stringDisplay.innerHTML = `[${stringArray.map(s => s === '' ? '""' : `"${s}"`).join(', ')}]`;
+        }
+
+        // ============================================================
+        // SECTION 3: CRITICAL PITFALL - fill() with Object References
+        // ============================================================
+        // When using fill() with objects, every array element receives a REFERENCE
+        // to the SAME object instance. Modifying one element affects all.
+
+        let objectRefArray = new Array(3).fill({
+            'type': 'student'
+        });
+        console.log('Object reference array (same object):', objectRefArray);
+        // Output: [{type: 'student'}, {type: 'student'}, {type: 'student'}]
+        // But all three entries point to the exact same object in memory
+
+        // Modifying the first element's property actually modifies the shared object
+        objectRefArray[0].type = 'teacher';
+        console.log('After modifying first element - ALL elements changed:', objectRefArray);
+        // Output: [{type: 'teacher'}, {type: 'teacher'}, {type: 'teacher'}]
+        // This is a common bug when developers assume fill() creates independent copies
+
+        // Display in DOM
+        const objectRefDisplay = document.getElementById('objectRefDisplay');
+        if (objectRefDisplay) {
+            objectRefDisplay.innerHTML = `<span class="text-danger">⚠️ All three elements share the same object!</span><br>`;
+            objectRefDisplay.innerHTML += `[${objectRefArray.map(obj => `{type: "${obj.type}"}`).join(', ')}]`;
+        }
+
+        // ============================================================
+        // SECTION 4: SOLUTION - Creating Unique Object Instances
+        // ============================================================
+        // Pattern 1: fill with null, then map to create unique objects
+        // .fill(null) fills with a primitive, then .map() creates a new object
+        // for each iteration, ensuring unique references
+
+        let objectUniqueArray = new Array(3).fill(null).map(() => ({
+            'type': 'student'
+        }));
+        console.log('Unique object array:', objectUniqueArray);
+        // Output: [{type: 'student'}, {type: 'student'}, {type: 'student'}]
+        // Each element is a distinct object instance
+
+        // Modifying only the first element - other elements remain unchanged
+        objectUniqueArray[0].type = 'teacher';
+        console.log('After modifying first element - only first changed:', objectUniqueArray);
+        // Output: [{type: 'teacher'}, {type: 'student'}, {type: 'student'}]
+        // Demonstrates independent objects
+
+        // Display in DOM
+        const objectUniqueDisplay = document.getElementById('objectUniqueDisplay');
+        if (objectUniqueDisplay) {
+            objectUniqueDisplay.innerHTML = `<span class="text-success">✓ Each element is an independent object</span><br>`;
+            objectUniqueDisplay.innerHTML += `[${objectUniqueArray.map(obj => `{type: "${obj.type}"}`).join(', ')}]`;
+        }
+
+        // ============================================================
+        // SECTION 5: ALTERNATIVE PATTERN - Array.from()
+        // ============================================================
+        // Array.from() provides a cleaner, more concise way to create arrays
+        // with unique object instances in a single pass
+
+        // Array.from(arrayLike, mapFunction)
+        // - First argument: an object with a length property
+        // - Second argument: a mapping function called for each element
+
+        let objectUniqueAlternateArray = Array.from({
+            length: 10
+        }, () => ({
+            'type': 'student'
+        }));
+        console.log('Alternative pattern with Array.from():', objectUniqueAlternateArray);
+        // This is often preferred over fill().map() for better readability
+        // and because it avoids creating an intermediate array
+
+        // ============================================================
+        // SECTION 6: ADDITIONAL CONTEXT - forEach() Usage
+        // ============================================================
+        // Demonstrating forEach iteration as a complement to array creation patterns
+
+        let fruits = ['Apple', 'Banana'];
+
+        // forEach iterates over array elements with three parameters:
+        // - item: the current element value
+        // - index: the current element's index position
+        // - array: the original array being traversed (rarely needed)
+        fruits.forEach(function (item, index, array) {
+            console.log(`forEach - Index ${index}: ${item}`);
+        });
+
+        // Modern alternative using arrow functions (ES6+)
+        // fruits.forEach((item, index) => console.log(`Index ${index}: ${item}`));
+
+        // ============================================================
+        // Display results in the DOM for demonstration
+        // ============================================================
+        const resultElement = document.getElementById('result');
+        if (resultElement) {
+            resultElement.innerHTML = `
+                <div class="d-flex align-items-start">
+                    <div class="flex-shrink-0">
+                        <i class="bi bi-info-circle-fill text-primary fs-3 me-3"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <strong class="fs-5">Check the browser console (F12) for detailed output.</strong>
+                        <hr class="my-2">
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <h6><i class="bi bi-check-circle-fill text-success"></i> Safe: Primitives</h6>
+                                <p class="small text-secondary mb-0"><code>fill()</code> with numbers, strings, booleans = copy by value</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6><i class="bi bi-exclamation-triangle-fill text-danger"></i> Dangerous: Objects</h6>
+                                <p class="small text-secondary mb-0"><code>fill()</code> with objects = all elements reference the SAME object</p>
+                            </div>
+                            <div class="col-md-6 mt-2">
+                                <h6><i class="bi bi-tools"></i> Solution 1</h6>
+                                <p class="small text-secondary mb-0"><code>fill(null).map(() => ({}))</code> - creates intermediate array</p>
+                            </div>
+                            <div class="col-md-6 mt-2">
+                                <h6><i class="bi bi-stars text-info"></i> Solution 2 (Recommended)</h6>
+                                <p class="small text-secondary mb-0"><code>Array.from({length}, () => ({}))</code> - cleaner, single pass</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Add Bootstrap tooltips initialization (optional)
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    </script>
+</body>
+
+</html>

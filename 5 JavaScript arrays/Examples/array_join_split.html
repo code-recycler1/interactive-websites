@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array.join() and String.split() - Converting Between Arrays and Strings</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-light">
+    <div class="container py-4">
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1 class="display-5 fw-bold text-primary border-bottom pb-2">
+                    <i class="bi bi-arrow-left-right me-2"></i>Array.join() and String.split()
+                </h1>
+                <p class="lead text-secondary">Converting between arrays and strings - complementary operations</p>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div id="divResult"></div>
+
+        <!-- Interactive Demo Card -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <i class="bi bi-puzzle me-2"></i>Interactive Demo
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-4">
+                            <!-- Join Section -->
+                            <div class="col-md-6">
+                                <div class="border rounded p-3 bg-light h-100">
+                                    <h5><i class="bi bi-arrow-right-circle text-primary me-2"></i>Array.join()</h5>
+                                    <hr>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">Array (comma-separated):</label>
+                                        <input type="text" id="arrayInput" class="form-control" value="10,20,30,40,50">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">Separator for join():</label>
+                                        <input type="text" id="joinSeparator" class="form-control" value=", ">
+                                    </div>
+                                    <button id="joinBtn" class="btn btn-primary w-100">
+                                        <i class="bi bi-link me-2"></i>Join → String
+                                    </button>
+                                    <div class="result-display mt-3" id="joinResult">
+                                        <i class="bi bi-info-circle me-2"></i>Click the button to see result
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Split Section -->
+                            <div class="col-md-6">
+                                <div class="border rounded p-3 bg-light h-100">
+                                    <h5><i class="bi bi-arrow-left-circle text-primary me-2"></i>String.split()</h5>
+                                    <hr>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">String to split:</label>
+                                        <input type="text" id="splitString" class="form-control"
+                                            value="Aap,Noot,Mies,Teun,Zus,Jet">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">Separator for split():</label>
+                                        <input type="text" id="splitSeparator" class="form-control" value=",">
+                                    </div>
+                                    <button id="splitBtn" class="btn btn-success w-100">
+                                        <i class="bi bi-scissors me-2"></i>Split → Array
+                                    </button>
+                                    <div class="result-display mt-3" id="splitResult">
+                                        <i class="bi bi-info-circle me-2"></i>Click the button to see result
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Reference Card -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-dark text-white">
+                        <i class="bi bi-table me-2"></i>Quick Reference
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead class="table-dark">
+                                    <tr class="bg-primary text-white">
+                                        <th>Method</th>
+                                        <th>Syntax</th>
+                                        <th>Description</th>
+                                        <th>Example</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>join()</code></td>
+                                        <td><code>array.join(separator)</code></td>
+                                        <td>Converts array to string</td>
+                                        <td><code>[1,2,3].join('-')</code> → "1-2-3"</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>split()</code></td>
+                                        <td><code>string.split(separator, limit)</code></td>
+                                        <td>Converts string to array</td>
+                                        <td><code>"a,b,c".split(',')</code> → ["a","b","c"]</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="alert alert-info mt-3">
+                            <i class="bi bi-lightbulb me-2 fs-5"></i>
+                            <strong>💡 Key Takeaways:</strong><br>
+                            <ul class="mb-0 mt-2">
+                                <li><code>join()</code> is the inverse of <code>split()</code> (with matching
+                                    separators)</li>
+                                <li>Default separator for <code>join()</code> is comma (,)</li>
+                                <li><code>split()</code> with empty string creates character array</li>
+                                <li><code>join()</code> is optimized for performance - use instead of manual
+                                    concatenation</li>
+                                <li>Numbers become strings when using <code>split()</code> - be aware of type conversion
+                                </li>
+                                <li><code>null</code> and <code>undefined</code> become empty strings in join()</li>
+                            </ul>
+                        </div>
+
+                        <div class="alert alert-warning">
+                            <i class="bi bi-exclamation-triangle me-2 fs-5"></i>
+                            <strong>⚠️ Common Pitfalls:</strong><br>
+                            <ul class="mb-0 mt-2">
+                                <li>Split always returns strings - numbers, booleans become strings</li>
+                                <li>Empty array join returns empty string, not null</li>
+                                <li>Split with empty string on empty string returns [""], not []</li>
+                                <li>Separators within data need escaping or different delimiter</li>
+                                <li>Regex separators can have unexpected behavior with special characters</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Examples Card -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-secondary text-white">
+                        <i class="bi bi-code-square me-2"></i>Example Outputs (Console)
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="border rounded p-3 bg-light">
+                                    <h6><i class="bi bi-link me-2 text-primary"></i>join() Examples</h6>
+                                    <div class="code-block mb-2">
+                                        <code>myArray.join()       // "10,20,30,40,50"</code><br>
+                                        <code>myArray.join("*")     // "10*20*30*40*50"</code><br>
+                                        <code>myArray.join(" ")     // "10 20 30 40 50"</code><br>
+                                        <code>myArray.join("")      // "1020304050"</code>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="border rounded p-3 bg-light">
+                                    <h6><i class="bi bi-scissors me-2 text-success"></i>split() Examples</h6>
+                                    <div class="code-block mb-2">
+                                        <code>"a,b,c".split(",")           // ["a","b","c"]</code><br>
+                                        <code>"a b c".split(" ")           // ["a","b","c"]</code><br>
+                                        <code>"apple,banana,orange".split(",", 2)  // ["apple","banana"]</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Practical Use Cases Card -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-info text-white">
+                        <i class="bi bi-briefcase me-2"></i>Practical Use Cases
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <div class="text-center p-3 border rounded bg-light h-100">
+                                    <i class="bi bi-file-spreadsheet fs-1 text-primary"></i>
+                                    <h6 class="mt-2">CSV Processing</h6>
+                                    <small class="text-secondary">Parse and modify CSV data</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="text-center p-3 border rounded bg-light h-100">
+                                    <i class="bi bi-link-45deg fs-1 text-primary"></i>
+                                    <h6 class="mt-2">URL Query Strings</h6>
+                                    <small class="text-secondary">Build query parameters</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="text-center p-3 border rounded bg-light h-100">
+                                    <i class="bi bi-list-check fs-1 text-primary"></i>
+                                    <h6 class="mt-2">Formatting Lists</h6>
+                                    <small class="text-secondary">Create readable output</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="text-center p-3 border rounded bg-light h-100">
+                                    <i class="bi bi-slug fs-1 text-primary"></i>
+                                    <h6 class="mt-2">URL Slugs</h6>
+                                    <small class="text-secondary">Convert titles to slugs</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Console Info Footer -->
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-secondary text-center">
+                    <i class="bi bi-console me-2"></i>
+                    <strong>Check the browser console (F12)</strong> for detailed output of all examples including:
+                    join/split variations, edge cases, performance notes, and advanced patterns.
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="row mt-3">
+            <div class="col-12">
+                <hr>
+                <p class="text-center text-secondary small">
+                    <i class="bi bi-braces"></i> JavaScript Array Methods Demo |
+                    <i class="bi bi-console"></i> Console (F12) contains all examples |
+                    <i class="bi bi-arrow-left-right"></i> join() and split() are complementary
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Bootstrap JS Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // ============================================================
+        // SECTION 1: Array.join() - Converting Arrays to Strings
+        // ============================================================
+        let myArray = [10, 20, 30, 40, 50];
+
+        console.log('1. Default join (comma):', myArray.join());
+        console.log('2. Join with asterisk separator:', myArray.join("*"));
+        console.log('\n--- ADDITIONAL join() EXAMPLES ---');
+        console.log('3. Join with space:', myArray.join(" "));
+        console.log('4. Join with empty string:', myArray.join(""));
+        console.log('5. Join with hyphen:', myArray.join("-"));
+
+        let mixedArray = ['Hello', 'World', 42, true, null];
+        console.log('6. Mixed array join:', mixedArray.join(" | "));
+
+        // ============================================================
+        // SECTION 2: String.split() - Converting Strings to Arrays
+        // ============================================================
+        let myText = "Aap,Noot,Mies,Teun,Zus,Jet";
+        let splitResult = myText.split(",");
+        console.log('\n7. Split by comma:', splitResult);
+
+        console.log('\n--- ADDITIONAL split() EXAMPLES ---');
+        let sentence = "The quick brown fox jumps over the lazy dog";
+        console.log('8. Split by space:', sentence.split(" "));
+
+        let word = "JavaScript";
+        console.log('9. Split by empty string:', word.split(""));
+
+        let data = "apple,banana,orange,grape,mango";
+        console.log('10. Split with limit 3:', data.split(",", 3));
+
+        let csvData = "John,Doe,25,New York";
+        console.log('11. Split by comma:', csvData.split(","));
+
+        // ============================================================
+        // SECTION 3: PRACTICAL USE CASES
+        // ============================================================
+        let fruits = ['Apple', 'Banana', 'Orange', 'Mango'];
+        let formattedList = fruits.join(', ');
+        console.log('\n--- PRACTICAL EXAMPLES ---');
+        console.log('Formatted fruit list:', formattedList);
+
+        let params = ['q=javascript', 'page=2', 'sort=desc'];
+        let queryString = '?' + params.join('&');
+        console.log('URL query string:', queryString);
+
+        let csvLine = "John,Doe,25,john@example.com";
+        let userData = csvLine.split(',');
+        console.log('Parsed CSV:', userData);
+        userData[2] = '26';
+        let updatedCSV = userData.join(',');
+        console.log('Updated CSV:', updatedCSV);
+
+        let title = "JavaScript Array Methods Guide";
+        let slug = title.toLowerCase().split(' ').join('-');
+        console.log('URL slug:', slug);
+
+        // ============================================================
+        // SECTION 4: EDGE CASES AND BEHAVIOR
+        // ============================================================
+        console.log('\n--- EDGE CASES ---');
+        let emptyArray = [];
+        console.log('Empty array join:', emptyArray.join(','));
+
+        let withNull = [1, null, 3, undefined, 5];
+        console.log('Array with null/undefined join:', withNull.join('-'));
+
+        let nested = [1, [2, 3], 4];
+        console.log('Nested array join:', nested.join(','));
+
+        let emptyString = "";
+        console.log('Split empty string:', emptyString.split(','));
+
+        let noSeparator = "Hello World";
+        console.log('Separator not found:', noSeparator.split(','));
+
+        let textWithDelimiters = "apple,banana;orange|grape";
+        let regexSplit = textWithDelimiters.split(/[,;|]/);
+        console.log('Split by multiple delimiters:', regexSplit);
+
+        // ============================================================
+        // SECTION 5: PERFORMANCE AND BEST PRACTICES
+        // ============================================================
+        console.log('\n--- PERFORMANCE NOTE ---');
+        console.log('Array.join() is optimized and faster than manual concatenation:');
+        console.log('  ✅ Good: array.join(",")');
+        console.log('  ❌ Bad: let str = ""; array.forEach(item => str += item + ",");');
+
+        // ============================================================
+        // SECTION 6: REVERSE OPERATIONS (join + split)
+        // ============================================================
+        console.log('\n--- INVERSE OPERATIONS ---');
+        let originalArray = [10, 20, 30, 40, 50];
+        let joinedString = originalArray.join('|');
+        let splitArray = joinedString.split('|');
+        console.log('Original array:', originalArray);
+        console.log('After join("|"):', joinedString);
+        console.log('After split("|"):', splitArray);
+        console.log('Array equality (type-sensitive):', JSON.stringify(originalArray) === JSON.stringify(splitArray));
+
+        console.log('\n⚠️ Type conversion warning:');
+        console.log('Original types:', originalArray.map(item => typeof item));
+        console.log('After split types:', splitArray.map(item => typeof item));
+
+        // ============================================================
+        // SECTION 7: ADVANCED PATTERNS
+        // ============================================================
+        let menuItems = ['Home', 'About', 'Services', 'Contact'];
+        let htmlList = `<ul><li>${menuItems.join('</li><li>')}</li></ul>`;
+        console.log('\n--- ADVANCED PATTERNS ---');
+        console.log('Generated HTML:', htmlList);
+
+        let csvHeader = "name,age,city";
+        let csvRow = "John Doe,30,New York";
+        let headers = csvHeader.split(',');
+        let values = csvRow.split(',');
+        let userObject = {};
+        headers.forEach((header, index) => {
+            userObject[header] = values[index];
+        });
+        console.log('CSV to object:', userObject);
+
+        function safeCSVParse(line) {
+            return line.split(',').map(field => field.trim().replace(/^"|"$/g, ''));
+        }
+        let csvWithQuotes = '"John Doe","30","New York"';
+        console.log('Safe CSV parse:', safeCSVParse(csvWithQuotes));
+
+        // ============================================================
+        // SECTION 8: INTERACTIVE DEMO (DOM)
+        // ============================================================
+        const resultDiv = document.getElementById('divResult');
+        if (resultDiv) {
+            // Interactive demo is already in the DOM structure above
+            // Just need to wire up the event listeners
+            const joinBtn = document.getElementById('joinBtn');
+            const splitBtn = document.getElementById('splitBtn');
+
+            if (joinBtn) {
+                joinBtn.addEventListener('click', () => {
+                    const arrayInput = document.getElementById('arrayInput').value;
+                    const separator = document.getElementById('joinSeparator').value;
+                    const array = arrayInput.split(',').map(item => item.trim());
+                    const result = array.join(separator);
+                    const joinResultDiv = document.getElementById('joinResult');
+                    if (joinResultDiv) {
+                        joinResultDiv.innerHTML = `<strong>Result:</strong> "${result}"<br>
+                        <small>Type: ${typeof result}</small>`;
+                    }
+                });
+            }
+
+            if (splitBtn) {
+                splitBtn.addEventListener('click', () => {
+                    const stringInput = document.getElementById('splitString').value;
+                    const separator = document.getElementById('splitSeparator').value;
+                    const result = stringInput.split(separator);
+                    const splitResultDiv = document.getElementById('splitResult');
+                    if (splitResultDiv) {
+                        splitResultDiv.innerHTML = `<strong>Result:</strong> [${result.map(item => `"${item}"`).join(', ')}]<br>
+                        <small>Array length: ${result.length} | Type: array</small>`;
+                    }
+                });
+            }
+
+            // Trigger initial demos
+            if (joinBtn) joinBtn.click();
+            if (splitBtn) splitBtn.click();
+        }
+
+        // ============================================================
+        // SUMMARY
+        // ============================================================
+        console.log('\n=== SUMMARY ===');
+        console.log('✓ join() converts arrays to strings');
+        console.log('✓ split() converts strings to arrays');
+        console.log('✓ Default separator for join() is comma');
+        console.log('✓ join() and split() are complementary operations');
+        console.log('✓ Use join() for building strings from array data');
+        console.log('✓ Use split() for parsing delimited data (CSV, logs, etc.)');
+        console.log('✓ Be aware of type conversion when using split()');
+        console.log('✓ For complex data structures, consider JSON.stringify()/parse()');
+    </script>
+</body>
+
+</html>

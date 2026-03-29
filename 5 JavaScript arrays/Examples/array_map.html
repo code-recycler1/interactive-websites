@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array.map() - Transforming Arrays with Mapping Functions</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-light">
+    <div class="container py-4">
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1 class="display-5 fw-bold text-primary border-bottom pb-2">
+                    <i class="bi bi-arrow-repeat me-2"></i>Array.map() - Transforming Arrays
+                </h1>
+                <p class="lead text-secondary">Create a new array by applying a function to each element</p>
+            </div>
+        </div>
+
+        <!-- Result Box -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="result-box-custom" id="result">
+                    <i class="bi bi-calculator me-2"></i>Click "Transform Array" to see result
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div id="mainContent"></div>
+
+        <!-- Quick Reference Card -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <i class="bi bi-table me-2"></i>Quick Reference: Array.map()
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="comparison-card">
+                                    <h5 class="text-success">
+                                        <i class="bi bi-check-circle-fill me-2"></i>✅ Best Practices
+                                    </h5>
+                                    <ul class="mb-0">
+                                        <li>Use map() for data transformation</li>
+                                        <li>Keep callback functions pure (no side effects)</li>
+                                        <li>Always return a value from callback</li>
+                                        <li>Chain map() with filter/reduce for pipelines</li>
+                                        <li>Use arrow functions for concise syntax</li>
+                                        <li>Create new objects when transforming objects</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="comparison-card">
+                                    <h5 class="text-warning">
+                                        <i class="bi bi-exclamation-triangle-fill me-2"></i>⚠️ Common Mistakes
+                                    </h5>
+                                    <ul class="mb-0">
+                                        <li>Forgetting return statement → [undefined]</li>
+                                        <li>Mutating original array/objects</li>
+                                        <li>Using map() when forEach() is appropriate</li>
+                                        <li>Expecting async operations to work without Promise.all</li>
+                                        <li>Creating unnecessary intermediate arrays</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Method Comparison Table -->
+                        <div class="table-responsive mt-4">
+                            <table class="table table-bordered table-hover">
+                                <thead class="table-dark">
+                                    <tr class="bg-primary text-white">
+                                        <th>Method</th>
+                                        <th>Returns</th>
+                                        <th>Modifies Original?</th>
+                                        <th>Use Case</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="table-primary">
+                                        <td><code>map()</code></td>
+                                        <td><span class="badge bg-success">New array (same length)</span></td>
+                                        <td><span class="badge bg-secondary">❌ No</span></td>
+                                        <td>Transform each element</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>forEach()</code></td>
+                                        <td><span class="badge bg-secondary">undefined</span></td>
+                                        <td><span class="badge bg-secondary">❌ No (but can side-effect)</span></td>
+                                        <td>Execute function for each element</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>filter()</code></td>
+                                        <td><span class="badge bg-success">New array (filtered)</span></td>
+                                        <td><span class="badge bg-secondary">❌ No</span></td>
+                                        <td>Select subset of elements</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>reduce()</code></td>
+                                        <td><span class="badge bg-info">Single value</span></td>
+                                        <td><span class="badge bg-secondary">❌ No</span></td>
+                                        <td>Accumulate to single value</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="alert alert-info mt-3">
+                            <i class="bi bi-lightbulb me-2 fs-5"></i>
+                            <strong>💡 Key Takeaways:</strong><br>
+                            <ul class="mb-0 mt-2">
+                                <li>map() returns a <strong>new array</strong> - always</li>
+                                <li>Original array remains <strong>unchanged</strong></li>
+                                <li>Callback receives: <code>currentValue, index, array</code></li>
+                                <li>Use <strong>arrow functions</strong> for concise transformations:
+                                    <code>arr.map(x => x * 2)</code>
+                                </li>
+                                <li>Chain map with other methods for powerful data pipelines</li>
+                                <li>Be careful with <strong>object references</strong> - create new objects to avoid
+                                    mutations</li>
+                            </ul>
+                        </div>
+
+                        <div class="alert alert-warning">
+                            <i class="bi bi-exclamation-triangle me-2 fs-5"></i>
+                            <strong>⚠️ Critical Warnings:</strong><br>
+                            <ul class="mb-0 mt-2">
+                                <li><strong>Always return a value</strong> from the callback, otherwise you get
+                                    [undefined]</li>
+                                <li>map() does <strong>NOT work with async callbacks</strong> - use Promise.all()
+                                    instead</li>
+                                <li>Sparse arrays preserve holes - <strong>avoid sparse arrays</strong></li>
+                                <li>Modifying objects inside map mutates the original array - <strong>create
+                                        copies</strong> instead</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Common Patterns Card -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-secondary text-white">
+                        <i class="bi bi-grid-3x3-gap-fill me-2"></i>Common map() Patterns
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="border rounded p-3 bg-light h-100">
+                                    <h6><i class="bi bi-arrow-right-circle text-primary me-2"></i>Arrow Function</h6>
+                                    <div class="code-block mb-2">
+                                        <code>numbers.map(x => x * 2)</code>
+                                    </div>
+                                    <small class="text-secondary">Most concise syntax</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="border rounded p-3 bg-light h-100">
+                                    <h6><i class="bi bi-person-badge text-primary me-2"></i>Extract Properties</h6>
+                                    <div class="code-block mb-2">
+                                        <code>users.map(user => user.name)</code>
+                                    </div>
+                                    <small class="text-secondary">Get array of specific properties</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="border rounded p-3 bg-light h-100">
+                                    <h6><i class="bi bi-calculator-fill text-primary me-2"></i>Transform Objects</h6>
+                                    <div class="code-block mb-2">
+                                        <code>users.map(user => ({...user, active: true}))</code>
+                                    </div>
+                                    <small class="text-secondary">Create new objects with spread</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Demo Card -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        <i class="bi bi-sliders2 me-2"></i>Interactive Transformation Demo
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Array (comma-separated):</label>
+                            <input type="text" id="demoArray" class="form-control" value="65,44,12,4">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Transformation (JavaScript expression using
+                                'x'):</label>
+                            <input type="text" id="demoTransform" class="form-control" value="x * 10">
+                            <small class="text-secondary">Examples: x * 2, x ** 2, x + 100, x / 2</small>
+                        </div>
+                        <button id="applyTransform" class="btn btn-primary w-100">
+                            <i class="bi bi-play-fill me-2"></i>Apply map()
+                        </button>
+                        <div class="demo-box mt-3" id="demoResult">
+                            <i class="bi bi-info-circle me-2"></i>Click the button to see result
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Console Info Footer -->
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-secondary text-center">
+                    <i class="bi bi-console me-2"></i>
+                    <strong>Check the browser console (F12)</strong> for detailed output including:
+                    map() callback parameters, method chaining examples, edge cases, and performance notes.
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="row mt-3">
+            <div class="col-12">
+                <hr>
+                <p class="text-center text-secondary small">
+                    <i class="bi bi-braces"></i> JavaScript Array Methods Demo |
+                    <i class="bi bi-console"></i> Console (F12) contains all examples |
+                    <i class="bi bi-arrow-repeat"></i> map() creates a new array without modifying the original
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // ============================================================
+        // SECTION 1: Basic map() Usage
+        // ============================================================
+        let numbers = [65, 44, 12, 4];
+
+        function multiplyByTen(num) {
+            return num * 10;
+        }
+
+        let newArray = numbers.map(multiplyByTen);
+
+        console.log('=== BASIC map() DEMONSTRATION ===');
+        console.log('Original array:', numbers);
+        console.log('Transformed array (×10):', newArray);
+        console.log('Original array unchanged:', numbers);
+
+        // Update DOM with result
+        const resultElement = document.getElementById("result");
+        if (resultElement) {
+            resultElement.innerHTML = `
+                <i class="bi bi-check-circle-fill me-2"></i>
+                <strong>Transformation Result:</strong><br>
+                Original: [${numbers.join(', ')}]<br>
+                After map(x → x × 10): [${newArray.join(', ')}]
+            `;
+        }
+
+        // ============================================================
+        // SECTION 2: map() Callback Parameters
+        // ============================================================
+        console.log('\n=== map() CALLBACK PARAMETERS ===');
+
+        let fruits = ['apple', 'banana', 'orange'];
+
+        let formattedFruits = fruits.map((fruit, index, array) => {
+            console.log(`Processing index ${index}: "${fruit}" from array: [${array}]`);
+            return `${index + 1}. ${fruit.toUpperCase()}`;
+        });
+        console.log('Formatted fruits:', formattedFruits);
+
+        // ============================================================
+        // SECTION 3: Common map() Patterns
+        // ============================================================
+        console.log('\n=== COMMON map() PATTERNS ===');
+
+        let numbers2 = [1, 2, 3, 4, 5];
+        let doubled = numbers2.map(num => num * 2);
+        console.log('Doubled (arrow function):', doubled);
+
+        let users = [
+            { id: 1, name: 'Alice', age: 30 },
+            { id: 2, name: 'Bob', age: 25 },
+            { id: 3, name: 'Charlie', age: 35 }
+        ];
+
+        let userNames = users.map(user => user.name);
+        console.log('User names:', userNames);
+
+        let userIds = users.map(user => user.id);
+        console.log('User IDs:', userIds);
+
+        let userGreetings = users.map(user => ({
+            ...user,
+            greeting: `Hello, I'm ${user.name} and I'm ${user.age} years old`
+        }));
+        console.log('Users with greetings:', userGreetings);
+
+        let prices = [19.99, 5.49, 3.75, 12.99];
+        let formattedPrices = prices.map(price => `$${price.toFixed(2)}`);
+        console.log('Formatted prices:', formattedPrices);
+
+        let temperaturesCelsius = [0, 20, 30, 100];
+        let temperaturesFahrenheit = temperaturesCelsius.map(c => (c * 9 / 5) + 32);
+        console.log('Celsius to Fahrenheit:', temperaturesFahrenheit);
+
+        // ============================================================
+        // SECTION 4: map() vs forEach()
+        // ============================================================
+        console.log('\n=== map() vs forEach() COMPARISON ===');
+
+        let numbers3 = [1, 2, 3];
+        let mapResult = numbers3.map(x => x * 2);
+        console.log('map() returns:', mapResult);
+
+        let forEachResult = numbers3.forEach(x => x * 2);
+        console.log('forEach() returns:', forEachResult);
+
+        // ============================================================
+        // SECTION 5: Chaining map()
+        // ============================================================
+        console.log('\n=== METHOD CHAINING WITH map() ===');
+
+        let numbers4 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+        let chainedResult = numbers4
+            .filter(n => n % 2 === 0)
+            .map(n => n * 10)
+            .map(n => `$${n}`);
+
+        console.log('Chained operations result:', chainedResult);
+
+        let cartItems = [
+            { name: 'Laptop', price: 999, quantity: 1 },
+            { name: 'Mouse', price: 25, quantity: 2 },
+            { name: 'Keyboard', price: 75, quantity: 1 }
+        ];
+
+        let total = cartItems
+            .map(item => item.price * item.quantity)
+            .reduce((sum, itemTotal) => sum + itemTotal, 0);
+
+        console.log('Cart total:', total);
+
+        // ============================================================
+        // SECTION 6: Edge Cases and Gotchas
+        // ============================================================
+        console.log('\n=== EDGE CASES AND GOTCHAS ===');
+
+        let sparseArray = [1, , 3, , 5];
+        console.log('Sparse array:', sparseArray);
+        let mappedSparse = sparseArray.map(x => x * 2);
+        console.log('Mapped sparse array:', mappedSparse);
+
+        let numbers5 = [1, 2, 3];
+        let badMap = numbers5.map(x => {
+            x * 2;
+        });
+        console.log('Map without return:', badMap);
+
+        let mixed = [1, '2', 3, '4'];
+        let coerced = mixed.map(x => x * 2);
+        console.log('Type coercion in map:', coerced);
+
+        let objects = [{ value: 1 }, { value: 2 }];
+        let mappedObjects = objects.map(obj => {
+            obj.value = obj.value * 10;
+            return obj;
+        });
+        console.log('Original objects modified:', objects);
+
+        let betterMap = objects.map(obj => ({ ...obj, value: obj.value * 10 }));
+        console.log('Better mapping (new objects):', betterMap);
+
+        // ============================================================
+        // SECTION 7: Performance Considerations
+        // ============================================================
+        console.log('\n=== PERFORMANCE NOTES ===');
+        console.log('• map() creates a new array - memory overhead for large arrays');
+        console.log('• For very large arrays (>100k), traditional for loops may be faster');
+        console.log('• Chaining multiple map() calls creates intermediate arrays');
+        console.log('• Use .reduce() instead of map().filter() if optimizing for speed');
+
+        // ============================================================
+        // SECTION 8: Advanced Patterns
+        // ============================================================
+        console.log('\n=== ADVANCED PATTERNS ===');
+
+        let multiplier = {
+            factor: 5,
+            multiply(num) {
+                return num * this.factor;
+            }
+        };
+
+        let numbers6 = [1, 2, 3, 4];
+        let multiplied = numbers6.map(multiplier.multiply, multiplier);
+        console.log('map with thisArg:', multiplied);
+
+        let stringNumbers = ['1', '2', '3', '4'];
+        let parsedNumbers = stringNumbers.map(Number);
+        console.log('String to number conversion:', parsedNumbers);
+
+        let withIndices = numbers6.map((num, idx) => ({
+            index: idx,
+            original: num,
+            transformed: num * 10
+        }));
+        console.log('With index metadata:', withIndices);
+
+        // ============================================================
+        // SECTION 9: Interactive Demo
+        // ============================================================
+        const applyBtn = document.getElementById('applyTransform');
+        if (applyBtn) {
+            applyBtn.addEventListener('click', () => {
+                const arrayInput = document.getElementById('demoArray').value;
+                const transformExpr = document.getElementById('demoTransform').value;
+
+                try {
+                    const array = arrayInput.split(',').map(x => parseFloat(x.trim()));
+                    if (array.some(isNaN)) {
+                        throw new Error('Invalid numbers in array');
+                    }
+
+                    const transformFn = new Function('x', `return ${transformExpr}`);
+                    const transformed = array.map(transformFn);
+
+                    const demoResultDiv = document.getElementById('demoResult');
+                    if (demoResultDiv) {
+                        demoResultDiv.innerHTML = `
+                            <strong>Original:</strong> [${array.join(', ')}]<br>
+                            <strong>Transformation:</strong> ${transformExpr}<br>
+                            <strong>Result:</strong> [${transformed.join(', ')}]
+                        `;
+                    }
+                } catch (error) {
+                    const demoResultDiv = document.getElementById('demoResult');
+                    if (demoResultDiv) {
+                        demoResultDiv.innerHTML = `<strong style="color: red;">Error:</strong> ${error.message}`;
+                    }
+                }
+            });
+        }
+
+        // ============================================================
+        // FINAL SUMMARY
+        // ============================================================
+        console.log('\n=== map() COMPLETE SUMMARY ===');
+        console.log('✓ Creates new array from existing array');
+        console.log('✓ Does not modify original array');
+        console.log('✓ Perfect for data transformation pipelines');
+        console.log('✓ Use with filter(), reduce(), and other methods for powerful operations');
+        console.log('✓ Always return a value from callback');
+        console.log('✓ Create new objects when mapping objects to avoid mutations');
+        console.log('✓ For async operations, use Promise.all() with map()');
+        console.log('✓ Prefer map() over forEach() when you need a transformed array');
+    </script>
+</body>
+
+</html>

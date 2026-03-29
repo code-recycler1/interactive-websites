@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array.reverse() - Reversing Array Order</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-light">
+    <div class="container py-4">
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1 class="display-5 fw-bold text-primary border-bottom pb-2">
+                    <i class="bi bi-arrow-left-right me-2"></i>Array.reverse() - Reverse Array Order
+                </h1>
+                <p class="lead text-secondary">Reverse the order of elements in an array in place</p>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div id="divResult"></div>
+
+        <!-- Console Info Footer -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="alert alert-secondary text-center">
+                    <i class="bi bi-console me-2"></i>
+                    <strong>Check the browser console (F12)</strong> for detailed output including:
+                    in-place mutation demonstration, non-mutating copy methods, practical use cases,
+                    edge cases, performance notes, and method chaining examples.
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="row mt-3">
+            <div class="col-12">
+                <hr>
+                <p class="text-center text-secondary small">
+                    <i class="bi bi-braces"></i> JavaScript Array Methods Demo |
+                    <i class="bi bi-console"></i> Console (F12) contains all examples |
+                    <i class="bi bi-arrow-left-right"></i> reverse() mutates the original array
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // ============================================================
+        // SECTION 1: Basic reverse() Usage
+        // ============================================================
+        let myArray = [10, 20, 30, 40, 50];
+
+        console.log('=== BASIC reverse() DEMONSTRATION ===');
+        console.log('1. Original array:', myArray);
+
+        const returnedValue = myArray.reverse();
+
+        console.log('2. After reverse():', myArray);
+        console.log('3. Return value (reference to same array):', returnedValue);
+        console.log('4. Same array reference?', myArray === returnedValue);
+
+        // ============================================================
+        // SECTION 2: Understanding In-Place Mutation
+        // ============================================================
+        console.log('\n=== IN-PLACE MUTATION EXPLANATION ===');
+
+        let originalColors = ["red", "green", "blue", "yellow"];
+        console.log('Before reverse:', originalColors);
+
+        let reversedColors = originalColors.reverse();
+
+        console.log('After reverse (original):', originalColors);
+        console.log('After reverse (returned):', reversedColors);
+        console.log('They are the same array:', originalColors === reversedColors);
+
+        // ============================================================
+        // SECTION 3: Creating a Reversed Copy (Without Mutation)
+        // ============================================================
+        console.log('\n=== CREATING REVERSED COPY (NON-MUTATING) ===');
+
+        let originalNumbers = [1, 2, 3, 4, 5];
+
+        let copyAndReverse1 = [...originalNumbers].reverse();
+        console.log('Method 1 (spread + reverse):');
+        console.log('  Original:', originalNumbers);
+        console.log('  Reversed copy:', copyAndReverse1);
+
+        let copyAndReverse2 = originalNumbers.slice().reverse();
+        console.log('Method 2 (slice + reverse):');
+        console.log('  Original:', originalNumbers);
+        console.log('  Reversed copy:', copyAndReverse2);
+
+        let copyAndReverse3 = Array.from(originalNumbers).reverse();
+        console.log('Method 3 (Array.from + reverse):');
+        console.log('  Original:', originalNumbers);
+        console.log('  Reversed copy:', copyAndReverse3);
+
+        // ============================================================
+        // SECTION 4: Practical Use Cases
+        // ============================================================
+        console.log('\n=== PRACTICAL USE CASES ===');
+
+        let messages = [
+            { time: "10:00", text: "Good morning!" },
+            { time: "10:15", text: "Meeting at 11" },
+            { time: "10:30", text: "Running late" },
+            { time: "11:00", text: "In meeting now" }
+        ];
+
+        let recentFirst = [...messages].reverse();
+        console.log('Messages (most recent first):', recentFirst);
+
+        let word = "JavaScript";
+        let reversedWord = word.split('').reverse().join('');
+        console.log(`Original word: "${word}"`);
+        console.log(`Reversed word: "${reversedWord}"`);
+
+        let stack = [];
+        stack.push("Task 1", "Task 2", "Task 3", "Task 4");
+        let displayStack = [...stack].reverse();
+        console.log('Stack (top to bottom):', displayStack);
+
+        let tasks = ["Write code", "Test", "Deploy", "Monitor"];
+        console.log('\nProcessing tasks in reverse order:');
+
+        [...tasks].reverse().forEach((task, index) => {
+            console.log(`  ${index + 1}. ${task}`);
+        });
+
+        function isPalindrome(str) {
+            const cleaned = str.toLowerCase().replace(/[^a-z0-9]/g, '');
+            const reversed = cleaned.split('').reverse().join('');
+            return cleaned === reversed;
+        }
+
+        console.log('\nPalindrome checker:');
+        console.log('"racecar" is palindrome?', isPalindrome("racecar"));
+        console.log('"hello" is palindrome?', isPalindrome("hello"));
+        console.log('"A man a plan a canal Panama" is palindrome?',
+            isPalindrome("A man a plan a canal Panama"));
+
+        // ============================================================
+        // SECTION 5: reverse() with Different Data Types
+        // ============================================================
+        console.log('\n=== reverse() WITH DIFFERENT DATA TYPES ===');
+
+        let stringArray = ["apple", "banana", "cherry"];
+        stringArray.reverse();
+        console.log('Reversed strings:', stringArray);
+
+        let numberArray = [1.5, -2, 3.14, 0, -5];
+        numberArray.reverse();
+        console.log('Reversed numbers:', numberArray);
+
+        let boolArray = [true, false, true, false];
+        boolArray.reverse();
+        console.log('Reversed booleans:', boolArray);
+
+        let mixedArray = [1, "two", true, { name: "object" }, null];
+        mixedArray.reverse();
+        console.log('Reversed mixed types:', mixedArray);
+
+        // ============================================================
+        // SECTION 6: Edge Cases and Gotchas
+        // ============================================================
+        console.log('\n=== EDGE CASES AND GOTCHAS ===');
+
+        let emptyArray = [];
+        console.log('Empty array before reverse:', emptyArray);
+        emptyArray.reverse();
+        console.log('Empty array after reverse:', emptyArray);
+
+        let singleElement = [42];
+        singleElement.reverse();
+        console.log('Single element array after reverse:', singleElement);
+
+        let sparseArray = [1, , 3, , 5];
+        console.log('Sparse array before reverse:', sparseArray);
+        sparseArray.reverse();
+        console.log('Sparse array after reverse:', sparseArray);
+
+        let arrayLike = { 0: 'a', 1: 'b', 2: 'c', length: 3 };
+        let converted = Array.from(arrayLike);
+        converted.reverse();
+        console.log('Array-like converted and reversed:', converted);
+
+        // ============================================================
+        // SECTION 7: Method Chaining with reverse()
+        // ============================================================
+        console.log('\n=== METHOD CHAINING WITH reverse() ===');
+
+        let result = [1, 2, 3, 4, 5]
+            .reverse()
+            .map(x => x * 2)
+            .filter(x => x > 5);
+        console.log('Chained operations result:', result);
+
+        let sentence = "Hello World";
+        let reversedSentence = sentence.split('').reverse().join('');
+        console.log('Reversed sentence:', reversedSentence);
+
+        let unsorted = [3, 1, 4, 1, 5, 9, 2];
+        let descending = [...unsorted].sort((a, b) => a - b).reverse();
+        console.log('Sorted descending:', descending);
+
+        // ============================================================
+        // SECTION 8: Performance Considerations
+        // ============================================================
+        console.log('\n=== PERFORMANCE CONSIDERATIONS ===');
+        console.log('• reverse() modifies array in place - O(n) time complexity');
+        console.log('• No additional memory allocation (in-place operation)');
+        console.log('• Very efficient - swaps elements in place');
+        console.log('• Creating a copy then reversing uses O(n) extra memory');
+        console.log('• For large arrays (>100k), prefer in-place reverse if mutation is acceptable');
+
+        // ============================================================
+        // SECTION 9: Visual Representation and Interactive Demo (DOM)
+        // ============================================================
+        const resultDiv = document.getElementById('divResult');
+        if (resultDiv) {
+            resultDiv.innerHTML = `
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <i class="bi bi-info-circle me-2"></i>Array.reverse() Demonstration
+                    </div>
+                    <div class="card-body">
+                        <div class="array-visual mb-3">
+                            <strong>Original Array:</strong> [10, 20, 30, 40, 50]<br>
+                            <span class="arrow-indicator">↓ reverse() ↓</span><br>
+                            <strong>After reverse():</strong> [50, 40, 30, 20, 10]
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <i class="bi bi-lightbulb me-2"></i>
+                            <strong>💡 What is reverse()?</strong><br>
+                            <code>reverse()</code> reverses the order of elements in an array <strong>in place</strong>.
+                            The first element becomes the last, and the last becomes the first.
+                        </div>
+                        
+                        <h5 class="mt-3">Quick Reference</h5>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead class="table-dark">
+                                    <tr><th>Property</th><th>Description</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Syntax</td><td><code>array.reverse()</code></td></tr>
+                                    <tr><td>Return Value</td><td>The reversed array (same reference as original)</td></tr>
+                                    <tr><td>Modifies Original?</td><td><span class="badge bg-warning">✅ Yes - mutates the array</span></td></tr>
+                                    <tr><td>Time Complexity</td><td><span class="badge bg-success">O(n)</span> - swaps elements in place</td></tr>
+                                    <tr><td>Space Complexity</td><td><span class="badge bg-success">O(1)</span> - no extra array created</td></tr>
+                                    <tr><td>Use Case</td><td>Reverse order, palindrome checking, descending sort</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="alert alert-success mt-3">
+                            <i class="bi bi-check-circle-fill me-2"></i>
+                            <strong>✅ Best Practices:</strong>
+                            <ul class="mb-0 mt-2">
+                                <li>Use <code>reverse()</code> when you want to <strong>mutate</strong> the original array</li>
+                                <li>Create a copy (<code>[...array].reverse()</code>) when you need to <strong>preserve</strong> the original</li>
+                                <li>Chain <code>reverse()</code> with other methods for concise operations</li>
+                                <li>Use <code>toReversed()</code> (ES2023) for non-mutating reverse if supported</li>
+                                <li>Combine with <code>split()</code> and <code>join()</code> for string reversal</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="alert alert-warning">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            <strong>⚠️ Common Pitfalls:</strong>
+                            <ul class="mb-0 mt-2">
+                                <li><strong>Forgetting that reverse() mutates</strong> the original array</li>
+                                <li>Expecting <code>reverse()</code> to return a new array - it returns the same array reference</li>
+                                <li>Using <code>reverse()</code> on array-like objects without converting to array first</li>
+                                <li>Assuming holes in sparse arrays are filled - they are preserved and moved</li>
+                                <li>Not creating a copy when the original array is needed elsewhere</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        <i class="bi bi-sliders2 me-2"></i>Interactive Reverse Demo
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Enter array (comma-separated):</label>
+                            <input type="text" id="demoArray" class="form-control" value="10,20,30,40,50">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Operation:</label>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <button id="reverseMutateBtn" class="btn btn-primary">
+                                    <i class="bi bi-arrow-repeat me-1"></i>Mutate Original (reverse in place)
+                                </button>
+                                <button id="reverseCopyBtn" class="btn btn-info">
+                                    <i class="bi bi-copy me-1"></i>Create Reversed Copy
+                                </button>
+                                <button id="resetDemoBtn" class="btn btn-secondary">
+                                    <i class="bi bi-arrow-counterclockwise me-1"></i>Reset Array
+                                </button>
+                            </div>
+                        </div>
+                        <div class="demo-box mt-3" id="demoResult">
+                            <i class="bi bi-info-circle me-2"></i>Click a button to see result
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // ============================================================
+            // SECTION 10: Interactive Demo Implementation
+            // ============================================================
+            let currentDemoArray = [10, 20, 30, 40, 50];
+            const demoInput = document.getElementById('demoArray');
+            const demoResult = document.getElementById('demoResult');
+
+            function updateDemoDisplay() {
+                if (demoResult) {
+                    demoResult.innerHTML = `
+                        <strong>Current Array:</strong> [${currentDemoArray.join(', ')}]<br>
+                        <strong>Length:</strong> ${currentDemoArray.length}
+                    `;
+                }
+                if (demoInput) {
+                    demoInput.value = currentDemoArray.join(',');
+                }
+            }
+
+            function parseArrayFromInput() {
+                if (!demoInput) return null;
+                const input = demoInput.value;
+                const parsed = input.split(',').map(item => {
+                    const trimmed = item.trim();
+                    const num = parseFloat(trimmed);
+                    return isNaN(num) ? trimmed : num;
+                });
+                return parsed;
+            }
+
+            const mutateBtn = document.getElementById('reverseMutateBtn');
+            if (mutateBtn) {
+                mutateBtn.addEventListener('click', () => {
+                    const parsed = parseArrayFromInput();
+                    if (parsed && parsed.length > 0) {
+                        currentDemoArray = parsed;
+                        currentDemoArray.reverse();
+                        updateDemoDisplay();
+                        console.log('Mutated reverse:', currentDemoArray);
+                    } else {
+                        alert('Please enter a valid array');
+                    }
+                });
+            }
+
+            const copyBtn = document.getElementById('reverseCopyBtn');
+            if (copyBtn) {
+                copyBtn.addEventListener('click', () => {
+                    const parsed = parseArrayFromInput();
+                    if (parsed && parsed.length > 0) {
+                        const reversedCopy = [...parsed].reverse();
+                        if (demoResult) {
+                            demoResult.innerHTML = `
+                                <strong>Original Array:</strong> [${parsed.join(', ')}]<br>
+                                <strong>Reversed Copy:</strong> [${reversedCopy.join(', ')}]<br>
+                                <strong>Original Unchanged:</strong> ✓
+                            `;
+                        }
+                        console.log('Reversed copy (original preserved):', { original: parsed, reversed: reversedCopy });
+                    } else {
+                        alert('Please enter a valid array');
+                    }
+                });
+            }
+
+            const resetBtn = document.getElementById('resetDemoBtn');
+            if (resetBtn) {
+                resetBtn.addEventListener('click', () => {
+                    currentDemoArray = [10, 20, 30, 40, 50];
+                    updateDemoDisplay();
+                    console.log('Reset to:', currentDemoArray);
+                });
+            }
+
+            updateDemoDisplay();
+        }
+
+        // ============================================================
+        // SECTION 11: Additional Examples
+        // ============================================================
+        console.log('\n=== ADDITIONAL EXAMPLES ===');
+
+        let nested = [[1, 2], [3, 4], [5, 6]];
+        console.log('Original nested:', nested);
+        let reversedNested = [...nested].reverse();
+        console.log('Reversed nested (top level only):', reversedNested);
+
+        let ascending = [5, 2, 8, 1, 9];
+        let descendingOrder = [...ascending].sort((a, b) => a - b).reverse();
+        console.log('Descending order:', descendingOrder);
+
+        let products = [
+            { name: 'Laptop', price: 999 },
+            { name: 'Mouse', price: 25 },
+            { name: 'Keyboard', price: 75 }
+        ];
+        let reversedProducts = [...products].reverse();
+        console.log('Products reversed:', reversedProducts);
+
+        // ============================================================
+        // FINAL SUMMARY
+        // ============================================================
+        console.log('\n=== reverse() COMPLETE SUMMARY ===');
+        console.log('✓ Reverses array order in place');
+        console.log('✓ Returns the same array reference (for chaining)');
+        console.log('✓ Mutates the original array');
+        console.log('✓ O(n) time complexity, O(1) extra space');
+        console.log('✓ Use with spread operator for non-mutating reverse: [...arr].reverse()');
+        console.log('✓ Common uses: palindrome checking, descending sort, display order reversal');
+        console.log('✓ Combine with split() and join() for string reversal');
+        console.log('✓ For ES2023+, consider toReversed() for immutable reverse');
+    </script>
+</body>
+
+</html>

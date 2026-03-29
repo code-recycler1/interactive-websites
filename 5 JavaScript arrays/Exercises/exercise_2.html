@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript arrays - Exercise 2</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        .result-card {
+            min-height: 200px;
+        }
+
+        .name-tag {
+            display: inline-block;
+            background-color: #e9ecef;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            margin: 0.25rem;
+            font-family: monospace;
+        }
+
+        .name-tag-filtered {
+            background-color: #d4edda;
+            border-left: 3px solid #28a745;
+        }
+
+        .name-tag-removed {
+            background-color: #f8d7da;
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+    <div class="container mt-5">
+        <!-- Solution 1: Traditional Function -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm filter-demo">
+                    <div class="card-header bg-success text-white">
+                        <i class="bi bi-code-square me-2"></i>Solution 1: Traditional Function
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-3 text-secondary">Using <code>function()</code> declaration</h6>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="border rounded p-3 bg-light mb-3">
+                                    <strong><i class="bi bi-database me-2"></i>Original Array:</strong>
+                                    <div id="originalArray1" class="mt-2"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="border rounded p-3 bg-light mb-3">
+                                    <strong><i class="bi bi-funnel me-2"></i>Filtered Result (length > 5):</strong>
+                                    <div id="filteredResult1" class="mt-2"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Solution 2: Arrow Function -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm filter-demo">
+                    <div class="card-header bg-info text-white">
+                        <i class="bi bi-arrow-right-circle me-2"></i>Solution 2: Arrow Function (Challenge)
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-3 text-secondary">Using <code>() => {}</code> arrow syntax</h6>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="border rounded p-3 bg-light mb-3">
+                                    <strong><i class="bi bi-database me-2"></i>Original Array:</strong>
+                                    <div id="originalArray2" class="mt-2"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="border rounded p-3 bg-light mb-3">
+                                    <strong><i class="bi bi-funnel me-2"></i>Filtered Result (length > 5):</strong>
+                                    <div id="filteredResult2" class="mt-2"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bootstrap JS Bundle -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+        <script>
+            // ============================================================
+            // SOLUTION 1: Traditional Function
+            // ============================================================
+            let names = ['Ben', 'Mitchel', 'Cindy', 'Eva', 'Dave'];
+
+            // Traditional function declaration
+            function checkLength(name) {
+                return name.length > 5;  // Returns true/false for filter
+            }
+
+            // Apply filter
+            let filteredNames = names.filter(checkLength);
+
+            // Display results
+            function displayTraditionalResults() {
+                const originalDiv = document.getElementById('originalArray1');
+                const filteredDiv = document.getElementById('filteredResult1');
+
+                if (originalDiv) {
+                    originalDiv.innerHTML = names.map(name => `<span class="name-tag">${name}</span>`).join('');
+                }
+
+                if (filteredDiv) {
+                    if (filteredNames.length === 0) {
+                        filteredDiv.innerHTML = '<em class="text-secondary">No names longer than 5 characters</em>';
+                    } else {
+                        filteredDiv.innerHTML = filteredNames.map(name => `<span class="name-tag name-tag-filtered">${name} (${name.length})</span>`).join('');
+                    }
+                }
+            }
+
+            // ============================================================
+            // SOLUTION 2: Arrow Function (Challenge)
+            // ============================================================
+            let otherNames = ["Tom", "Jeffrey", "Helen", "Marie", "Luciano"];
+
+            // Arrow function with explicit return
+            const checkLengthArrow = (name) => {
+                return name.length > 5;
+            };
+
+            // Alternative: Implicit return (most concise)
+            // const filteredArrow = otherNames.filter(name => name.length > 5);
+            let filteredArrow = otherNames.filter(checkLengthArrow);
+
+            function displayArrowResults() {
+                const originalDiv = document.getElementById('originalArray2');
+                const filteredDiv = document.getElementById('filteredResult2');
+
+                if (originalDiv) {
+                    originalDiv.innerHTML = otherNames.map(name => `<span class="name-tag">${name}</span>`).join('');
+                }
+
+                if (filteredDiv) {
+                    if (filteredArrow.length === 0) {
+                        filteredDiv.innerHTML = '<em class="text-secondary">No names longer than 5 characters</em>';
+                    } else {
+                        filteredArrow.forEach(name => {
+                            if (name.length <= 5) {
+                                console.warn(`Warning: "${name}" has length ${name.length} but appeared in filtered results. Check your filter logic.`);
+                            }
+                        });
+                        filteredDiv.innerHTML = filteredArrow.map(name => `<span class="name-tag name-tag-filtered">${name} (${name.length})</span>`).join('');
+                    }
+                }
+            }
+
+            // Display initial results
+            displayTraditionalResults();
+            displayArrowResults();
+
+            // Console output for debugging
+            console.log('=== EXERCISE 2 RESULTS ===');
+            console.log('Solution 1 (Traditional):', filteredNames);
+            console.log('Solution 2 (Arrow):', filteredArrow);
+            console.log('Note: filter() should return a boolean (true/false), not the value itself');
+        </script>
+</body>
+
+</html>
