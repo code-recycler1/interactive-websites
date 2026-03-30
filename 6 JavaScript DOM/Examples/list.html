@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List</title>
+</head>
+
+<body>
+    <script>
+        // Step 1 — create the <ul> container element in memory
+        let ul = document.createElement('ul');
+
+        // Step 2 — append the <ul> to the page body immediately.
+        // It exists in the DOM now but is empty — no list items yet.
+        document.body.appendChild(ul);
+
+        // Step 3 — create the first <li> element and set its text content.
+        // innerHTML is used here — textContent would also work since
+        // the content is plain text with no HTML tags.
+        let li = document.createElement('li');
+        li.innerHTML = 'Apple';
+
+        // Step 4 — append the first <li> as a child of the <ul>.
+        // DOM structure so far: <ul><li>Apple</li></ul>
+        ul.appendChild(li);
+
+        // Step 5 — reuse the `li` variable for the second list item.
+        // The previous <li> is already attached to the DOM — reassigning
+        // the variable does not remove it. `li` now points to a new element.
+        li = document.createElement('li');
+        li.innerHTML = 'Pear';
+
+        // Step 6 — append the second <li> to the same <ul>.
+        // Final DOM structure: <ul><li>Apple</li><li>Pear</li></ul>
+        ul.appendChild(li);
+    </script>
+</body>
+
+</html>

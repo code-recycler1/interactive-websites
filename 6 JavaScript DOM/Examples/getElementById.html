@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>document.getElementById()</title>
+</head>
+
+<body>
+  <!-- A paragraph with an id so JavaScript can find and read it specifically.
+       The text content here is what will be retrieved by the script below. -->
+  <p id="subject">Interactive websites</p>
+
+  <script>
+    // getElementById() finds the single element with the matching id.
+    // .innerHTML reads everything inside that element's opening and closing tags —
+    // including any nested HTML tags if they were present.
+    // Here the content is plain text, so innerHTML and textContent would return
+    // the same result — but textContent is safer for reading plain text
+    // because it ignores any HTML tags and returns only the raw text.
+    let value = document.getElementById('subject').innerHTML;
+
+    // Log the retrieved value to the browser's developer console.
+    // This is a read-only operation — the page content is not modified.
+    console.log(`Value: ${value}`); // → "Value: Interactive websites"
+  </script>
+</body>
+
+</html>

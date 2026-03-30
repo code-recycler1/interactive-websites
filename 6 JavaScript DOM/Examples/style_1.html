@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Style 1</title>
+</head>
+
+<body>
+    <p id="p1">Hello World!</p>
+    <p id="p2">Hello World!</p>
+
+    <!-- ============================================================
+         INLINE EVENT HANDLER (Traditional/HTML Attribute Method)
+         ============================================================
+         The onclick attribute directly specifies the JavaScript function to call
+         when the button is clicked.
+         
+         Note: This is the older (HTML-centric) way of handling events.
+         - Function name must be defined in the global scope
+         - Mixes HTML with JavaScript (separation of concerns issue)
+         - Modern approach uses addEventListener() for better maintainability
+    -->
+    <button onclick="changeStyle()">Change Style</button>
+
+    <script>
+        /**
+         * CHANGE STYLE FUNCTION
+         * 
+         * This function modifies the CSS styling of the second paragraph (id="p2").
+         * It demonstrates direct DOM manipulation by changing inline styles.
+         * 
+         * Key concepts:
+         * - document.getElementById() selects elements by their ID
+         * - The style property accesses inline styles
+         * - CSS properties use camelCase in JavaScript (fontSize vs font-size)
+         * - Inline styles have the highest CSS specificity
+         */
+        function changeStyle() {
+            // ============================================================
+            // ACCESS AND MODIFY THE SECOND PARAGRAPH
+            // ============================================================
+            // Get reference to the second paragraph element by its ID
+            // document.getElementById() is the most efficient way to select by ID
+            const paragraph = document.getElementById("p2");
+
+            // Apply inline styles to the element
+            // CSS: color: darkred;
+            paragraph.style.color = "darkred";
+
+            // CSS: font-family: Verdana;
+            paragraph.style.fontFamily = "Verdana";
+
+            // CSS: font-size: 60pt;
+            paragraph.style.fontSize = "60pt";
+
+            // ============================================================
+            // ALTERNATIVE APPROACH (Commented for reference)
+            // ============================================================
+            // You can also chain property assignments or use cssText:
+            // paragraph.style.cssText = "color: darkred; font-family: Verdana; font-size: 60pt;";
+
+            // Or add a CSS class (better practice for complex styling):
+            // paragraph.classList.add('highlighted');
+            // Requires CSS: .highlighted { color: darkred; font-family: Verdana; font-size: 60pt; }
+        }
+
+        // ============================================================
+        // CONSOLE OUTPUT FOR DEBUGGING
+        // ============================================================
+        console.log('=== STYLE CHANGE DEMO INITIALIZED ===');
+        console.log('Click the "Change Style" button to apply styles to the second paragraph');
+        console.log('Note: Inline event handlers (onclick) are being used');
+    </script>
+</body>
+
+</html>

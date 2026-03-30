@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>document.getElementsByClassName() 1</title>
+</head>
+
+<body>
+  <!-- Three categories of vehicles, each paragraph tagged with a class.
+         Multiple elements can share the same class — that's the point of this exercise. -->
+  <p class="bicycle">No licence plate</p>
+  <p class="car">1 RDS-123, 1 AEF-389</p>
+  <p class="car">1 GTY-908</p>
+  <p class="truck">1 MSD-456</p>
+
+  <!-- Output container where the result will be displayed -->
+  <p id="result"></p>
+
+  <script>
+    // getElementsByClassName() returns an HTMLCollection — an array-like object
+    // containing ALL elements in the document that have the matching class name.
+    // Unlike getElementById() which always returns a single element,
+    // this always returns a collection, even if only one element matches.
+    let x = document.getElementsByClassName('car');
+
+    // Access the first matching element using index [0] — collections are zero-indexed,
+    // so [0] is the first <p class="car"> and [1] would be the second.
+    // .innerHTML reads the text content currently inside that element.
+    document.getElementById('result').innerHTML =
+      `The first car licence plate is: ${x[0].innerHTML}`;
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>document.getElementsByClassName() 2</title>
+    <style>
+        /* Any element with class "yellow" gets a yellow background.
+           This class is also used as the selector in getElementsByClassName() below —
+           the styling and the JavaScript targeting share the same class name. */
+        .yellow {
+            background-color: yellow;
+        }
+    </style>
+    <script>
+        // Wait for the full page to load before attaching any event listeners.
+        // This ensures all HTML elements exist in the DOM before the script
+        // tries to find them. Without this, getElementById('btnButton1')
+        // would return null because the button hasn't been parsed yet
+        // (the script is in the <head>, before the <body>).
+        window.addEventListener('load', () => {
+
+            document.getElementById('btnButton1').addEventListener('click', () => {
+
+                // getElementsByClassName() returns a live HTMLCollection of all
+                // elements currently carrying the 'yellow' class.
+                // The collection is array-like but not a true array —
+                // it has .length and integer indexes, but no array methods like .forEach().
+                const yellow = document.getElementsByClassName('yellow');
+
+                document.getElementById('divResult').innerHTML = ''; // Clear before appending
+
+                // Loop through every element in the collection using a standard for loop.
+                // .length gives the total number of matching elements.
+                for (let i = 0; i < yellow.length; i++) {
+                    // Append the inner content of each yellow element to the output div.
+                    document.getElementById('divResult').innerHTML +=
+                        yellow[i].innerHTML + '<br />';
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <h2>document.getElementsByClassName()</h2>
+    <!-- Only paragraphs with class "yellow" will be picked up by getElementsByClassName() -->
+    <p class="yellow">The first paragraph</p>
+    <p>The second paragraph</p>
+    <p class="yellow">The third paragraph</p>
+    <p>The fourth paragraph</p>
+    <button id="btnButton1">Which paragraphs are yellow?</button>
+    <!-- Output container where matching paragraph content will be listed -->
+    <div id="divResult"></div>
+</body>
+
+</html>

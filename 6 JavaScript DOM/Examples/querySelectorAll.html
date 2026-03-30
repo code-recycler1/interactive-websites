@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>document.querySelectorAll()</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div class="container">
+
+        <ul class="list-group py-2">
+            <!-- Emmet: li.list-group-item.upd-class{Plugin $}*5 -->
+            <li class="list-group-item upd-class">Plugin 1</li>
+            <li class="list-group-item upd-class">Plugin 2</li>
+            <li class="list-group-item upd-class">Plugin 3</li>
+            <li class="list-group-item upd-class">Plugin 4</li>
+            <li class="list-group-item upd-class">Plugin 5</li>
+        </ul>
+
+        <button id="btnUpdate" type="button" class="btn btn-secondary m-2">Update</button>
+    </div>
+
+    <script>
+        // ============================================================
+        // EVENT LISTENER SETUP
+        // ============================================================
+        // Add click event listener to the update button
+        // The 'update' function will be called when the button is clicked
+        // false = use bubbling phase (standard event propagation)
+        document.querySelector('#btnUpdate').addEventListener('click', update, false);
+
+        /**
+         * UPDATE FUNCTION - Main logic for updating the page
+         * 
+         * This function:
+         * 1. Selects all elements with class 'upd-class'
+         * 2. Appends " (updated)" to each element's text content
+         * 3. Changes the button styling from secondary to success
+         * 4. Disables the button to prevent multiple updates
+         * 5. Removes the event listener so subsequent clicks do nothing
+         */
+        function update() {
+            // ============================================================
+            // SELECT ALL ELEMENTS WITH THE TARGET CLASS
+            // ============================================================
+            // querySelectorAll() returns a static NodeList containing all elements
+            // that match the CSS selector '.upd-class'
+            // This is similar to getElementsByClassName() but returns a NodeList
+            // instead of an HTMLCollection, and supports more complex selectors
+            const demoClasses = document.querySelectorAll('.upd-class');
+
+            // ============================================================
+            // UPDATE EACH ELEMENT'S TEXT CONTENT
+            // ============================================================
+            // Iterate through each element in the NodeList using forEach
+            // For each element, append " (updated)" to its existing text content
+            // This demonstrates modifying multiple DOM elements in one operation
+            demoClasses.forEach(element => {
+                element.textContent += ' (updated)';
+            });
+
+            // ============================================================
+            // UPDATE BUTTON STYLES (METHOD 1 - classList API)
+            // ============================================================
+            // Get the classList of the button element
+            const list = document.querySelector('#btnUpdate').classList;
+
+            // Remove the 'btn-secondary' class (Bootstrap secondary styling)
+            list.remove('btn-secondary');
+
+            // Add 'btn-success' class (Bootstrap green success styling)
+            list.add('btn-success');
+
+            // Add 'disabled' class (Bootstrap disabled styling)
+            // This visually indicates the button cannot be clicked again
+            list.add('disabled');
+
+            // ============================================================
+            // ALTERNATIVE APPROACH (Commented out)
+            // ============================================================
+            // This is an alternative way to set classes using setAttribute()
+            // It replaces all existing classes with the new class string
+            // This approach is less flexible than using classList methods
+            // document.querySelector('#btnUpdate').setAttribute('class', 'btn btn-success m-2');
+
+            // ============================================================
+            // REMOVE EVENT LISTENER
+            // ============================================================
+            // Remove the click event listener to prevent further updates
+            // After this, clicking the button will do nothing
+            // This is a cleanup step to ensure the update only happens once
+            document.querySelector('#btnUpdate').removeEventListener('click', update, false);
+        }
+    </script>
+
+</body>
+
+</html>

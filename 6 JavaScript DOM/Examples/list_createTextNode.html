@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>document.createTextNode()</title>
+    <script>
+        window.addEventListener('load', () => {
+            document.getElementById('btnButton1').addEventListener('click', () => {
+
+                // Step 1 — create a new <p> element in memory.
+                // At this point it exists in JavaScript but is NOT yet in the DOM —
+                // it won't appear on the page until it is explicitly appended.
+                const newElement = document.createElement('p');
+                newElement.id = 'paragraph';
+
+                // Step 2 — read the current value from the text input field
+                const node = document.getElementById('txtElement').value;
+
+                // Step 3 — createTextNode() wraps the string in a DOM Text node.
+                // A Text node is the lowest-level building block of DOM content —
+                // it holds plain text with no HTML tags. It must be attached to
+                // an element to become part of the document.
+                const newNode = document.createTextNode(node);
+
+                // Step 4 — append the text node as a child of the new <p> element.
+                // The structure is now: <p id="paragraph">user input text</p>
+                // but it still only exists in memory, not in the page.
+                newElement.appendChild(newNode);
+
+                // Step 5 — append the new <p> element (with its text child) to the page.
+                // This is the crucial step that makes the new content visible to the user.
+                document.getElementById('divResult').appendChild(newElement);
+
+                // Logs the raw Text node object to the console
+                console.log(newNode);
+                // Logs the full <p> element (with its text node child) to the console
+                console.log(newElement);
+
+                // Display a message in the output div confirming the creation of the new node.
+                document.getElementById('divResult').innerHTML =
+                    `The node "${newNode.textContent}" has been created`;
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <h2>document.createTextNode</h2>
+    <p>Content of the text node</p>
+    <input type="text" id="txtElement" />
+    <button id="btnButton1">Create</button>
+    <p>(Use the Developer Tools to inspect the result)</p>
+    <div id="divResult"></div>
+</body>
+
+</html>

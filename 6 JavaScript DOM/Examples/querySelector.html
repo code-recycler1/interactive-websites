@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>document.querySelector()</title>
+</head>
+
+<body>
+    <!-- Two paragraphs sharing the same class.
+         querySelector() will only return the FIRST match —
+         the second paragraph is ignored entirely. -->
+    <p class="subject">Interactive websites</p>
+    <!-- A class does not have to be unique — but querySelector() only ever returns one element.
+         Use querySelectorAll() if you need all matching elements. -->
+    <p class="subject">Static websites</p>
+
+    <script>
+        // querySelector() accepts any valid CSS selector — class (.name),
+        // id (#name), tag (p), attribute ([type="text"]), or combinations.
+        // It searches the entire document and returns the FIRST matching element,
+        // or null if no match is found.
+        // ".vak" uses the CSS class selector syntax — the dot prefix means "class".
+        const value = document.querySelector('.subject').textContent;
+
+        // Logs the text content of the first matching element to the console.
+        // → "Interactive websites" (the second paragraph is never reached)
+        console.log(`Value: ${value}`);
+    </script>
+</body>
+
+</html>

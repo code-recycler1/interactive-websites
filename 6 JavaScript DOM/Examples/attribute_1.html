@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attribute 1</title>
+</head>
+
+<body>
+    <!-- Image element — the src attribute points to the initial photo.
+         The id allows JavaScript to find and modify this element. -->
+    <img id="image" src="img/htph.jpg">
+    <br>
+    <button id="btnChange" onclick="changePhoto()">Change photo</button>
+
+    <script>
+        // Cache the image element once — reused inside the function
+        const image = document.getElementById('image');
+
+        // Changes the image by overwriting the src attribute.
+        // The browser immediately requests and displays the new image file.
+        // Any valid file path or URL can be assigned to src — the swap is instant.
+        function changePhoto() {
+            image.src = 'img/htph.png';
+        }
+    </script>
+</body>
+
+</html>

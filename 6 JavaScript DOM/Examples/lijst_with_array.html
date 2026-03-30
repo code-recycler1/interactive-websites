@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List with array</title>
+</head>
+
+<body>
+    <!-- Container div where the list will be injected by JavaScript -->
+    <div id="fruit"></div>
+
+    <script>
+        // Source data — the items that will become list entries.
+        // Using const because this array is never reassigned.
+        const array = ['Apple', 'Pear', 'Kiwi', 'Banana'];
+
+        // Cache the container div — the <ul> will be appended inside it
+        const fruitDiv = document.getElementById('fruit');
+
+        // Create the <ul> element and append it to the container div
+        const ul = document.createElement('ul');
+        fruitDiv.appendChild(ul);
+
+        // Loop through every item in the array and create a <li> for each one.
+        for (let i = 0; i < array.length; i++) {
+            const li = document.createElement('li');
+
+            // Append the empty <li> to the <ul> first, then set its content.
+            ul.appendChild(li);
+
+            // Set the text content of the list item to the current array value.
+            li.textContent += array[i];
+        }
+    </script>
+</body>
+
+</html>

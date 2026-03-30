@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Style - document.getElementsByTagName()</title>
+  <script>
+    // ============================================================
+    // EVENT LISTENER SETUP WITH DOM READY HANDLING
+    // ============================================================
+    // Wait for the entire page to fully load before executing the script.
+    // This ensures all DOM elements exist before we try to access them.
+    // 
+    // The 'load' event fires when all resources (images, styles, etc.) are loaded.
+    // Alternative: DOMContentLoaded fires when HTML is parsed (faster, often preferred).
+    window.addEventListener("load", function () {
+
+      // ============================================================
+      // ATTACH CLICK EVENT TO THE BUTTON
+      // ============================================================
+      // Select the button by its ID and add a click event listener.
+      // When clicked, the inner function will execute to change all paragraph backgrounds.
+      document
+        .getElementById("btnKnop1")
+        .addEventListener("click", function () {
+
+          // ============================================================
+          // SELECT ALL PARAGRAPH ELEMENTS
+          // ============================================================
+          // getElementsByTagName() returns a LIVE HTMLCollection of all elements
+          // with the specified tag name ("p" for paragraphs).
+          // 
+          // Key characteristics:
+          // - Returns an HTMLCollection (NOT an array)
+          // - LIVE: Updates automatically when DOM changes
+          // - To iterate, you can use for loop or convert to array
+          const paragraphs = document.getElementsByTagName("p");
+
+          // ============================================================
+          // ITERATE THROUGH ALL PARAGRAPHS
+          // ============================================================
+          // Use a traditional for loop to iterate through the HTMLCollection.
+          // Note: HTMLCollection does NOT have a forEach() method (unlike NodeList).
+          // 
+          // Alternative approaches (commented below):
+          // - Array.from(paragraphs).forEach(...)  // Convert to array
+          // - for (let p of paragraphs) {...}       // For...of loop (works with iterables)
+          for (let i = 0; i < paragraphs.length; i++) {
+            // Apply green background color to each paragraph
+            // CSS property: background-color → JavaScript: backgroundColor
+            paragraphs[i].style.backgroundColor = "green";
+          }
+        });
+    });
+  </script>
+</head>
+
+<body>
+  <h2>document.getElementsByTagName()</h2>
+  <p>The first paragraph</p>
+  <p>The second paragraph</p>
+  <p>The third paragraph</p>
+  <p>The fourth paragraph</p>
+  <button id="btnKnop1">Make green!</button>
+</body>
+
+</html>

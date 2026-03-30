@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>InnerHTML - InnerText - TextContent</title>
+</head>
+
+<body>
+  <!-- Empty paragraphs — its content will be set entirely by JavaScript below -->
+  <p id="subject1"></p>
+  <p id="subject2"></p>
+  <p id="subject3"></p>
+
+  <script>
+    // .innerText, .textContent, and .innerHTML are all properties that can be used to read or modify the content of an element.
+    // .innerText returns the visible text content of an element, ignoring any hidden text or HTML tags.
+    // It also normalizes whitespace and may trigger a reflow to compute the visible text.
+    // .textContent returns the raw text content of an element, including hidden text and ignoring any HTML tags. 
+    // It does not trigger a reflow and is generally faster for reading plain text.
+    // .innerHTML returns the HTML content of an element as a string, including any nested HTML tags. 
+    // When setting .innerHTML, the string is parsed as HTML and can create new elements or modify the existing structure of the page.
+    document.getElementById('subject1').innerText = 'Static websites';
+    document.getElementById('subject2').textContent = 'Interactive websites';
+    document.getElementById('subject3').innerHTML = 'Introduction to <em>JavaScript</em> DOM';
+  </script>
+</body>
+
+</html>

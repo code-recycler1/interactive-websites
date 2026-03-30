@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Style 2</title>
+</head>
+
+<body>
+    <p id="p1">Hello World!</p>
+    <p id="p2">Hello World, good morning!!</p>
+    <button id="btnKnop">Change Style</button>
+
+    <script>
+        // ============================================================
+        // EVENT HANDLER SETUP - Traditional DOM Level 0 Event Handling
+        // ============================================================
+        // This assigns the onclick property of the button element directly.
+        // When the button is clicked, the stijlVeranderen function will execute.
+        // 
+        // Note: This is the older (DOM Level 0) way of handling events.
+        // Modern approach uses addEventListener() which allows multiple listeners.
+        document.getElementById('btnKnop').onclick = changeStyle;
+
+        /**
+         * CHANGE STYLE FUNCTION
+         * 
+         * This function modifies the CSS styling of the second paragraph (id="p2").
+         * It demonstrates direct DOM manipulation by changing inline styles.
+         * 
+         * Key concepts:
+         * - Inline styles take precedence over CSS classes
+         * - The style property accesses the element's inline styles
+         * - Properties use camelCase instead of kebab-case (backgroundColor vs background-color)
+         */
+        function changeStyle() {
+            // ============================================================
+            // ACCESS THE TARGET ELEMENT
+            // ============================================================
+            // Get reference to the second paragraph element by its ID
+            // document.getElementById() is the most efficient way to select an element by ID
+            const paragraph = document.getElementById("p2");
+
+            // ============================================================
+            // APPLY INLINE STYLES (Method 1 - Individual Property Assignment)
+            // ============================================================
+            // Each CSS property can be set individually using the style object
+            // CSS properties use camelCase: color, fontFamily, fontSize, backgroundColor, etc.
+
+            // Set text color to dark red
+            // CSS equivalent: color: darkred;
+            paragraph.style.color = "darkred";
+
+            // Set font family to Verdana
+            // CSS equivalent: font-family: Verdana;
+            paragraph.style.fontFamily = "Verdana";
+
+            // Set font size to 60 points
+            // CSS equivalent: font-size: 60pt;
+            paragraph.style.fontSize = "60pt";
+
+            // ============================================================
+            // ALTERNATIVE APPROACHES (Commented out for reference)
+            // ============================================================
+            // Method 2 - Set multiple styles with cssText (overwrites existing inline styles)
+            // paragraph.style.cssText = "color: darkred; font-family: Verdana; font-size: 60pt;";
+
+            // Method 3 - Use setAttribute (less common for styles)
+            // paragraph.setAttribute('style', 'color: darkred; font-family: Verdana; font-size: 60pt;');
+
+            // Method 4 - Add/remove CSS classes (best practice for complex styling)
+            // paragraph.classList.add('highlighted');
+            // This would require defining .highlighted in CSS first
+        }
+
+        // ============================================================
+        // ALTERNATIVE EVENT HANDLER (Commented out)
+        // ============================================================
+        // Modern approach using addEventListener (recommended for production)
+        // Benefits:
+        // - Allows multiple event listeners on the same element
+        // - Better separation of concerns
+        // - More control over event propagation
+
+        /*
+        document.getElementById('btnKnop').addEventListener('click', function() {
+            const paragraph = document.getElementById("p2");
+            paragraph.style.color = "darkred";
+            paragraph.style.fontFamily = "Verdana";
+            paragraph.style.fontSize = "60pt";
+        });
+        */
+
+        // ============================================================
+        // CONSOLE OUTPUT FOR DEBUGGING
+        // ============================================================
+        console.log('=== STYLE CHANGE DEMO INITIALIZED ===');
+        console.log('Click the "Change Style" button to apply styles to the second paragraph');
+        console.log('Initial styles:');
+        console.log('- Paragraph 1:', document.getElementById('p1').textContent);
+        console.log('- Paragraph 2:', document.getElementById('p2').textContent);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>document.getElementsByTagName() 2</title>
+</head>
+
+<body>
+  <!-- A div acting as a scoped container for the fruit list.
+       The id allows JavaScript to target this specific div,
+       so the tag search is limited to its contents only. -->
+  <div id="fruit">
+    <p>Apple</p>
+    <p>Pear</p>
+    <p>Kiwi</p>
+  </div>
+
+  <!-- Output container — a <p> outside the fruit div.
+       Because the tag search is scoped to the div, this paragraph
+       is NOT included in the collection, unlike the previous exercise. -->
+  <p id="result"></p>
+
+  <script>
+    // Step 1 — find the container div by its id.
+    // This gives us a reference to the div, not the whole document.
+    let x = document.getElementById('fruit');
+
+    // Step 2 — call getElementsByTagName() on the div, not on `document`.
+    // This scopes the search to only the paragraphs INSIDE the fruit div.
+    // The result paragraph outside the div is excluded entirely.
+    // y[0] → "Apple"
+    // y[1] → "Pear"
+    // y[2] → "Kiwi"
+    let y = x.getElementsByTagName('p');
+
+    // Retrieve the second item using index [1] — collections are zero-indexed
+    document.getElementById('result').innerHTML =
+      `The text of the second item is: ${y[1].innerHTML}`;
+  </script>
+</body>
+
+</html>

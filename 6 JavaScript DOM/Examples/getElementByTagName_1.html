@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>document.getElementsByTagName() 1</title>
+</head>
+
+<body>
+  <!-- Three plain paragraphs with no id or class — only their tag type
+       is used to select them, which is exactly what getElementsByTagName() does -->
+  <p>First item</p>
+  <p>Second item</p>
+  <p>Third item</p>
+
+  <!-- Output container — also a <p> tag, so it will be included in the collection -->
+  <p id="result"></p>
+
+  <script>
+    // getElementsByTagName() returns a live HTMLCollection of ALL elements
+    // in the document that match the given tag name — regardless of id or class.
+    // Here it collects every <p> element on the page, including the result paragraph.
+    let x = document.getElementsByTagName('p');
+
+    // The collection is zero-indexed:
+    // x[0] → "First item"
+    // x[1] → "Second item"
+    // x[2] → "Third item"
+    // x[3] → the result <p> itself (empty at this point)
+    document.getElementById('result').innerHTML =
+      `The text of the third p tag is: ${x[2].innerHTML}`;
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <title>Exercise 2 - Random Photo (No Repeat)</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">IW</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" target="_blank" href="https://www.w3schools.com/js/DEFAULT.asp">W3Schools
+                            JS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" target="_blank"
+                            href="https://developer.mozilla.org/en-US/docs/Web/JavaScript">MDN JS docs</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">Specific</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" target="_blank"
+                                    href="https://www.w3schools.com/js/js_random.asp">Stack #1</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main class="container">
+        <div class="row">
+            <div class="col">
+                <h1>Exercise 2 - Random Photo (No Repeat)</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        Random Photo
+                    </div>
+                    <div class="card-body text-center">
+                        <img src="img/1.jpg" id="photo" alt="Random photo" style="max-width: 100%; height: auto;">
+                        <br>
+                        <button id="randomBtn" class="btn btn-primary mt-2">Random Photo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        // ============================================================
+        // RANDOM PHOTO GENERATOR - NO REPEAT
+        // ============================================================
+
+        // Array of available image filenames
+        const images = ['1.jpg', '2.png', '3.jpg'];
+
+        // Track the last displayed image index
+        let lastIndex = -1;
+
+        // Get DOM elements
+        const imgElement = document.getElementById('photo');
+        const btnElement = document.getElementById('randomBtn');
+
+        /**
+         * Generates a random index different from the last displayed one
+         * @returns {number} Random index between 0 and images.length - 1
+         */
+        function getRandomDifferentIndex() {
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * images.length);
+            } while (newIndex === lastIndex);
+            return newIndex;
+        }
+
+        /**
+         * Updates the photo with a new random image
+         */
+        function updatePhoto() {
+            const newIndex = getRandomDifferentIndex();
+            const imagePath = 'img/' + images[newIndex];
+
+            imgElement.src = imagePath;
+            lastIndex = newIndex;
+
+            console.log('Displayed:', images[newIndex]);
+        }
+
+        // Add click event listener to button
+        btnElement.addEventListener('click', updatePhoto);
+
+        // Console output for debugging
+        console.log('=== EXERCISE 2 - INITIALIZED ===');
+        console.log('Available images:', images);
+        console.log('Click the button to show random photos (no repeats)');
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
