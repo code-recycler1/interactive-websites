@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>onkeydown 2</title>
+</head>
+
+<body>
+    <input type="text" id="myInput">
+    <p id="result"></p>
+
+    <script>
+        // Cache both elements once — reused in the handler
+        const myInput = document.getElementById('myInput');
+        const result = document.getElementById('result');
+
+        // 'keydown' fires the moment a key is pressed — BEFORE the character
+        // is added to the input field. This means .value always lags one
+        // character behind what is visually in the field.
+        // Example: type 'H', 'e', 'l', 'l', 'o'
+        // keydown on 'o' reads the value as 'Hell', not 'Hello' yet.
+        // Use the 'input' event if you need the fully updated value on every keystroke.
+        myInput.addEventListener('keydown', myFunction);
+
+        function myFunction() {
+            // Reads the input value at the moment keydown fires —
+            // the key currently being pressed is not yet included
+            result.innerHTML = myInput.value;
+        }
+    </script>
+</body>
+
+</html>

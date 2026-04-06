@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>onmouseout 1</title>
+</head>
+
+<body>
+    <!-- Output container — updated as the cursor moves over and away from the image -->
+    <div id="result"></div>
+    <!-- Inline onmouseover and onmouseout attributes -->
+    <img src="img/woofles.jpg" id="woofles" alt="Woofles" onmouseover="mouseOverFunction()"
+        onmouseout="mouseOutFunction()">
+
+    <script>
+        // Cache both elements once — reused in both handlers
+        const result = document.getElementById('result');
+        const woofles = document.getElementById('woofles');
+
+        // 'mouseover' fires when the cursor enters the element's bounding area.
+        // Also fires when moving between child elements within the same parent —
+        // use 'mouseenter' instead if that bubbling behaviour is unwanted.
+        function mouseOverFunction() {
+            result.innerHTML = 'Your cursor is currently over the image.';
+        }
+
+        // 'mouseout' fires when the cursor leaves the element's bounding area.
+        // Also fires when moving between child elements within the same parent —
+        // use 'mouseleave' instead if that bubbling behaviour is unwanted.
+        function mouseOutFunction() {
+            result.innerHTML = 'Your cursor is currently NOT over the image.';
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>onchange 1</title>
+</head>
+
+<body>
+    <!-- Inline onchange attribute -->
+    <input type="text" id="myInput" onchange="myFunction()">
+    <p id="result"></p>
+
+    <script>
+        // Cache both elements once — reused in the handler
+        const myInput = document.getElementById('myInput');
+        const result = document.getElementById('result');
+
+        // Reads the current value from the input field and
+        // displays it in the output paragraph.
+        // Fires when the field loses focus AND its value has changed —
+        // not on every keystroke (use the 'input' event for that).
+        function myFunction() {
+            result.innerHTML = myInput.value;
+        }
+    </script>
+</body>
+
+</html>

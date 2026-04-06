@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>onclick 2</title>
+</head>
+
+<body>
+    <img src="img/woofles.jpg" id="myImage" alt="Woofles">
+
+    <script>
+        // Cache the image element and attach the click listener in script
+        const myImage = document.getElementById('myImage');
+        myImage.addEventListener('click', myFunction);
+
+        // Fires when the user clicks anywhere on the image
+        function myFunction() {
+            alert('You clicked on the photo!');
+        }
+    </script>
+</body>
+
+</html>

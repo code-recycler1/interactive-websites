@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS — provides all the navbar, card, button, and grid styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <title>JavaScript events - Exercise 1</title>
+</head>
+
+<body>
+    <!-- NAVBAR — Bootstrap responsive navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <!-- Brand logo/name — links to the top of the page -->
+            <a class="navbar-brand" href="#">IW</a>
+
+            <!-- Hamburger toggle button — only visible on small screens.
+                 Collapses/expands the nav links on mobile. -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Collapsible nav links — hidden on mobile, shown on larger screens -->
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <!-- External link to W3Schools JavaScript reference -->
+                    <li class="nav-item">
+                        <a class="nav-link" target="_blank" href="https://www.w3schools.com/js/DEFAULT.asp">W3Schools
+                            JS</a>
+                    </li>
+                    <!-- External link to MDN JavaScript documentation -->
+                    <li class="nav-item">
+                        <a class="nav-link" target="_blank"
+                            href="https://developer.mozilla.org/en-US/docs/Web/JavaScript">MDN JS docs</a>
+                    </li>
+                    <!-- Dropdown menu with specific Stack Overflow and reference links -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">Specific</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" target="_blank"
+                                    href="https://stackoverflow.com/questions/20673959/how-to-add-new-li-to-ul-onclick-with-javascript/20673977">Stack
+                                    #1</a></li>
+                            <li><a class="dropdown-item" target="_blank"
+                                    href="https://stackoverflow.com/questions/10750137/remove-all-li-from-ul">Stack
+                                    #2</a></li>
+                            <li><a class="dropdown-item" target="_blank"
+                                    href="https://tecadmin.net/get-current-date-time-javascript/">Date & Time</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT — Bootstrap grid layout -->
+    <main class="container">
+        <div class="row">
+            <div class="col">
+                <h1>JavaScript events - Exercise 1</h1>
+            </div>
+        </div>
+        <div class="row">
+            <!-- LEFT COLUMN — Product input card -->
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">Product</div>
+                    <div class="card-body">
+                        <form>
+                            <!-- Text field where the user types a product description -->
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="product" placeholder="Description">
+                            </div>
+                            <!-- Add button that triggers the addProduct function when clicked -->
+                            <button type="button" class="btn btn-success" id="btnAdd">Add</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN — Shopping cart display -->
+            <div class="col-md">
+                <div class="card">
+                    <div class="card-header">Shopping cart</div>
+                    <div class="card-body">
+                        <!-- The list where added products will appear.
+                             Starts with a default "no products" message
+                             that should be removed when the first item is added. -->
+                        <ul id="result">
+                            <li>No products found</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Write your code below.
+
+    </script>
+
+    <!-- Bootstrap JS bundle — required for navbar toggler and dropdown to work -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

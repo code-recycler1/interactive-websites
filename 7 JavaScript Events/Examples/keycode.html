@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Keyboard events</title>
+	<script>
+		// Declared in outer scope but only used inside the handler —
+		// same pattern as the previous exercise, `const` inside the handler would be cleaner
+		let keyCode = '';
+
+		window.addEventListener('load', function () {
+			const divResult = document.getElementById('divResult');
+
+			// ⚠️ onkeyup = function() is DOM Level 0 syntax — assigns a single handler
+			// directly as a property. This overwrites any previously assigned onkeyup handler.
+			// addEventListener is preferred — it allows multiple listeners and is consistent
+			// with the rest of our code.
+			// ⚠️ e.keyCode is deprecated — use e.key or e.code instead (see below).
+			document.getElementById('txtKey').addEventListener('keyup', function (e) {
+				// The event object `e` is automatically passed to the handler by the browser.
+				// It contains information about the event that just fired.
+
+				// e.keyCode — a numeric code representing the key pressed (e.g. 65 for 'a').
+				// DEPRECATED: removed from the web standard, avoid in new code.
+				keyCode = e.keyCode;
+
+				// e.key — the actual value of the key pressed ('a', 'Enter', 'Shift' etc.)
+				// e.code — the physical key on the keyboard ('KeyA', 'Enter', 'ShiftLeft' etc.)
+				// e.key is usually what you want — it reflects what the user typed.
+				// e.code is useful when physical key position matters (e.g. game controls).
+
+				divResult.innerHTML =
+					`KeyCode (deprecated): ${e.keyCode}<br>` +
+					`Key: ${e.key}<br>` +
+					`Code: ${e.code}`;
+			});
+		});
+	</script>
+</head>
+
+<body>
+	<h2>Capturing keyboard events</h2>
+	<!-- Text input that listens for keyup events.
+         keyup fires when a key is released — after keydown (key pressed)
+         and keypress (key held). -->
+	<input type="text" id="txtKey" placeholder="Press a key..." />
+	<!-- Output container where the key information will be displayed -->
+	<div id="divResult"></div>
+</body>
+
+</html>

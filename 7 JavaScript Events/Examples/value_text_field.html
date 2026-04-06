@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retrieving a value from a text field</title>
+    <script>
+
+        // The variable 'name' will hold the value entered by the user in the text field.        
+        let name = '';
+
+        // The script is in <head>, so the DOM elements don't exist yet when
+        // this script runs. The 'load' event delays execution until the full
+        // page has been parsed and all elements are available.
+        window.addEventListener('load', function () {
+
+            // Cache the output div once inside the load handler —
+            // it's reused every time the button is clicked
+            const divResult = document.getElementById('divResult');
+
+            document.getElementById('btnButton1').addEventListener('click', function () {
+                // .value reads the current text typed into the input field.
+                // Unlike innerHTML, .value is specific to form elements
+                // (input, textarea, select) and always returns a string.
+                name = document.getElementById('txtName').value;
+
+                // Display a welcome message using the entered name.
+                // Note: name comes from user input — in a larger application
+                // inserting user input directly into innerHTML would be an
+                // XSS risk if the input isn't sanitised first.
+                divResult.innerHTML = `<h2>Welcome ${name}</h2>`;
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <h2>Retrieving the contents of a text field</h2>
+    <!-- Text input field — placeholder text is shown when the field is empty.
+         The id allows JavaScript to find the field and read its .value property. -->
+    <input type="text" id="txtName" placeholder="your name..." />
+    <button id="btnButton1">Show message</button>
+    <!-- Output container where the welcome message will be rendered -->
+    <div id="divResult"></div>
+</body>
+
+</html>

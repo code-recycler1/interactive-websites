@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>onload 2</title>
+</head>
+
+<body>
+    <!-- Output container — will be populated once the page has fully loaded -->
+    <div id="status"></div>
+
+    <script>
+        // Attach the load handler using addEventListener — the preferred approach.
+        // The script is in the <body> here, so the DOM elements already exist
+        // when this line runs. The 'load' event listener is still valid and useful
+        // to ensure any external resources (images, stylesheets) are also ready.
+        window.addEventListener('load', myFunction);
+
+        // Named function reference passed to addEventListener —
+        // the preferred pattern over an anonymous function because
+        // it can be removed later with removeEventListener if needed.
+        function myFunction() {
+            document.getElementById('status').innerHTML = 'The page has loaded.';
+        }
+    </script>
+</body>
+
+</html>

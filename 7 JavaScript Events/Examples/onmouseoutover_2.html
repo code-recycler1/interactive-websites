@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>onmouseout 2</title>
+</head>
+
+<body>
+  <!-- Output container for hover state message -->
+  <div id="result"></div>
+  <!-- Output container for live cursor coordinates -->
+  <div id="coords"></div>
+  <img src="img/woofles.jpg" id="woofles" alt="Woofles">
+
+  <script>
+    // Cache all three elements once — reused across multiple handlers
+    const result = document.getElementById('result');
+    const image = document.getElementById('woofles');
+    const coords = document.getElementById('coords');
+
+    // 'mouseover' fires when the cursor enters the image area
+    image.addEventListener('mouseover', function () {
+      result.innerHTML = 'Your cursor is currently over the image.';
+    });
+
+    // 'mouseout' fires when the cursor leaves the image area
+    image.addEventListener('mouseout', function () {
+      result.innerHTML = 'Your cursor is currently NOT over the image.';
+    });
+
+    // 'mousemove' fires continuously as the cursor moves anywhere over the image.
+    // The event object `e` is automatically passed to the handler by the browser
+    // and contains the current cursor position among other properties.
+    image.addEventListener('mousemove', function (e) {
+      // e.clientX / e.clientY — cursor position in pixels relative to the
+      // visible viewport (the browser window), not the full page.
+      // Other coordinate properties available on the event object:
+      // e.pageX / e.pageY   — position relative to the full document (includes scroll)
+      // e.offsetX / e.offsetY — position relative to the element itself
+      coords.innerHTML = `Coordinates — X: ${e.clientX}, Y: ${e.clientY}`;
+    });
+  </script>
+</body>
+
+</html>

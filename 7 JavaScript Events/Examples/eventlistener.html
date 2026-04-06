@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eventlistener</title>
+</head>
+
+<body>
+    <button id="myButton">Push me</button>
+    <!-- Empty paragraph — its content will be set by the event handler -->
+    <p id="temp"></p>
+
+    <script>
+        // Attach a click listener using a named function reference.
+        // This is the preferred pattern — the function can be removed later
+        // with removeEventListener('click', myFunction) if needed.
+        // No parentheses after myFunction — we pass the function itself,
+        // not its return value.
+        document.getElementById('myButton').addEventListener('click', myFunction);
+
+        function myFunction() {
+            // Directly modify the inline style of the <body> element.
+            // document.body is a built-in shorthand for document.getElementsByTagName('body')[0].
+            // Each .style property maps to a CSS property — camelCase is used
+            // instead of the hyphenated CSS names (e.g. backgroundColor not background-color).
+            document.body.style.backgroundColor = 'darkred';
+            document.body.style.color = 'white';
+
+            // Write text into the paragraph element
+            document.getElementById('temp').innerHTML = 'Hello world';
+        }
+    </script>
+</body>
+
+</html>

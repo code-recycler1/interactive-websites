@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eventlistener with parameters</title>
+</head>
+
+<body>
+    <button id="myButton">Push me</button>
+    <p id="temp"></p>
+
+    <script>
+        let x = 2;
+        let y = 3;
+
+        // addEventListener expects a function REFERENCE — a function to call later.
+        // The problem: calculateSum(x, y) requires arguments, but if you write:
+        //   addEventListener('click', calculateSum(x, y))
+        // the function executes IMMEDIATELY and passes its return value (undefined)
+        // as the handler — the click never triggers anything.
+        //
+        // The solution: wrap the call in an anonymous function.
+        // The anonymous function itself is the handler — it receives the click event,
+        // then calls calculateSum(x, y) with the arguments.
+        document.getElementById('myButton').addEventListener('click',
+            function () {
+                calculateSum(x, y); // Called with arguments when the click fires
+            }
+        );
+
+        // Calculates the sum of two numbers and displays it via alert.
+        // This is a pure function — it only depends on its two parameters.
+        function calculateSum(x, y) {
+            alert(x + y); // → 5
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>alert 2</title>
+</head>
+
+<body>
+  <button id="btnPush">Push me</button>
+
+  <script>
+    // addEventListener() takes three arguments:
+    // 1. The event type to listen for ('click')
+    // 2. The function to run when the event fires (an arrow function here)
+    // 3. useCapture — false means the event is handled in the BUBBLE phase (default).
+    //    Events travel in two phases: capture (top → target) and bubble (target → top).
+    //    false (bubble) is the standard for most use cases and is the default value,
+    //    so passing it explicitly here makes no difference — it's just being thorough.
+    document.getElementById('btnPush').addEventListener('click', () => {
+      alert('Hello world!');
+    }, false);
+  </script>
+</body>
+
+</html>

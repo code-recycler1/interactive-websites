@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>onkeydown 1</title>
+</head>
+
+<body>
+    <!-- Inline onkeydown attribute -->
+    <input type="text" id="myInput" onkeydown="myFunction()">
+    <p id="result"></p>
+
+    <script>
+        // Cache both elements once — reused in the handler
+        const myInput = document.getElementById('myInput');
+        const result = document.getElementById('result');
+
+        function myFunction() {
+            // Reads the input value at the moment keydown fires —
+            // the key currently being pressed is not yet included
+            result.innerHTML = myInput.value;
+        }
+    </script>
+</body>
+
+</html>

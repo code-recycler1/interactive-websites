@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>onclick 1</title>
+</head>
+
+<body>
+    <!-- Inline onclick attribute -->
+    <img src="img/woofles.jpg" id="myImage" alt="Woofles" onclick="myFunction()">
+
+    <script>
+        // Cache the image element 
+        const myImage = document.getElementById('myImage');
+
+        // Fires when the user clicks anywhere on the image
+        function myFunction() {
+            alert('You clicked on the photo!');
+        }
+    </script>
+</body>
+
+</html>

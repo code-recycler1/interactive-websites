@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>onchange 2</title>
+</head>
+
+<body>
+    <!-- Text input that will trigger the change event -->
+    <input type="text" id="myInput">
+    <!-- Output paragraph where the input value will be displayed -->
+    <p id="result"></p>
+
+    <script>
+        // Cache both elements once — reused in the handler
+        const myInput = document.getElementById('myInput');
+        const result = document.getElementById('result');
+
+        // The 'change' event fires when the input loses focus (blur) AND
+        // its value has changed since it last gained focus.
+        // This is different from 'input', which fires on every keystroke.
+        myInput.addEventListener('change', myFunction);
+
+        function myFunction() {
+            // Read the current value from the input field and
+            // display it in the output paragraph
+            result.innerHTML = myInput.value;
+        }
+    </script>
+</body>
+
+</html>
