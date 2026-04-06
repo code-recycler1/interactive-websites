@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math object</title>
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <main class="container">
+        <h1>Math object</h1>
+
+        <!-- SECTION 1 — cylinder volume calculator -->
+        <h2 id="resultVolume">Volume of a cylinder</h2>
+        <p>
+            <label for="radius">radius</label>
+            <span class="input">
+                <input type="number" id="radius" placeholder="radius">
+            </span> cm ×
+            <label for="height">height</label>
+            <span class="input">
+                <input type="number" id="height" placeholder="height">
+            </span> cm
+            <button class="button" id="btnCalculate">Calculate</button>
+        </p>
+
+        <!-- SECTION 2 — dice roller -->
+        <h2 id="resultDice">Dice</h2>
+        <p>
+            <button class="button" id="btnRoll">Roll the dice</button>
+        </p>
+    </main>
+
+    <script>
+        document.querySelector('#btnCalculate').addEventListener('click', calculateCylinderVolume);
+        document.querySelector('#btnRoll').addEventListener('click', rollDice);
+
+        // CYLINDER VOLUME CALCULATOR
+        // Formula: V = π × r² × h
+        function calculateCylinderVolume() {
+            // Retrieve and convert user input values for radius and height
+            const r = Number(document.querySelector('#radius').value);
+            const h = Number(document.querySelector('#height').value);
+
+            // Guard against invalid or empty input
+            if (isNaN(r) || isNaN(h) || r <= 0 || h <= 0) {
+                document.querySelector('#resultVolume').textContent =
+                    'Please enter valid positive values for radius and height.';
+                return;
+            }
+
+            // Math.pow(r, 2) raises r to the power of 2 (r²).
+            // The modern equivalent is the exponentiation operator: r ** 2
+            // Math.PI is the built-in constant for π (3.14159...)
+            let volume = Math.pow(r, 2) * Math.PI * h;
+
+            // Math.round() rounds to the nearest whole number.
+            // The commented-out toFixed(2) would instead show exactly 2 decimal places.
+            volume = Math.round(volume);
+
+            // &sup3; is the HTML entity for the superscript 3 (³) — renders as cm³
+            document.querySelector('#resultVolume').innerHTML =
+                `Volume: ${volume} cm&sup3;`;
+        }
+
+        // DICE ROLLER — three dice, two different methods to demonstrate
+        function rollDice() {
+            // METHOD 1 — direct inline formula (used for d1 and d2)
+            // Math.random() → float 0.0 to 0.9999...
+            // × 6           → float 0.0 to 5.9999...
+            // Math.floor()  → integer 0 to 5
+            // + 1           → integer 1 to 6
+            const d1 = Math.floor(Math.random() * 6) + 1;
+            const d2 = Math.floor(Math.random() * 6) + 1;
+
+            // METHOD 2 — reusable helper function (used for d3)
+            // Identical result but generalised to any min/max range
+            const d3 = randomIntFromInterval(1, 6);
+
+            document.querySelector('#resultDice').textContent =
+                `You rolled ${d1}, ${d2} and ${d3}`;
+        }
+
+        // HELPER — generates a random integer between min and max (both inclusive).
+        // The formula (max - min + 1) ensures max is reachable —
+        // without the +1, max would never be returned because Math.random()
+        // never returns exactly 1.0
+        function randomIntFromInterval(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+    </script>
+</body>
+
+</html>

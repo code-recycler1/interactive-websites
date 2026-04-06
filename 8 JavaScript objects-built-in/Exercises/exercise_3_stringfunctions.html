@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>JavaScript objects-built-in - exercise 3</title>
+	<link href="css/bootstrap.css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="container">
+		<h3>Exercise 3 String Functions</h3>
+		<div class="row">
+			<div class="col-md-12">
+				<form name="frmText">
+					<div class="row">
+						<div class="col-md-12 mb-3">
+							<label for="text">Enter a word or sentence:</label>
+							<input type="text" id="text">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 mb-3">
+							<!-- Output area — results from all four functions appear here -->
+							<textarea name="result" id="result" cols="50" rows="10"></textarea>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 mb-3">
+							<button class="btn btn-primary btn-lg mb-2" type="button"
+								id="btnPalindrome">Palindrome</button>
+							<button class="btn btn-primary btn-lg mb-2" type="button" id="btnLongest">Longest
+								word</button>
+							<button class="btn btn-primary btn-lg mb-2" type="button" id="btnVowels">Vowels</button>
+							<button class="btn btn-primary btn-lg mb-2" type="button" id="btnTally">Tally list</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// Cache input and output elements once
+		const textInput = document.querySelector('#text');
+		const result = document.querySelector('#result');
+
+		// Attach each button to its corresponding function
+		document.querySelector('#btnPalindrome').addEventListener('click', isPalindrome);
+		document.querySelector('#btnLongest').addEventListener('click', findLongestWord);
+		document.querySelector('#btnVowels').addEventListener('click', countVowels);
+		document.querySelector('#btnTally').addEventListener('click', tallyCharList);
+
+		// Helper — reads and lowercases the input.
+		// Called at the start of every function so each operates on clean,
+		// consistent input regardless of how the user typed it.
+		function getText() {
+			return textInput.value.trim().toLowerCase();
+		}
+
+		// --- PALINDROME ---
+		// A palindrome reads the same forwards and backwards.
+		// Examples: "racecar", "madam", "a man a plan a canal panama"
+		// Spaces are stripped before comparison so multi-word phrases work correctly.
+		function isPalindrome() {
+			const text = getText();
+
+			if (!text) {
+				result.value = 'Please enter a word or sentence.';
+				return;
+			}
+
+			// Remove all spaces so "race car" is treated as "racecar"
+			const stripped = text.replace(/\s/g, '');
+
+			// Reverse the string:
+			// split('') converts to an array of characters
+			// reverse() reverses the array in place
+			// join('') reassembles it into a string
+			const reversed = stripped.split('').reverse().join('');
+
+			const palindrome = stripped === reversed;
+
+			result.value = palindrome
+				? `"${text}" IS a palindrome.`
+				: `"${text}" is NOT a palindrome.`;
+		}
+
+		// --- LONGEST WORD ---
+		// Splits the input into words, finds the longest one,
+		// and reports both the word and its character count.
+		function findLongestWord() {
+			const text = getText();
+
+			if (!text) {
+				result.value = 'Please enter a word or sentence.';
+				return;
+			}
+
+			// split(' ') divides the sentence into an array of individual words.
+			// filter(Boolean) removes any empty strings caused by multiple spaces.
+			const words = text.split(' ').filter(Boolean);
+
+			// reduce() iterates the array and keeps track of the longest word seen.
+			// On each step, if the current word is longer than the stored longest,
+			// it becomes the new longest — otherwise the previous longest is kept.
+			const longest = words.reduce((longest, current) =>
+				current.length > longest.length ? current : longest
+				, '');
+
+			result.value =
+				`Longest word: "${longest}"\n` +
+				`Character count: ${longest.length}`;
+		}
+
+		// --- COUNT VOWELS ---
+		// Counts how many vowels (a, e, i, o, u) appear in the input.
+		function countVowels() {
+			const text = getText();
+
+			if (!text) {
+				result.value = 'Please enter a word or sentence.';
+				return;
+			}
+
+			// match() with a regex returns an array of all matches, or null if none.
+			// [aeiou] is a character class matching any single vowel.
+			// The 'g' flag finds ALL occurrences, not just the first.
+			// The null fallback handles the case where no vowels are found at all.
+			const vowels = text.match(/[aeiou]/g) || [];
+
+			result.value =
+				`Text: "${text}"\n` +
+				`Number of vowels: ${vowels.length}\n` +
+				`Vowels found: ${vowels.join(', ')}`;
+		}
+
+		// --- TALLY CHARACTER LIST ---
+		// Counts how many times each character appears in the input.
+		// Spaces are excluded — we're counting meaningful characters only.
+		function tallyCharList() {
+			const text = getText();
+
+			if (!text) {
+				result.value = 'Please enter a word or sentence.';
+				return;
+			}
+
+			// Build a tally object where each key is a character
+			// and each value is the number of times it appears.
+			const tally = {};
+
+			for (const char of text) {
+				if (char === ' ') continue; // Skip spaces
+
+				// If the character already exists in the tally, increment it.
+				// If it's new, initialise it to 1.
+				tally[char] = (tally[char] || 0) + 1;
+			}
+
+			// Sort entries alphabetically by character for easier reading,
+			// then format each as "character: count"
+			const lines = Object.entries(tally)
+				.sort(([a], [b]) => a.localeCompare(b))
+				.map(([char, count]) => `'${char}': ${count}`);
+
+			result.value =
+				`Tally for "${text}":\n` +
+				lines.join('\n');
+		}
+	</script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="js/bootstrap.js"></script>
+</body>
+
+</html>

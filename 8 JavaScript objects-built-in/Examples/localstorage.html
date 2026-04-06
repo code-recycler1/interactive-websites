@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Storage object</title>
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <main class="container">
+        <h1>Local Storage object</h1>
+
+        <fieldset>
+            <legend>Insert data</legend>
+            <!-- Key input — the name under which the value will be stored -->
+            <input type="text" id="inputKey" placeholder="Enter a key...">
+            <!-- Value input — the data to store under that key -->
+            <input type="text" id="inputValue" placeholder="Enter a value...">
+            <!-- Saves the key/value pair to localStorage -->
+            <button type="button" id="btnInsert">Add</button>
+            <!-- Wipes all localStorage entries for this origin -->
+            <button type="button" id="btnClear">Clear LS</button>
+        </fieldset>
+
+        <h1>Keys and values in Local Storage</h1>
+        <!-- Output container — populated on page load by reading all stored entries -->
+        <div id="output"></div>
+    </main>
+
+    <script>
+        // Cache all interactive elements once
+        const inpKey = document.querySelector('#inputKey');
+        const inpVal = document.querySelector('#inputValue');
+        const btnInsert = document.querySelector('#btnInsert');
+        const btnClear = document.querySelector('#btnClear');
+        const result = document.querySelector('#output');
+
+        // ADD — saves the key/value pair to localStorage and reloads the page.
+        // location.reload() is used to re-run the display loop below,
+        // which reads all stored entries on page load.
+        // An alternative would be to update the DOM directly without reloading.
+        btnInsert.addEventListener('click', () => {
+            const key = inpKey.value.trim();
+            const value = inpVal.value.trim();
+
+            // Only store if both fields have content —
+            // `if (key && value)` is falsy for empty strings
+            if (key && value) {
+                localStorage.setItem(key, value);
+                location.reload(); // Refresh the page to re-render the full stored list
+            }
+        });
+
+        // CLEAR — removes ALL entries from localStorage for this origin,
+        // then reloads to reflect the now-empty storage in the display
+        btnClear.addEventListener('click', () => {
+            localStorage.clear();
+            location.reload();
+        });
+
+        // DISPLAY ALL STORED ENTRIES on page load.
+        // localStorage.length gives the total number of stored key/value pairs.
+        // localStorage.key(i) returns the key at index i —
+        // the order is not guaranteed to match insertion order.
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            const value = localStorage.getItem(key);
+            result.innerHTML += `${key}: ${value}<br />`;
+        }
+
+        // Logs all stored keys to the console as a plain array.
+        // Object.keys() works on localStorage because it exposes its entries
+        // as enumerable properties — a convenient way to inspect all keys at once.
+        console.log(Object.keys(localStorage));
+    </script>
+</body>
+
+</html>

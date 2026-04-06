@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>JavaScript objects-built-in - exercise 2.1</title>
+	<link href="css/bootstrap.css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="container">
+		<h3>Exercise 2 Date of Birth - FunFacts</h3>
+		<div class="row">
+			<div class="col-md-4">
+				<form name="frmAge">
+					<div class="row">
+						<div class="col-auto mb-3">
+							<label for="dateOfBirth">Your date of birth</label>
+							<!-- max attribute will be set dynamically by maxDate()
+                                 to prevent future dates from being selected -->
+							<input type="date" id="dateOfBirth" min="1900-01-01">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-auto mb-3">
+							<button class="btn btn-primary btn-lg mb-2" type="button" id="btnCheck">Check Fun
+								Facts</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// Set the max date on the date input and attach the button listener
+		// as soon as the page is ready — no need for a load event here since
+		// the script is at the bottom of the body
+		maxDate();
+		document.querySelector('#btnCheck').addEventListener('click', storeAndGo);
+
+		// Sets the max attribute on the date input to today's date.
+		// This prevents the user from selecting a date in the future.
+		// The date must be formatted as yyyy-mm-dd for the HTML date input.
+		function maxDate() {
+			const today = new Date();
+
+			const yyyy = today.getFullYear();
+			// padStart(2, '0') ensures single-digit months/days get a leading zero
+			// e.g. month 3 → "03", day 5 → "05"
+			const mm = String(today.getMonth() + 1).padStart(2, '0'); // getMonth() is 0-indexed
+			const dd = String(today.getDate()).padStart(2, '0');
+
+			// Assemble into yyyy-mm-dd format required by the HTML date input
+			document.querySelector('#dateOfBirth').max = `${yyyy}-${mm}-${dd}`;
+		}
+
+		// Validates the input, saves the date of birth to localStorage,
+		// then redirects to the fun facts page
+		function storeAndGo() {
+			const dob = document.querySelector('#dateOfBirth').value;
+
+			// Guard against empty input — the date input returns "" if nothing is selected
+			if (!dob) {
+				alert('Please enter your date of birth.');
+				return;
+			}
+
+			// Store the date of birth string under the key 'gbdate'.
+			// localStorage persists across page loads so exercise_funfacts.html can read it.
+			localStorage.setItem('gbdate', dob);
+
+			// Redirect to the fun facts page using the location object.
+			// location.href assignment is equivalent to clicking a link.
+			location.href = 'exercise_2_funfacts.html';
+		}
+	</script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="js/bootstrap.js"></script>
+</body>
+
+</html>

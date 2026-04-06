@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>JavaScript objects-built-in - exercise 2.2</title>
+	<link href="css/bootstrap.css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="container">
+		<h3>Exercise Date of Birth - FunFacts</h3>
+		<div class="row">
+			<div class="col-md-12">
+				<!-- Output paragraph — populated by funFacts() on page load -->
+				<p id="result"></p>
+				<!-- Goes back to the date of birth entry page -->
+				<button class="btn btn-primary btn-lg mb-2" type="button" id="btnAgain">Again</button>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// Run on page load and attach the back button listener
+		funFacts();
+		document.querySelector('#btnAgain').addEventListener('click', () => {
+			history.back(); // Returns to exercise_dob.html
+		});
+
+		function funFacts() {
+			// Read the stored date of birth and immediately remove it from localStorage.
+			// removeItem() removes only this key — localStorage.clear() would wipe everything.
+			const dobString = localStorage.getItem('gbdate');
+			localStorage.removeItem('gbdate');
+
+			// Guard against missing data — if the user lands here directly
+			// without going through the dob page, dobString will be null
+			if (!dobString) {
+				document.querySelector('#result').textContent =
+					'No date of birth found. Please go back and enter your date of birth.';
+				return;
+			}
+
+			// Parse the stored yyyy-mm-dd string into a Date object.
+			// Adding T00:00:00 forces local midnight — without it, some browsers
+			// interpret date-only strings as UTC, which can shift the date by a day
+			const dob = new Date(dobString + 'T00:00:00');
+			const today = new Date();
+
+			// --- A. DATE OF BIRTH ---
+			// Intl.DateTimeFormat formats each part of the date according to locale.
+			// 'en-GB' is used throughout for consistent English formatting.
+			const dobFormatted = new Intl.DateTimeFormat('en-GB', {
+				weekday: 'long',  // e.g. "Monday"
+				day: '2-digit',
+				month: '2-digit',
+				year: 'numeric'
+			}).format(dob);
+			// Output: "You were born on Monday, 22/10/1984"
+
+			// --- B. TODAY'S DATE ---
+			const todayFormatted = new Intl.DateTimeFormat('en-GB', {
+				weekday: 'long',  // e.g. "Monday"
+				day: 'numeric',
+				month: 'short', // e.g. "Mar" — no array needed, Intl handles this
+				year: 'numeric'
+			}).format(today);
+			// Output: "Today is Monday, 23 Mar 2020"
+
+			// --- C. DAYS LIVED ---
+			// Subtract the two dates — JavaScript coerces Date objects to milliseconds
+			// when used in arithmetic. Dividing by ms-per-day gives the number of days.
+			const MS_PER_DAY = 1000 * 60 * 60 * 24; // milliseconds in one day
+			const daysLived = Math.floor((today - dob) / MS_PER_DAY);
+
+			// --- D. PRESUMED DATE OF DEATH ---
+			// Average life expectancy in years (2018 figures — female value used here)
+			const LIFE_EXPECTANCY_YEARS = 84.3;
+
+			// Convert life expectancy to milliseconds and add to the date of birth
+			const MS_PER_YEAR = MS_PER_DAY * 365.25; // 365.25 accounts for leap years
+			const presumedDeath = new Date(dob.getTime() + LIFE_EXPECTANCY_YEARS * MS_PER_YEAR);
+
+			const deathFormatted = new Intl.DateTimeFormat('en-GB', {
+				day: 'numeric',
+				month: 'long',
+				year: 'numeric'
+			}).format(presumedDeath);
+
+			// --- ASSEMBLE AND DISPLAY ---
+			const output = document.querySelector('#result');
+			output.innerHTML =
+				`A. You were born on ${dobFormatted}.<br>` +
+				`B. Today is ${todayFormatted}.<br>` +
+				`C. You have already lived <strong>${daysLived.toLocaleString()}</strong> days.<br>` +
+				`D. Based on an average life expectancy of ${LIFE_EXPECTANCY_YEARS} years, ` +
+				`your presumed date of death is <strong>${deathFormatted}</strong>.`;
+		}
+	</script>
+</body>
+
+</html>

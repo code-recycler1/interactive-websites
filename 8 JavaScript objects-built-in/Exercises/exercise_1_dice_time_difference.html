@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript objects-built-in - exercise 1</title>
+</head>
+
+<body></body>
+
+<script>
+    // CONSTANTS
+    const ROLLS = 1_000_000; // Number of dice rolls — underscore separator for readability
+    const TARGET = 6;         // The value we're counting
+
+    // STEP 1 — record the start time in milliseconds.
+    // Date.now() is more efficient than `new Date().getTime()` for timestamps —
+    // it returns a plain number without creating a full Date object.
+    const start = Date.now();
+
+    // STEP 2 — populate the array with 1,000,000 random dice rolls
+    const rolls = [];
+    let sixCount = 0;
+
+    for (let i = 0; i < ROLLS; i++) {
+        // Generate a random integer between 1 and 6 inclusive
+        const roll = Math.floor(Math.random() * 6) + 1;
+        rolls.push(roll);
+
+        // Count sixes in the same loop — avoids a second pass over the array
+        if (roll === TARGET) {
+            sixCount++;
+        }
+    }
+
+    // STEP 3 — record the end time and calculate the difference
+    const end = Date.now();
+    const elapsedMs = end - start;
+
+    // STEP 4 — output results to the console
+    console.log('Dice rolls array:', rolls);
+    console.log(`Number of sixes: ${sixCount} out of ${ROLLS.toLocaleString()} rolls`);
+    console.log(`Expected sixes (probability 1/6): ~${Math.round(ROLLS / 6).toLocaleString()}`);
+    console.log(`Time elapsed: ${elapsedMs}ms`);
+</script>
+
+</html>

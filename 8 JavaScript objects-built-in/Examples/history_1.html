@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History object example 1</title>
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: lightgoldenrodyellow;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+        <h1>History object page 1</h1>
+
+        <!-- Displays the current history stack length — populated by JavaScript below -->
+        <h2 id="length">History.length</h2>
+
+        <!-- Navigates to page 2, adding an entry to the history stack -->
+        <a href="history_2.html">Click here</a>
+
+        <p>
+            <!-- Goes back one step in the browser history -->
+            <button class="button" id="btnPrevious">Go to previous page</button>
+            <!-- Goes all the way back to the first page in the history stack -->
+            <button class="button" id="btnFirst">Go to first page</button>
+        </p>
+    </main>
+
+    <script>
+        // Attach named function references — consistent with our conventions
+        // and removable with removeEventListener if needed
+        document.querySelector('#btnPrevious').addEventListener('click', goBack);
+        document.querySelector('#btnFirst').addEventListener('click', goFirst);
+
+        // history.length — a built-in property of the browser's history object.
+        // Returns the number of entries in the session history stack for this tab,
+        // including the current page. Minimum value is 1 (the current page itself).
+        document.querySelector('#length').textContent = `History.length = ${history.length}`;
+
+        // localStorage.setItem() stores a key-value pair that persists across
+        // page loads and browser sessions until explicitly cleared.
+        // Date.now() returns the current time as a Unix timestamp —
+        // the number of milliseconds elapsed since 1 January 1970.
+        // This records the moment the user first arrived at page 1.
+        localStorage.setItem('started', Date.now());
+
+        // history.back() is equivalent to the browser's back button —
+        // navigates one step back in the session history stack
+        function goBack() {
+            history.back();
+        }
+
+        // history.go(n) moves n steps through the history stack.
+        // Negative values go back, positive values go forward.
+        // -(history.length - 1) calculates how many steps back the first
+        // page is from the current position and jumps directly to it.
+        // Example: if history.length is 4, this calls history.go(-3)
+        function goFirst() {
+            history.go(-(history.length - 1));
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History object example 3</title>
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        /* Third distinct background colour — visually confirms which page you're on */
+        body {
+            background-color: lightcoral;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+        <h1>History object page 3</h1>
+
+        <!-- Shows history.length — will be 3 if you navigated here via pages 1 and 2 -->
+        <h2 id="length">History.length</h2>
+
+        <!-- Displays the time the user first arrived at page 1,
+             retrieved from localStorage and formatted here -->
+        <div id="datetime"></div>
+
+        <!-- Links back to page 1 — adds another entry to the history stack -->
+        <a href="history_1.html">Click here</a>
+
+        <p>
+            <button class="button" id="btnPrevious">Go to previous page</button>
+            <button class="button" id="btnFirst">Go to first page</button>
+        </p>
+    </main>
+
+    <script>
+        document.querySelector('#btnPrevious').addEventListener('click', goBack);
+        document.querySelector('#btnFirst').addEventListener('click', goFirst);
+
+        document.querySelector('#length').textContent = `History.length = ${history.length}`;
+
+        // Retrieve the timestamp stored by page 1 via localStorage.
+        // localStorage always stores values as strings, so two conversions are needed:
+        // 1. Number() — converts the string back to a numeric timestamp
+        // 2. new Date() — wraps the numeric timestamp in a Date object
+        const startTimestamp = new Date(Number(localStorage.getItem('started')));
+
+        // Format and display the retrieved timestamp using Intl.DateTimeFormat.
+        // 'en-GB' locale with hour and minute options produces e.g. "14:32"
+        // This shows what time the user first landed on page 1 of this demo.
+        document.querySelector('#datetime').innerHTML = new Intl.DateTimeFormat('en-GB', {
+            hour: '2-digit',
+            minute: '2-digit'
+        }).format(startTimestamp);
+
+        function goBack() {
+            history.back();
+        }
+
+        function goFirst() {
+            history.go(-(history.length - 1));
+        }
+    </script>
+</body>
+
+</html>

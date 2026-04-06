@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>String object</title>
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        #email {
+            width: 200px;
+        }
+
+        /* Applied to the original text when the replace button is clicked —
+           highlights remaining "JavaScript" occurrences in yellow */
+        .highlightYellow {
+            background-color: #FF6;
+        }
+
+        /* Applied to replaced "jQuery" text in the output section — red highlight */
+        .highlightRed {
+            background-color: #F66;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+        <h1>String object</h1>
+
+        <!-- SECTION 1 — encoded email address -->
+        <section>
+            <h2>Encoded email address</h2>
+            <label for="email">Email address: </label>
+            <div class="input">
+                <!-- blur event fires when this field loses focus —
+                     validation runs after the user finishes typing and clicks away -->
+                <input type="text" id="email" placeholder="email address">
+            </div>
+            <p id="result"></p>
+        </section>
+
+        <!-- SECTION 2 — string replace with regex -->
+        <h2>String replace with regex</h2>
+        <h3>Original text:</h3>
+        <!-- contenteditable="true" allows the user to edit this text directly in the browser.
+             The replace button reads from this section, so edits affect the output. -->
+        <section id="section2" contenteditable title="Edit this text" class="message-bar background-gray-light">
+            <p>JavaScript is a scripting language that is widely used to make web pages
+                interactive and to develop web applications. The syntax of JavaScript
+                shows similarities with the programming language Java.</p>
+            <p>Events form the heart of a JavaScript page. Event handling allows JavaScript
+                instructions to be executed at the right moment, when the right event has
+                taken place: A calculation is performed when a user clicks a button, a figure
+                changes when the user moves the mouse over it, an animation starts when the
+                page has loaded...</p>
+            <p>In JavaScript, a function can be used to execute a group of instructions under
+                a given name. The instructions or statements inside the function are executed
+                when the function is called. A function can receive values and return them to
+                the point of the call.</p>
+        </section>
+        <p>
+            <button class="button" id="btnReplace">Replace 'JavaScript' with 'jQuery'</button>
+        </p>
+        <h3>Modified text:</h3>
+        <!-- Output section — receives the modified HTML with jQuery highlighted in red -->
+        <section id="section3" class="message-bar background-gray-light"></section>
+    </main>
+
+    <script>
+        document.querySelector('#btnReplace').addEventListener('click', replace);
+        // 'blur' fires when the email field loses focus — appropriate for validation
+        // because it doesn't interrupt the user while they're still typing
+        document.querySelector('#email').addEventListener('blur', checkMail);
+
+        // String object wrapper vs primitive — purely for demonstration.
+        // `a` is a String object (typeof === 'object')
+        // `b` is a primitive string (typeof === 'string')
+        // In practice always use the primitive form — object wrappers cause subtle bugs
+        // e.g. `if (new String(''))` evaluates to TRUE because it's a truthy object
+        let a = new String('John Doe'); // ⚠️ String object — avoid in real code
+        let b = 'John Doe';             // ✅ primitive string — always prefer this
+        console.log('Object:', a);
+        console.log('Primitive string:', b);
+
+        // EMAIL VALIDATION — runs when the input loses focus
+        function checkMail() {
+            let resultMessage = '';
+            const email = document.querySelector('#email').value;
+
+            if (email.length === 0) {
+                // Empty field — prompt the user to enter something
+                resultMessage = 'Please <mark>enter an email address</mark>';
+
+            } else if (email.search('@') === -1) {
+                // search() returns -1 if the character is not found — no @ sign present
+                // search() accepts both strings and regex; indexOf() only accepts strings
+                resultMessage = 'This is <mark>not a valid email address</mark>';
+
+            } else if (email.indexOf('@') > email.lastIndexOf('.')) {
+                // The dot appears before the @ — e.g. "user.name@domain" is fine
+                // but "user@name.domain" reversed: "@" after last "." is invalid
+                // indexOf() finds the first @, lastIndexOf() finds the last dot
+                resultMessage = 'The dot is before the @ sign. This is <mark>not a valid email address</mark>';
+
+            } else {
+                // Valid format — encode the address to obscure it from spam scrapers.
+                // Using a regex with the 'g' (global) flag replaces ALL dots.
+                // The dot must be escaped as \. in regex — unescaped . matches any character.
+                const encoded = email
+                    .replace('@', ' AT ')
+                    .replace(/\./g, ' DOT '); // 'g' flag = replace all occurrences
+                resultMessage = `Encoded address: ${encoded}`;
+            }
+
+            document.querySelector('#result').innerHTML = resultMessage;
+        }
+
+        // REPLACE FUNCTION — replaces all "JavaScript" occurrences with highlighted "jQuery"
+        // in the output section, and highlights remaining "JavaScript" in the original
+        function replace() {
+            const originalHTML = document.querySelector('#section2').innerHTML;
+
+            // Write the modified text (JavaScript → jQuery in red) to the output section
+            document.querySelector('#section3').innerHTML = allReplace(originalHTML, {
+                'JavaScript': "<span class='highlightRed'>jQuery</span>"
+            });
+
+            // Highlight remaining "JavaScript" occurrences in the original section
+            highlight();
+        }
+
+        // Highlights every "JavaScript" occurrence in the original section in yellow
+        function highlight() {
+            const originalHTML = document.querySelector('#section2').innerHTML;
+            document.querySelector('#section2').innerHTML = allReplace(originalHTML, {
+                'JavaScript': "<span class='highlightYellow'>JavaScript</span>"
+            });
+        }
+
+        // UTILITY FUNCTION — replaces multiple substrings in a single pass.
+        // Takes a source string and an object mapping search terms to replacements.
+        // Extending native prototypes risks collisions with other libraries or
+        // future JS built-ins that might add the same method name.
+        // The regex 'g' flag ensures ALL occurrences are replaced, not just the first.
+        function allReplace(str, replacements) {
+            let result = str;
+            for (const search in replacements) {
+                result = result.replace(new RegExp(search, 'g'), replacements[search]);
+            }
+            return result;
+        }
+    </script>
+</body>
+
+</html>

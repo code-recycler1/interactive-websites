@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date object</title>
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <main class="container">
+        <h1>Date object</h1>
+        <section>
+            <h2>Example 1 — manual date and 12-hour clock formatting</h2>
+            <p id="date1"></p>
+        </section>
+        <section>
+            <h2>Example 2 — day name from an array</h2>
+            <p id="date2"></p>
+        </section>
+        <section>
+            <h2>Example 3 — Intl.DateTimeFormat (built-in internationalisation)</h2>
+            <p id="date3"></p>
+        </section>
+    </main>
+
+    <script>
+        // --- EXAMPLE 1 — manual formatting with AM/PM ---
+
+        let amPm = '';
+
+        // Cache the output element
+        let ex1 = document.querySelector('#date1');
+
+        // new Date() with no arguments creates an object representing
+        // the exact current date and time at the moment this line runs
+        let today = new Date();
+
+        // Build a DD-MM-YYYY date string manually using individual Date methods:
+        // getDate()     → day of the month (1–31)
+        // getMonth()    → month index (0–11) — +1 converts to human-readable 1–12
+        // getFullYear() → four-digit year (e.g. 2026)
+        let date = today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear();
+
+        let hours = today.getHours();   // 0–23
+        let minutes = today.getMinutes(); // 0–59
+
+        // Pad single-digit minutes with a leading zero so :5 displays as :05
+        // The commented-out line below is a ternary equivalent of this if/else:
+        // let minutes = (today.getMinutes() < 10 ? '0' + today.getMinutes() : today.getMinutes());
+        if (minutes < 10) {
+            minutes = '0' + minutes;
+        }
+
+        // Convert from 24-hour to 12-hour format and set the AM/PM label.
+        // Hours 0–12 are AM, hours 13–23 are PM (subtract 12 to get 1–11).
+        // Note: this treats 12:xx as AM — a common edge case to be aware of.
+        // A fully correct 12-hour conversion would handle midnight (0) and noon (12) separately.
+        if (hours <= 12) {
+            amPm = 'AM';
+        } else {
+            hours = hours - 12;
+            amPm = 'PM';
+        }
+
+        ex1.innerHTML = `Today is: ${date}<br>`;
+        ex1.innerHTML += `The time is: ${hours}:${minutes} ${amPm}`;
+
+
+        // --- EXAMPLE 2 — day name looked up from a manual array ---
+
+        let ex2 = document.querySelector('#date2');
+
+        // Array of abbreviated day names — index matches getDay() return values.
+        // getDay() returns 0 for Sunday, 1 for Monday, ... 6 for Saturday.
+        // ⚠️ 0 = Sunday, not Monday — a common source of off-by-one errors.
+        const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        let dayIndex = today.getDay();
+
+        // Use the day index to look up the matching name from the array
+        ex2.textContent = `Today is: ${dayNames[dayIndex]} ${date}`;
+
+
+        // --- EXAMPLE 3 — Intl.DateTimeFormat (the modern built-in approach) ---
+
+        let ex3 = document.querySelector('#date3');
+
+        // Intl.DateTimeFormat is part of the browser's built-in internationalisation API.
+        // It handles locale-specific formatting automatically — no manual arrays needed.
+        // First argument: locale string ('en-GB', 'nl-BE', 'fr-FR' etc.)
+        // Second argument: options object specifying which parts of the date to show
+        //   weekday: 'long'  → full name e.g. "Monday" / "maandag"
+        //   weekday: 'short' → abbreviated e.g. "Mon" / "ma"
+        // .format(date) applies the formatting to the given Date object
+        ex3.textContent = new Intl.DateTimeFormat('en-GB', {
+            weekday: 'long' // 'short' would give an abbreviated name instead
+        }).format(new Date());
+    </script>
+</body>
+
+</html>

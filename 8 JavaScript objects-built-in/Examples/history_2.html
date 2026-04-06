@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History object example 2</title>
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        /* Different background per page — makes it visually obvious
+           which page you're on as you navigate back and forth */
+        body {
+            background-color: lightskyblue;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+        <h1>History object page 2</h1>
+
+        <!-- Shows the current history stack depth — will be one higher than
+             page 1 because navigating here added an entry to the stack -->
+        <h2 id="length">History.length</h2>
+
+        <!-- Navigates forward to page 3, adding another entry to the stack -->
+        <a href="history_3.html">Click here</a>
+
+        <p>
+            <button class="button" id="btnPrevious">Go to previous page</button>
+            <button class="button" id="btnFirst">Go to first page</button>
+        </p>
+    </main>
+
+    <script>
+        document.querySelector('#btnPrevious').addEventListener('click', goBack);
+        document.querySelector('#btnFirst').addEventListener('click', goFirst);
+
+        // Shows the updated history.length — one more than page 1 showed,
+        // because arriving at this page added an entry to the session stack
+        document.querySelector('#length').textContent = `History.length = ${history.length}`;
+
+        // Note: no localStorage call here — the timestamp was already stored on page 1.
+        // Any page in this sequence can read it with: localStorage.getItem('started')
+
+        // Goes back one step — returns to whichever page navigated here
+        function goBack() {
+            history.back();
+        }
+
+        // Jumps directly to the first page in the history stack
+        function goFirst() {
+            history.go(-(history.length - 1));
+        }
+    </script>
+</body>
+
+</html>
