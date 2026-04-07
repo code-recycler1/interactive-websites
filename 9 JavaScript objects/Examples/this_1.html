@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>This: example 1</title>
+    <link rel="shortcut icon" href="#">
+</head>
+
+<body>
+    <h2>The JavaScript <i>this</i> keyword</h2>
+    <p>In this example <b>this</b> represents the <b>person</b> object.</p>
+    <p>Because the person object "owns" the fullName method.</p>
+    <div id="divResult"></div>
+
+    <script>
+        // Object literal with a method that uses `this`
+        let person = {
+            firstName: 'John',
+            lastName: 'Doe',
+            city: 'New York',
+
+            // `this` inside a method refers to the object that OWNS the method.
+            // When fullName() is called as person.fullName(),
+            // `this` is `person` — so this.firstName is 'John'.
+            // This is why regular functions must be used for methods —
+            // arrow functions do not get their own `this` binding.
+            fullName: function () {
+                return this.firstName + ' ' + this.lastName;
+            }
+        };
+
+        // Call the method — `this` inside resolves to `person`
+        document.querySelector('#divResult').textContent = person.fullName();
+        // → "John Doe"
+    </script>
+</body>
+
+</html>

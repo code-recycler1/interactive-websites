@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Objects: constructor function</title>
+    <link rel="shortcut icon" href="#">
+</head>
+
+<body>
+    <h1>Objects</h1>
+    <div id="divResult"></div>
+
+    <script>
+        // CONSTRUCTOR FUNCTION — a blueprint for creating multiple objects
+        // that share the same structure (same property names, different values).
+        // Convention: constructor function names start with a capital letter
+        // to signal they must be called with `new`.
+        // `this` inside a constructor refers to the new object being created.
+        function Person(firstName, lastName, city) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.city = city;
+        }
+
+        // CREATE NEW OBJECT INSTANCES using the `new` keyword.
+        // `new` does four things automatically:
+        // 1. Creates a new empty object
+        // 2. Sets `this` inside the constructor to point at that new object
+        // 3. Runs the constructor function body (assigns the properties)
+        // 4. Returns the new object
+        // Each call produces an independent object with its own property values.
+        let friend1 = new Person('John', 'Doe', 'New York');
+        let friend2 = new Person('Jane', 'Smith', 'Los Angeles');
+
+        // ACCESS properties using dot notation and write to the DOM
+        const el = document.querySelector('#divResult');
+        el.innerHTML += `${friend1.firstName} is from ${friend1.city}<br>`;
+        el.innerHTML += `${friend2.firstName} is from ${friend2.city}<br>`;
+
+        // STORE OBJECTS IN AN ARRAY — objects are values like any other
+        // and can be collected into an array for bulk processing
+        const friends = [friend1, friend2];
+
+        // Log the full array — devtools will show an expandable list of objects
+        console.log(friends);
+
+        // Loop through the array and access a property on each object.
+        // friends[index] gives the current object; .firstName reads its property.
+        for (let index = 0; index < friends.length; index++) {
+            console.log(friends[index].firstName);
+        }
+    </script>
+</body>
+
+</html>

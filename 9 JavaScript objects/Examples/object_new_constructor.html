@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Objects: object constructor</title>
+    <link rel="shortcut icon" href="#">
+</head>
+
+<body>
+    <h1>Objects</h1>
+    <div id="divResult"></div>
+
+    <script>
+        // CREATE AN EMPTY OBJECT using the built-in Object constructor.
+        // `new Object()` is functionally identical to the object literal `{}`.
+        // The object literal syntax is preferred in modern code — it is shorter,
+        // more readable, and universally used. `new Object()` exists in older
+        // codebases and is worth recognising, but should not be used in new code.
+        let person = new Object();
+
+        // ADD PROPERTIES after creation using dot notation assignment.
+        // Because the object started empty, properties are added one by one.
+        // This is less concise than defining them all in an object literal,
+        // but demonstrates that objects are dynamic — properties can be
+        // added (or removed) at any point after creation.
+        person.firstName = 'John';
+        person.lastName = 'Doe';
+        person.city = 'New York';
+
+        // Access and display the properties using dot notation
+        document.querySelector('#divResult').innerHTML =
+            `First name: ${person.firstName}<br>` +
+            `Last name: ${person.lastName}<br>` +
+            `City: ${person.city}`;
+    </script>
+</body>
+
+</html>

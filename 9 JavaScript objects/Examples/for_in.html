@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For....in</title>
+    <link rel="shortcut icon" href="#">
+</head>
+
+<body>
+    <!-- Output container where the object's property names will be listed -->
+    <div id="divResult"></div>
+
+    <script>
+        const el = document.querySelector('#divResult');
+        let res = '';
+
+        // An object literal — a collection of key/value pairs called properties.
+        // Each property has a name (key) and a value.
+        // Objects group related data together under one variable.
+        const person = {
+            firstName: 'Thomas',
+            lastName: 'More',
+            city: 'Geel'
+        };
+
+        // for...in iterates over the ENUMERABLE PROPERTY NAMES (keys) of an object.
+        // On each iteration, `property` holds the current key as a string:
+        // → 'firstName', then 'lastName', then 'city'
+        for (const property in person) {
+            res += property + '<br />';
+        }
+
+        // Displays only the property NAMES, not their values.
+        // To also show values: property + ': ' + person[property]
+        // person[property] uses bracket notation because `property` is a variable —
+        // dot notation (person.property) would look for a key literally named "property"
+        el.innerHTML = res;
+    </script>
+</body>
+
+</html>

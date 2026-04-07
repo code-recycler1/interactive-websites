@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Objects: object literal</title>
+    <link rel="shortcut icon" href="#">
+</head>
+
+<body>
+    <h1>Objects</h1>
+    <div id="divResult"></div>
+
+    <script>
+        // AN EMPTY OBJECT — valid JavaScript, just has no properties yet.
+        // Properties can be added after creation: emptyObject.name = 'John'
+        let emptyObject = {};
+        console.log(emptyObject); // → {}
+
+        // OBJECT LITERAL — the most common way to create an object in JavaScript.
+        // Defined directly with curly braces and a comma-separated list of
+        // key: value pairs. Each key is a property name, each value is its data.
+        let person = {
+            firstName: 'John',
+            lastName: 'Doe',
+            city: 'New York'
+        };
+
+        // ACCESS properties using dot notation: object.propertyName
+        // The property name after the dot must match exactly — it is case-sensitive.
+        document.querySelector('#divResult').innerHTML =
+            `First name: ${person.firstName}<br>` +
+            `Last name: ${person.lastName}<br>` +
+            `City: ${person.city}`;
+
+        // Log the full object — devtools shows an expandable tree of all properties
+        console.log(person); // → { firstName: 'John', lastName: 'Doe', city: 'New York' }
+    </script>
+</body>
+
+</html>

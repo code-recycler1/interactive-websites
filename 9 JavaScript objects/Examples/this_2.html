@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>This: example 2</title>
+    <link rel="shortcut icon" href="#">
+</head>
+
+<body>
+    <h1>Using this</h1>
+    <div id="divResult"></div>
+
+    <script>
+        // Constructor function for creating Book objects
+        function Book(title, author) {
+            this.title = title;  // assigns the `title` parameter to this object
+            this.author = author; // assigns the `author` parameter to this object
+        }
+
+        // Create two independent Book instances — each has its own title and author
+        const bookHTML = new Book('HTML Handbook', 'John Doe');
+        const bookWindows = new Book('Discover Windows 10', 'Jane Smith');
+
+        // Each instance holds its own property values independently
+        console.log(bookHTML.author);    // → 'John Doe'
+        console.log(bookWindows.title);  // → 'Discover Windows 10'
+    </script>
+</body>
+
+</html>

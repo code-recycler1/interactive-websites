@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Objects: complex object</title>
+    <link rel="shortcut icon" href="#">
+</head>
+
+<body>
+    <h1>Complex objects</h1>
+    <div id="divResult"></div>
+
+    <script>
+        const res = document.querySelector('#divResult');
+
+        // A complex object demonstrating every value type a property can hold.
+        // An object is a collection of key/value pairs — the value can be
+        // any valid JavaScript type, including other objects and functions.
+        let person = {
+            // STRING property — a plain text value
+            city: 'New York',
+
+            // ARRAY property — ordered list of values accessed by index
+            name: ['John', 'Doe'],
+
+            // NUMBER properties
+            sisters: 2,
+            birthYear: 1986,
+
+            // BOOLEAN property — true or false
+            isHuman: true,
+
+            // NESTED OBJECT property — an object inside an object.
+            // Accessed via chained dot notation: person.favourites.soup
+            favourites: {
+                soup: 'tomato soup',
+                main: 'chips with beef stew'
+            },
+
+            // METHOD — a function stored as a property.
+            // `this` refers to the object the method belongs to (person).
+            // `this.name[0]` reads the first element of the name array above.
+            fullName: function () {
+                return this.name[0] + ' ' + this.name[1];
+            }
+        };
+
+        // Log the entire object to the console — browser devtools will show
+        // an expandable tree of all properties and their values
+        console.log(person);
+
+        // Access a nested array property using dot notation + index
+        // person.name is the array ['John', 'Doe']
+        // person.name[0] is 'John'
+        console.log(person.name[0]); // → 'John'
+
+        // Access a property inside a nested object using chained dot notation
+        console.log(person.favourites.soup); // → 'tomato soup'
+
+        // Read the boolean property and display a message accordingly.
+        // The commented-out ternary below is a more concise equivalent:
+        // res.textContent = person.isHuman ? 'It is a human' : 'It is another being';
+        if (person.isHuman) {
+            res.textContent = 'It is a human';
+        } else {
+            res.textContent = 'It is another being';
+        }
+
+        // MODIFYING PROPERTIES — object properties can be changed after creation.
+        // This works even though `person` is declared with `const` — const prevents
+        // reassigning the variable itself, but the object's contents can still change.
+        person.isHuman = false;
+        console.log(person.isHuman); // → false
+
+        // Modifying a value inside a nested array property
+        person.name[1] = 'Mores';
+        console.log(person.name[1]); // → 'Mores'
+
+        // Calling the method defined on the object
+        console.log(person.fullName()); // → 'John Mores'
+    </script>
+</body>
+
+</html>

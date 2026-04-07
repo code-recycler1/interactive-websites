@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript objects - Exercise 1</title>
+    <link rel="shortcut icon" href="#">
+</head>
+
+<body>
+    <script>
+        // --- OBJECT LITERALS ---
+        // Each penguin is a one-off object defined directly with curly braces.
+        // Properties and methods are defined together in one block.
+
+        const strangePenguin = {
+            character: 'Penguin McPenguin', // No `name` property — uses `character` instead
+            origin: 'Donald Duck',
+            canFly: true,
+            // `this.name` will be undefined here because this object has no `name` property.
+            // The exercise intentionally demonstrates this edge case.
+            sayHello: function () {
+                console.log(`Hola, I am a penguin without a name. My name is ${this.name}!`);
+            }
+        };
+
+        const gunter = {
+            name: 'Gunter',
+            origin: 'Adventure Time',
+            canFly: false,
+            sayHello: function () {
+                console.log(`Hi! I am ${this.name} and I say QUACK`);
+            }
+        };
+
+        const ramon = {
+            name: 'Ramon',
+            origin: 'Happy Feet',
+            canFly: true,
+            sayHello: function () {
+                console.log('Nice to meet you.');
+                // Note: ramon's sayHello doesn't use `this` — the message is fixed
+            }
+        };
+
+        // --- CONSTRUCTOR FUNCTION (blueprint) ---
+        // Used when multiple objects share the same structure.
+        // The `new` keyword creates a fresh object, sets `this` to it,
+        // runs the constructor body, then returns the object.
+        function Penguin(name, origin, canFly) {
+            this.name = name;
+            this.origin = origin;
+            this.canFly = canFly;
+            // sayHello is NOT defined here — it is added to `fred` directly below.
+            // This is intentional: not every Penguin instance needs sayHello baked in.
+        }
+
+        // Create fred using the constructor — his shape matches Penguin's blueprint
+        let fred = new Penguin('Fred', 'Sitting Ducks', true);
+
+        // Add sayHello directly to the `fred` instance after creation.
+        // This only exists on fred — other Penguin instances won't have it
+        // unless explicitly added or defined on the prototype.
+        fred.sayHello = function () {
+            console.log('Hello there!');
+        };
+
+
+        // --- 1. Create the penguins array ---
+        // Objects are values like any other — they can be stored in arrays.
+        // strangePenguin is excluded here — it will be pushed in step E.
+        let penguins = [gunter, ramon, fred];
+        console.log('// 1');
+        console.log(penguins);
+
+        // --- 2. Retrieve the first object (index 0) ---
+        // Logs the full gunter object including all properties and methods
+        console.log('// 2');
+        console.log(penguins[0]);
+
+        // --- 3. New variable pointing to the second penguin (index 1) ---
+        // This is a reference, not a copy — `anotherPenguin` and `penguins[1]`
+        // point to the same object in memory. Changing one changes the other.
+        let anotherPenguin = penguins[1];
+        console.log('// 3');
+        console.log(anotherPenguin);
+
+        // --- 4. Print the name of the last penguin ---
+        // `length - 1` gives the last index regardless of array size.
+        // Works correctly whether the array has 3 or 300 items.
+        console.log('// 4');
+        console.log(penguins[penguins.length - 1].name);
+
+        // --- 5. Add strangePenguin to the end of the array ---
+        // push() adds one or more elements to the end and returns the new length
+        console.log('// 5');
+        penguins.push(strangePenguin);
+
+        // --- 6. Show the array length ---
+        // Now 4 — gunter, ramon, fred, strangePenguin
+        console.log('// 6');
+        console.log(penguins.length);
+
+        // --- 7. Set canFly to true on the first penguin and print it ---
+        // gunter.canFly was false — this updates it directly on the object.
+        // Since arrays hold references, this also changes gunter.canFly.
+        console.log('// 7');
+        penguins[0].canFly = true;
+        console.log(penguins[0].canFly); // → true
+
+        // --- 8. Call sayHello on the first penguin ---
+        // penguins[0] is gunter → "Hi! I am Gunter and I say QUACK"
+        console.log('// 8');
+        penguins[0].sayHello();
+
+        // --- 9. Loop — print each penguin's name ---
+        // strangePenguin has no `name` property — its name-like value is `character`,
+        // so penguins[3].name will log `undefined`
+        console.log('// 9');
+        for (let i = 0; i < penguins.length; i++) {
+            console.log(penguins[i].name);
+        }
+
+        // --- 10. Loop — call sayHello on each penguin ---
+        console.log('// 10');
+        for (let i = 0; i < penguins.length; i++) {
+            penguins[i].sayHello();
+        }
+
+        // --- 11. Loop — add numberOfFeet = 2 to every penguin ---
+        // New properties can be added to any object at any time.
+        // After this loop, every object in the array has a numberOfFeet property.
+        console.log('// 11');
+        for (let i = 0; i < penguins.length; i++) {
+            penguins[i].numberOfFeet = 2;
+        }
+        console.log(penguins);
+
+        // --- 12. Loop — print "<name> can fly!" for flying penguins only ---
+        // `canFly` is a boolean — `if (penguins[i].canFly)` is truthy when true.
+        // Nothing is logged for penguins where canFly is false.
+        // strangePenguin has canFly: true but no `name` — logs "undefined can fly!"
+        console.log('// 12');
+        for (let i = 0; i < penguins.length; i++) {
+            if (penguins[i].canFly) {
+                console.log(`${penguins[i].name} can fly!`);
+            }
+        }
+    </script>
+</body>
+
+</html>

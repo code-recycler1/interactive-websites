@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Objects: constructor function</title>
+    <link rel="shortcut icon" href="#">
+</head>
+
+<body>
+    <h1>Object function call using this</h1>
+
+    <script>
+        // CONSTRUCTOR FUNCTION
+        // Defines the shape of a Person object.
+        // `this.showDetails = showDetails` assigns the external function below
+        // as a method on every Person instance created with `new`.
+        // The function is defined outside the constructor — both the constructor
+        // and the standalone function are declared before being used.
+        function Person(firstName, lastName, city) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.city = city;
+            // Assign the external function as a method on this object.
+            // `showDetails` (no parentheses) stores a reference to the function —
+            // it is not called here, just attached for later use.
+            this.showDetails = showDetails;
+        }
+
+        // EXTERNAL METHOD FUNCTION
+        // Defined outside the constructor but assigned as a method inside it.
+        // `this` here refers to whichever object the method is called on —
+        // when called as `friend1.showDetails()`, `this` is `friend1`.
+        // Note: this MUST be a regular function, not an arrow function.
+        // Arrow functions do not get their own `this` binding — they inherit
+        // it from the surrounding scope, which would be wrong here.
+        function showDetails() {
+            console.log(`First name: ${this.firstName}\nLast name: ${this.lastName}`);
+        }
+
+        // Create a new Person instance
+        const friend1 = new Person('Thomas', 'More', 'Geel');
+
+        // Call the method on the instance.
+        // JavaScript sets `this` to `friend1` for this call,
+        // so `this.firstName` resolves to 'Thomas'.
+        friend1.showDetails();
+
+        // Log the full object — shows all properties including the method reference
+        console.log(friend1);
+    </script>
+</body>
+
+</html>
