@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class overriding - super method</title>
+</head>
+
+<body>
+  <script>
+    // BASE CLASS — defines the default printing behaviour
+    class PrinterClass {
+      doPrint() {
+        console.log('doPrint() from Parent called…');
+      }
+    }
+
+    // DERIVED CLASS — overrides doPrint() but preserves the parent's behaviour
+    // by calling super.doPrint() before adding its own output
+    class StringPrinter extends PrinterClass {
+      doPrint() {
+        // Call the parent class's version of doPrint() first.
+        // Without this, the parent's message would never appear.
+        // Output: "doPrint() from Parent called…"
+        super.doPrint();
+
+        // Then run StringPrinter's own additional behaviour
+        // Output: "doPrint() is printing a string…"
+        console.log('doPrint() is printing a string…');
+      }
+    }
+
+    // Create a StringPrinter instance.
+    // `var` used here — per our conventions `const` is preferred
+    // since this reference is never reassigned.
+    const obj = new StringPrinter();
+
+    // Calls StringPrinter's doPrint() — which calls super first, then its own line.
+    // Console output in order:
+    // 1. "doPrint() from Parent called…"
+    // 2. "doPrint() is printing a string…"
+    obj.doPrint();
+  </script>
+</body>
+
+</html>

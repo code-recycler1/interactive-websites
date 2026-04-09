@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class expressions</title>
+</head>
+
+<body>
+  <script>
+    // CLASS EXPRESSION — UNNAMED
+    // A class assigned to a variable, just like a function expression.
+    // The class itself has no internal name — it is only reachable
+    // through the variable `Book`.
+    // Unlike class declarations, class expressions are not hoisted.
+    let Book = class {
+      constructor(title, author) {
+        this.title = title;
+        this.author = author;
+      }
+    };
+
+    // .name returns the name of the class.
+    // For an unnamed class expression, JavaScript infers the name
+    // from the variable it was assigned to.
+    console.log(Book.name); // → "Book"
+
+    const book1 = new Book('HTML Handbook', 'John Doe');
+    console.log(book1); // → Book { title: 'HTML Handbook', author: 'John Doe' }
+
+
+    // CLASS EXPRESSION — NAMED
+    // The class has an explicit internal name ('Magazine').
+    // The internal name is only accessible INSIDE the class body itself —
+    // useful for recursion or self-reference within the class.
+    // Outside the class, only the variable name `Magazine` is accessible.
+    let Magazine = class Magazine {
+      constructor(title, author) {
+        this.title = title;
+        this.author = author;
+      }
+    };
+
+    // .name returns the explicit internal name, not the variable name.
+    // Here they happen to be the same — but they don't have to be:
+    // `let Foo = class Bar {}` → Foo.name is "Bar", not "Foo"
+    console.log(Magazine.name); // → "Magazine"
+
+    const mag1 = new Magazine('National Geographic', 'Various');
+    console.log(mag1);
+  </script>
+</body>
+
+</html>

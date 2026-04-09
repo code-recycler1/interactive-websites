@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class overriding</title>
+</head>
+
+<body>
+  <script>
+    // BASE CLASS
+    class Book {
+      constructor(title, author) {
+        this.t = title;
+        this.a = author;
+      }
+
+      // Inherited method — available on Book and any class that extends it
+      display() {
+        alert(`${this.a} wrote ${this.t}`);
+      }
+
+      // Base version of done() — alerts a general "finished reading" message.
+      // Workbook will OVERRIDE this method but also call this version via super.
+      done() {
+        alert(`${this.t} is finished`);
+      }
+    }
+
+    // DERIVED CLASS
+    class Workbook extends Book {
+
+      // Workbook-specific method — not present on Book
+      solve() {
+        alert(`The exercises in ${this.t} need to be completed!`);
+      }
+
+      // METHOD OVERRIDE — Workbook defines its own done() which replaces
+      // Book's done() for Workbook instances.
+      // Without `super.done()`, Book's version would be completely ignored.
+      done() {
+        // `super.done()` explicitly calls the PARENT class's done() method.
+        // This lets Workbook reuse the parent's behaviour and then ADD to it,
+        // rather than having to duplicate or replace it entirely.
+        // Output: "branché is finished"
+        super.done();
+
+        // Then runs the Workbook-specific part after the parent's alert
+        // Output: "The workbook branché has been completed"
+        alert(`The workbook ${this.t} has been completed`);
+      }
+    }
+
+    // Create a Workbook instance — Book's constructor runs (inherited)
+    let wbFrench = new Workbook('branché', 'Blanche Gevers');
+
+    // display() is commented out — uncomment to test the inherited method
+    // wbFrench.display();
+
+    // Calls Workbook's done() — which calls super.done() first, then its own alert.
+    // Two alerts fire in sequence:
+    // 1. "branché is finished"         ← from super.done() (Book)
+    // 2. "The workbook branché has been completed"  ← from Workbook's done()
+    wbFrench.done();
+  </script>
+</body>
+
+</html>

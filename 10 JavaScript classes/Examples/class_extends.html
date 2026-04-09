@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class extends</title>
+</head>
+
+<body>
+  <script>
+    // BASE CLASS (parent class)
+    // Defines the shared structure and behaviour that all books have.
+    // Other classes can extend this to inherit its properties and methods.
+    class Book {
+      constructor(title, author) {
+        // Short property names used here — `t` and `a` instead of
+        // `title` and `author`. Works, but descriptive names are better
+        // practice for readability and maintainability.
+        this.t = title;
+        this.a = author;
+      }
+
+      // Method available on ALL Book instances and any class that extends Book.
+      // `this.a` and `this.t` refer to the properties set in the constructor above.
+      display() {
+        alert(`${this.a} wrote ${this.t}`);
+      }
+    }
+
+    // DERIVED CLASS (child class) — extends Book
+    // `extends` means Workbook inherits everything from Book:
+    // - the constructor (title and author properties)
+    // - the display() method
+    // Workbook adds its own method on top of what it inherited.
+    class Workbook extends Book {
+
+      // No constructor defined here — JavaScript automatically uses
+      // the parent's constructor when none is specified.
+      // `wb_French.t` and `wb_French.a` are set by Book's constructor.
+
+      // A method unique to Workbook — Book instances do not have this.
+      // It can access `this.t` because it was set by the inherited constructor.
+      solve() {
+        alert(`The exercises in ${this.t} need to be completed!`);
+      }
+    }
+
+    // Create an instance of Workbook — NOT of Book directly.
+    // `new Workbook()` runs Book's constructor (inherited) and creates
+    // an object with both the inherited display() and the new solve() method.
+    let wbFrench = new Workbook('branché', 'Blanche Gevers');
+
+    // Inherited method from Book — works on Workbook instances
+    wbFrench.display(); // → "Blanche Gevers wrote branché"
+
+    // Workbook's own method — only available on Workbook instances, not Book
+    wbFrench.solve();   // → "The exercises in branché need to be completed!"
+  </script>
+</body>
+
+</html>

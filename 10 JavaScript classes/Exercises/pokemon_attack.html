@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <title>Pokémon v1.0</title>
+</head>
+
+<body>
+    <main class="container">
+        <h1>Pokémon v1.0</h1>
+        <p class="lead">Gotta catch 'em all</p>
+        <div class="row">
+            <!-- PLAYER 1 CARD -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h2>Player 1</h2>
+                        <!-- Dropdown populated dynamically from player1Pokemon array -->
+                        <select class="form-select mb-1" id="pokemon-player1">
+                            <option value="-1" selected>Choose your Pokémon</option>
+                        </select>
+                        <!-- Image swaps to the selected Pokémon's gif on selection -->
+                        <img src="img/pokeball.png" class="mx-auto d-block" id="player1-img" alt="Player 1 Pokémon">
+                        <table class="table">
+                            <tr>
+                                <th>Type</th>
+                                <td id="player1-type">-</td>
+                            </tr>
+                            <tr>
+                                <th>Attack (min)</th>
+                                <td id="player1-min">-</td>
+                            </tr>
+                            <tr>
+                                <th>Attack (max)</th>
+                                <td id="player1-max">-</td>
+                            </tr>
+                            <tr>
+                                <th>HP (remaining)</th>
+                                <td id="player1-hp">-</td>
+                            </tr>
+                        </table>
+                        <div class="d-grid">
+                            <button class="btn btn-primary" id="player1-attack">Attack</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PLAYER 2 CARD — identical structure to player 1 -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h2>Player 2</h2>
+                        <select class="form-select mb-1" id="pokemon-player2">
+                            <option value="-1" selected>Choose your Pokémon</option>
+                        </select>
+                        <img src="img/pokeball.png" class="mx-auto d-block" id="player2-img" alt="Player 2 Pokémon">
+                        <table class="table">
+                            <tr>
+                                <th>Type</th>
+                                <td id="player2-type">-</td>
+                            </tr>
+                            <tr>
+                                <th>Attack (min)</th>
+                                <td id="player2-min">-</td>
+                            </tr>
+                            <tr>
+                                <th>Attack (max)</th>
+                                <td id="player2-max">-</td>
+                            </tr>
+                            <tr>
+                                <th>HP (remaining)</th>
+                                <td id="player2-hp">-</td>
+                            </tr>
+                        </table>
+                        <div class="d-grid">
+                            <button class="btn btn-primary" id="player2-attack">Attack</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ACTION INFO BAR — shows the result of the most recent attack -->
+            <div class="col mt-3">
+                <div class="card text-center">
+                    <div class="card-body" id="actioninfo">-</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // --- POKEMON CLASS ---
+        // Blueprint for every Pokémon instance.
+        // Each instance tracks its own currentHP separately from the base hitpoints
+        // so the starting value is preserved for display while currentHP decreases.
+        class Pokemon {
+            constructor(name, type, attackMin, attackMax, hitpoints, image) {
+                this.name = name;
+                this.type = type;
+                this.attackMin = attackMin;
+                this.attackMax = attackMax;
+                this.hitpoints = hitpoints; // base HP — never changes after creation
+                this.image = image;
+                this.currentHP = hitpoints; // tracks HP during battle — decreases on hit
+            }
+
+            // Generates a random damage value between attackMin and attackMax (inclusive).
+            // Math.ceil on min and Math.floor on max keep the result within whole numbers.
+            attack() {
+                const min = Math.ceil(this.attackMin);
+                const max = Math.floor(this.attackMax);
+                return Math.floor(Math.random() * (max - min + 1) + min);
+            }
+
+            // Returns a formatted HP string showing base HP and current HP.
+            // e.g. "100 (75)" — base is 100, current remaining is 75.
+            hp() {
+                return `${this.hitpoints} (${this.currentHP})`;
+            }
+        }
+
+        // --- CACHE SELECT ELEMENTS ---
+        const selectPlayer1 = document.querySelector('#pokemon-player1');
+        const selectPlayer2 = document.querySelector('#pokemon-player2');
+
+        // --- CREATE POKEMON ARRAYS ---
+        // Each player gets their own independent set of Pokémon instances.
+        // This is important — if both players shared the same objects,
+        // damage dealt to one player's Pokémon would also affect the other's.
+        const player1Pokemon = [
+            new Pokemon('Squirtle', 'Water', 20, 45, 100, 'Squirtle.gif'),
+            new Pokemon('Bulbasaur', 'Grass', 25, 40, 120, 'Bulbasaur.gif'),
+            new Pokemon('Charmander', 'Fire', 30, 55, 80, 'Charmander.gif'),
+            new Pokemon('Onix', 'Ground', 20, 30, 150, 'Onix.gif')
+        ];
+
+        const player2Pokemon = [
+            new Pokemon('Squirtle', 'Water', 20, 45, 100, 'Squirtle.gif'),
+            new Pokemon('Bulbasaur', 'Grass', 25, 40, 120, 'Bulbasaur.gif'),
+            new Pokemon('Charmander', 'Fire', 30, 55, 80, 'Charmander.gif'),
+            new Pokemon('Onix', 'Ground', 20, 30, 150, 'Onix.gif')
+        ];
+
+        // --- POPULATE DROPDOWNS ---
+        // Build <option> elements from each array and append to the correct select.
+        // The option value is the array index — used later to look up the selected Pokémon.
+        // forEach provides the index as the second parameter, removing the need for
+        // a separate counter variable.
+        player1Pokemon.forEach((pokemon, index) => {
+            const opt = document.createElement('option');
+            opt.value = index;
+            opt.textContent = pokemon.name;
+            selectPlayer1.appendChild(opt);
+        });
+
+        player2Pokemon.forEach((pokemon, index) => {
+            const opt = document.createElement('option');
+            opt.value = index;
+            opt.textContent = pokemon.name;
+            selectPlayer2.appendChild(opt);
+        });
+
+        // --- SELECTION CHANGE LISTENERS ---
+        // When a player selects a Pokémon, update the card with that Pokémon's stats.
+        selectPlayer1.addEventListener('change', function () {
+            updatePokemon('player1', this.value);
+        });
+
+        selectPlayer2.addEventListener('change', function () {
+            updatePokemon('player2', this.value);
+        });
+
+        // --- updatePokemon() ---
+        // Reads the selected Pokémon's properties and writes them into the card's
+        // image and table cells. Called on dropdown change and after each attack
+        // (to refresh the HP display).
+        function updatePokemon(player, pokemonId) {
+            if (pokemonId === '-1') return; // placeholder still selected — do nothing
+
+            // Choose the correct array based on which player is being updated
+            const pokemonArray = (player === 'player1') ? player1Pokemon : player2Pokemon;
+            const pokemon = pokemonArray[pokemonId];
+
+            document.querySelector(`#${player}-img`).src = `img/${pokemon.image}`;
+            document.querySelector(`#${player}-type`).textContent = pokemon.type;
+            document.querySelector(`#${player}-min`).textContent = pokemon.attackMin;
+            document.querySelector(`#${player}-max`).textContent = pokemon.attackMax;
+            document.querySelector(`#${player}-hp`).textContent = pokemon.hp();
+        }
+
+        // --- ATTACK BUTTON LISTENERS ---
+        // Each button determines which Pokémon is attacking and which is defending,
+        // then delegates to attackPokemon() for the shared combat logic.
+        document.querySelector('#player1-attack').addEventListener('click', function () {
+            const attacker = player1Pokemon[selectPlayer1.value];
+            const defender = player2Pokemon[selectPlayer2.value];
+            attackPokemon('player1', 'player2', attacker, defender);
+        });
+
+        document.querySelector('#player2-attack').addEventListener('click', function () {
+            const attacker = player2Pokemon[selectPlayer2.value];
+            const defender = player1Pokemon[selectPlayer1.value];
+            attackPokemon('player2', 'player1', attacker, defender);
+        });
+
+        // --- attackPokemon() ---
+        // Core combat logic — handles one attack from one Pokémon against another.
+        // Guards against attacking with a fainted Pokémon (currentHP <= 0).
+        function attackPokemon(playerAttack, playerDefend, attacker, defender) {
+            // Guard — a fainted Pokémon cannot attack
+            if (attacker.currentHP <= 0) {
+                alert(`${attacker.name} has fainted — you can't attack!`);
+                return;
+            }
+
+            // Calculate damage using the attacker's random attack method
+            const damage = attacker.attack();
+
+            // Apply damage to the defender — currentHP can go below 0,
+            // but we treat anything <= 0 as fainted
+            defender.currentHP -= damage;
+
+            // Refresh the defender's card to show updated HP
+            updatePokemon(playerDefend, document.querySelector(`#pokemon-${playerDefend}`).value);
+
+            // Update the action info bar with the result of this attack
+            const actionInfo = document.querySelector('#actioninfo');
+            if (defender.currentHP <= 0) {
+                actionInfo.textContent =
+                    `${attacker.name} attacks with ${damage} damage — ${defender.name} has fainted!`;
+            } else {
+                actionInfo.textContent =
+                    `${attacker.name} attacks with ${damage} damage — ${defender.name} has ${defender.currentHP} HP remaining.`;
+            }
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

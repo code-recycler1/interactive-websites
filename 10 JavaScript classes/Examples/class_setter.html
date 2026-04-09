@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class setter</title>
+</head>
+
+<body>
+  <script>
+    class Book {
+      constructor(nr, title, author) {
+        this.nr = nr;
+        this.t = title;
+        this.a = author;
+        // Runs every time a new Book instance is created
+        console.log('In the constructor:');
+      }
+
+      // SETTER — defined with the `set` keyword before the method name.
+      // Intercepts assignment to `sequenceNr` and runs this function instead.
+      // Called with standard assignment syntax: book1.sequenceNr = 35
+      // The value being assigned (35) is automatically passed as `newSequenceNr`.
+      // A setter must have EXACTLY one parameter — the new value.
+      set sequenceNr(newSequenceNr) {
+        console.log('In the setter:');
+        // Update the internal `nr` property with the new value.
+        // This is where validation logic would go in a real application —
+        // e.g. check that newSequenceNr is a positive integer before assigning.
+        this.nr = newSequenceNr;
+      }
+    }
+
+    // Create a Book instance — constructor runs immediately
+    // → logs "In the constructor:"
+    let book1 = new Book(15, '1984', 'George Orwell');
+
+    // Log the initial state — nr is 15
+    console.log(book1); // → Book { nr: 15, t: '1984', a: 'George Orwell' }
+
+    // INVOKE THE SETTER using standard assignment syntax — no parentheses.
+    // This looks like a simple property assignment but triggers the setter function.
+    // → logs "In the setter:", then updates this.nr to 35
+    book1.sequenceNr = 35;
+
+    // Log the updated state — nr is now 35
+    console.log(book1); // → Book { nr: 35, t: '1984', a: 'George Orwell' }
+  </script>
+</body>
+
+</html>

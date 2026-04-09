@@ -86,7 +86,3 @@ Store these in the array arrSelected and display them in the console.
 Using the reduce method, calculate the sum of all points in arrSelected.
 Display the average via a sentence in the console.
 Note: ensure that when we expand or reduce the objects at the beginning, the average is still correct!
-
-```
-
-```

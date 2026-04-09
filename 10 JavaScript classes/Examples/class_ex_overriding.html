@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class inheritance - full override</title>
+</head>
+
+<body>
+  <script>
+    // BASE CLASS — defines the default printing behaviour
+    class PrinterClass {
+      doPrint() {
+        console.log('doPrint() from Parent called…');
+      }
+    }
+
+    // DERIVED CLASS — completely overrides doPrint() with no call to super.
+    // The parent's doPrint() is entirely replaced — it will never run
+    // when calling obj.doPrint() on a StringPrinter instance.
+    class StringPrinter extends PrinterClass {
+      doPrint() {
+        // No super.doPrint() here — the parent's version is ignored.
+        // Only this line executes.
+        console.log('doPrint() is printing a string…');
+      }
+    }
+
+    // `var` replaced with `const` — reference is never reassigned
+    const obj = new StringPrinter();
+
+    // Calls StringPrinter's doPrint() only.
+    // Console output: "doPrint() is printing a string…"
+    // "doPrint() from Parent called…" never appears.
+    obj.doPrint();
+  </script>
+</body>
+
+</html>

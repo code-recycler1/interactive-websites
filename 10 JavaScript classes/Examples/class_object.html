@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class object</title>
+</head>
+
+<body>
+  <script>
+    // CLASS DECLARATION
+    // Defines the blueprint for a Book object with a title and author.
+    class Book {
+      constructor(title, author) {
+        this.t = title;  // short property names — functional but see note below
+        this.a = author;
+      }
+
+      // REGULAR METHOD — defined directly in the class body without `get`.
+      // Called with parentheses: book1.display()
+      // Unlike a getter, a method is explicitly invoked — it does not
+      // run automatically when the property name is accessed.
+      display() {
+        console.log('Book title: ', this.t);
+        console.log('Book author: ', this.a);
+      }
+    }
+
+    // Create a Book instance — constructor runs and sets this.t and this.a
+    let book1 = new Book('1984', 'George Orwell');
+
+    // Call the method — logs both properties to the console
+    book1.display();
+    // → "Book title:  1984"
+    // → "Book author:  George Orwell"
+  </script>
+</body>
+
+</html>

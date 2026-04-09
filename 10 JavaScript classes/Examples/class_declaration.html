@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Classes</title>
+</head>
+
+<body>
+  <script>
+    // CLASS DECLARATION
+    // A class is a modern blueprint for creating objects — syntactic sugar
+    // over the constructor function pattern covered in previous exercises.
+    // The end result is identical; the syntax is cleaner and more readable.
+    class Book {
+
+      // The constructor method runs automatically when `new Book()` is called.
+      // Its job is to initialise the new object's properties using the
+      // arguments passed in.
+      // `this` refers to the new object being created.
+      constructor(title, author) {
+        this.title = title;  // assigns the `title` argument to this object
+        this.author = author; // assigns the `author` argument to this object
+      }
+    }
+
+    // Create instances of the Book class using `new`
+    const book1 = new Book('HTML Handbook', 'John Doe');
+    const book2 = new Book('Discover Windows 10', 'Jane Smith');
+
+    console.log(book1); // → Book { title: 'HTML Handbook', author: 'John Doe' }
+    console.log(book2.title); // → 'Discover Windows 10'
+
+    // --- HOISTING ---
+    // Function declarations are hoisted — the engine moves them to the top
+    // before executing, so you can call them before they appear in the code.
+    // Class declarations are NOT hoisted — using a class before it is declared
+    // throws a ReferenceError.
+
+    // ❌ This would throw: ReferenceError: Cannot access 'Book' before initialisation
+    // const book3 = new Book('Early Bird', 'Too Soon');
+    // class Book { constructor(title) { this.title = title; } }
+
+    // ✅ This works — function declaration is hoisted
+    // greet(); // can be called before the declaration
+    // function greet() { console.log('Hello'); }
+  </script>
+</body>
+
+</html>

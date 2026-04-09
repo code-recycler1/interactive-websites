@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <title>Covid test</title>
+</head>
+
+<body>
+    <main class="container">
+        <h1>Covid test</h1>
+        <div class="row">
+            <div class="col-md-4">
+                <form>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="result" class="form-label">Test result</label>
+                        <select class="form-select" id="result" name="result" required>
+                            <!-- Placeholder option — value "-1" signals no valid choice made yet.
+                                 Using "-1" rather than "" makes the guard check unambiguous. -->
+                            <option value="-1" selected>-- Select result --</option>
+                            <!-- String values "false"/"true" — parsed in the class method below -->
+                            <option value="false">Negative</option>
+                            <option value="true">Positive</option>
+                        </select>
+                    </div>
+                    <button type="button" id="addBtn" class="btn btn-success">Add</button>
+                </form>
+            </div>
+            <div class="col-md-8">
+                <label class="form-label">List</label>
+                <!-- Output list — each test result is appended as a list item -->
+                <ul class="list-group" id="testList"></ul>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Array storing all CovidTest instances — useful if the data needs
+        // to be processed further (filtering, sorting, exporting etc.)
+        const covidTestArray = [];
+
+        // Cache elements once
+        const nameInput = document.querySelector('#name');
+        const resultSelect = document.querySelector('#result');
+        const testList = document.querySelector('#testList');
+
+        document.querySelector('#addBtn').addEventListener('click', addCovidTest);
+
+        // CLASS DECLARATION
+        // Each instance represents a single person's test result.
+        class CovidTest {
+            constructor(name, result) {
+                this.name = name;
+                // `result` is the string "true" or "false" from the select value
+                this.result = result;
+            }
+
+            // METHOD — returns a formatted sentence based on the test result.
+            // The select value is a string ("true"/"false"), not a boolean,
+            // so we compare with == to allow type coercion, or explicitly
+            // compare to the string "true".
+            resultText() {
+                const outcome = (this.result === 'true') ? 'positive' : 'negative';
+                return `${this.name} has tested ${outcome} for Covid-19.`;
+            }
+        }
+
+        // Called when the Add button is clicked.
+        // Validates input, creates a CovidTest instance, and adds it to the list.
+        function addCovidTest() {
+            // Guard — both fields must be filled before adding.
+            // result.value === '-1' means the placeholder is still selected.
+            if (nameInput.value === '' || resultSelect.value === '-1') {
+                console.log('Please fill in all fields correctly.');
+                return;
+            }
+
+            // Create a new CovidTest instance with the entered values
+            const test = new CovidTest(nameInput.value, resultSelect.value);
+
+            // Store in the array for potential later use
+            covidTestArray.push(test);
+
+            // Add the formatted result sentence to the visible list
+            addToList(test.resultText());
+
+            // Reset the form fields ready for the next entry
+            nameInput.value = '';
+            resultSelect.value = '-1';
+            nameInput.focus();
+        }
+
+        // Creates a <li> element with the given text and appends it to the list.
+        // Extracted into its own function — keeps addCovidTest focused on logic,
+        // and addToList focused on DOM manipulation (single responsibility).
+        function addToList(content) {
+            const li = document.createElement('li');
+            // textContent instead of innerHTML — content is plain text, no tags needed.
+            // textContent also prevents XSS if name contained HTML characters.
+            li.textContent = content;
+            // Bootstrap class for styled list items
+            li.classList.add('list-group-item');
+            testList.appendChild(li);
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

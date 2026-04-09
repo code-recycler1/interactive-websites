@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Classes – Declaration vs Expression, Hoisting</title>
+</head>
+
+<body>
+  <script>
+    // CLASS DECLARATION
+    // A class is a modern blueprint for creating objects — syntactic sugar
+    // over the constructor function pattern covered in previous exercises.
+    // The end result is identical; the syntax is cleaner and more readable.
+    class Book {
+
+      // The constructor method runs automatically when `new Book()` is called.
+      // Its job is to initialise the new object's properties using the
+      // arguments passed in.
+      // `this` refers to the new object being created.
+      constructor(title, author) {
+        this.title = title;   // assigns the `title` argument to this object
+        this.author = author; // assigns the `author` argument to this object
+      }
+    }
+
+    // ================================================================
+    // HOISTING – CLASS DECLARATIONS ARE NOT HOISTED
+    // ================================================================
+    // Function declarations are hoisted – you can call them before they appear.
+    // Class declarations are **not** hoisted. Trying to instantiate a class
+    // before its declaration causes a ReferenceError.
+
+    // ❌ The following line would throw a ReferenceError because the class
+    //    declaration is not hoisted. Uncomment to test:
+    // const book_1 = new Book();   // ReferenceError: Cannot access 'Book' before initialisation
+
+    // ✅ This works – the class is already declared above.
+    const book_1 = new Book('JavaScript Guide', 'M. Doe');
+    console.log('Book instance (after declaration):', book_1);
+
+    // ================================================================
+    // CLASS EXPRESSIONS – UNNAMED (ANONYMOUS)
+    // ================================================================
+    // A class can also be defined using an expression and assigned to a variable.
+    // The class name is optional. This is useful for dynamic class creation.
+
+    // Unnamed class expression – the class has no internal name.
+    // The variable `BookExpr` holds the class.
+    const BookExpr = class {
+      constructor(title, author) {
+        this.title = title;
+        this.author = author;
+      }
+    };
+
+    const anonymousInstance = new BookExpr('Anonymous Book', 'Unknown');
+    console.log('Anonymous class expression instance:', anonymousInstance);
+
+    // ================================================================
+    // CLASS EXPRESSIONS – NAMED
+    // ================================================================
+    // A class expression can also have a name. The name is only accessible
+    // inside the class body (e.g., for recursion or debugging). Outside,
+    // only the variable name is used.
+
+    const NamedBook = class NamedBook {
+      constructor(title, author) {
+        this.title = title;
+        this.author = author;
+      }
+
+      // The internal name can be used inside the class (e.g., for static methods)
+      getClassName() {
+        return NamedBook.name; // "NamedBook"
+      }
+    };
+
+    const namedInstance = new NamedBook('Named Book', 'J. Smith');
+    console.log('Named class expression instance:', namedInstance);
+    console.log('Internal class name (from instance method):', namedInstance.getClassName());
+  </script>
+</body>
+
+</html>

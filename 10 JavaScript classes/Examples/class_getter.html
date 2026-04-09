@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class getter</title>
+</head>
+
+<body>
+  <script>
+    class Book {
+      constructor(nr, title, author) {
+        this.nr = nr;
+        this.t = title;
+        this.a = author;
+        // Runs every time a new Book instance is created
+        console.log('In the constructor:');
+      }
+
+      // GETTER — defined with the `get` keyword before the method name.
+      // A getter looks like a property from the outside but runs a function
+      // when accessed. No parentheses when calling it — `book.display`,
+      // not `book.display()`. Attempting to call it with () would throw
+      // a TypeError because the returned string is not a function.
+      get display() {
+        console.log('In the getter:');
+        // Builds and returns a formatted string from the object's properties.
+        // `this` refers to the Book instance the getter is called on.
+        return `${this.nr}: ${this.t} - ${this.a}`;
+      }
+    }
+
+    // Create a Book instance — constructor runs immediately
+    // → logs "In the constructor:"
+    let book1 = new Book(15, '1984', 'George Orwell');
+
+    // Log the full object — shows all properties stored on the instance.
+    // Note: the getter does NOT appear as a stored property here —
+    // it lives on the class prototype, not the instance itself.
+    console.log(book1);
+
+    // ACCESS THE GETTER — no parentheses, reads like a property.
+    // This triggers the getter function, which logs "In the getter:"
+    // and returns the formatted string.
+    // → "15: 1984 - George Orwell"
+    console.log(book1.display);
+  </script>
+</body>
+
+</html>
