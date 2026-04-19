@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery Events: 6 - Event delegation MISSING (applied to a list)</title>
+	<link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body>
+	<!--
+        Nested list structure:
+        #aList (outer ul)
+          └─ #bub (li — "item 0", acts as a container)
+               └─ #myList (inner ul — the list items are added/clicked here)
+                    ├─ li "item 1"
+                    ├─ li "item 2"
+                    └─ li "item 3"
+
+        The nesting is intentional — it sets up the bubbling demonstration
+        in the alert text ($(this).text() on a parent <li> includes all
+        its children's text, which can look unexpected).
+    -->
+	<ul id="aList">
+		<li id="bub">item 0
+			<ul id="myList">
+				<li>item 1</li>
+				<li>item 2</li>
+				<li>item 3</li>
+			</ul>
+		</li>
+	</ul>
+	<button id="btnButton1">Add list item</button>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * PROBLEM — direct binding again, this time on <li> elements.
+			 *
+			 * $('li').on('click', handler) binds to all THREE <li> elements
+			 * that exist at DOM-ready. New items added by the button will
+			 * NOT have this handler — same root cause as file 4.
+			 *
+			 * SECONDARY ISSUE — event bubbling:
+			 * Clicking "item 1" fires the handler for that <li>.
+			 * But the click event also BUBBLES UP to the parent <li id="bub">,
+			 * which also has the handler attached, so the alert fires TWICE —
+			 * once for the inner item and once for the outer container.
+			 * This is the event bubbling problem that file 7 addresses
+			 * by scoping the delegate to #myList instead of all <li>.
+			 *
+			 * See file 7 for the fix.
+			 */
+			$('li').on('click', function () {
+				alert('Clicked on a list item: ' + $(this).text());
+			});
+
+			/*
+			 * Adds a new <li> to #myList.
+			 * .length counts existing items, +1 gives the next number.
+			 * New items will NOT respond to clicks (the problem this file exposes).
+			 *
+			 * Note: `var` is used here instead of `let` — this is older-style JS.
+			 * In jQuery 3.x projects, `let` or `const` is preferred.
+			 */
+			$('#btnButton1').on('click', function () {
+				var itemCount = $('#myList li').length + 1;
+				$('#myList').append('<li>item ' + itemCount + '</li>');
+			});
+
+		});
+	</script>
+</body>
+
+</html>

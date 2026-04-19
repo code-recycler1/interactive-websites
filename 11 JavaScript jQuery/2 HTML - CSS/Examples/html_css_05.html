@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery HTML-CSS: 5 - hasClass</title>
+	<link rel="stylesheet" href="../../css/examples.css">
+</head>
+
+<body>
+	<h1>jQuery html-css examples</h1>
+	<p>This is the first paragraph.</p>
+	<p>This is the second paragraph.</p>
+	<p>This is the third paragraph.</p>
+
+	<!-- Load jQuery from a local file -->
+	<script src="../../js/jquery-3.6.0.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * SETUP — same pattern as file 4:
+			 * Add .blue to all paragraphs, then remove it from odd-indexed ones.
+			 * Result: paragraphs at index 0 and 2 are blue, index 1 is not.
+			 */
+			$('p').addClass('blue');
+			$('p:odd').removeClass('blue');
+
+			/*
+			 * READ THE CLASS STATE ON CLICK — using .hasClass()
+			 *
+			 * A click handler is attached to ALL <p> elements.
+			 * When any paragraph is clicked, $(this) refers to that specific
+			 * paragraph as a jQuery object.
+			 *
+			 * .hasClass('blue') returns a boolean:
+			 *   true  — the element currently has class="blue"
+			 *   false — it does not
+			 *
+			 * This is a READ operation — it does not change anything.
+			 * It is the jQuery equivalent of:
+			 *   this.classList.contains('blue')  ← vanilla JS alternative
+			 *
+			 * The result is shown in a native browser alert dialog.
+			 * In production code, console.log() or a UI update would be
+			 * more appropriate than alert().
+			 */
+			$('p').on('click', function () {
+				if ($(this).hasClass('blue')) {
+					alert('This paragraph is blue');
+				} else {
+					alert('NOT blue');
+				}
+			});
+
+		}); // end document ready
+	</script>
+</body>
+
+</html>

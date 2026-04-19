@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery introduction 2</title>
+</head>
+
+<body>
+	<h1>jQuery basic examples</h1>
+	<p>The first paragraph.</p>
+	<p>Another paragraph.</p>
+	<div>Text inside a div.</div>
+	<p>A third paragraph.</p>
+	<hr />
+
+	<!-- Empty container reserved for dynamic output — not used in this example yet -->
+	<div id="divResult"></div>
+
+
+	<!-- Load jQuery from a local file, placed at the bottom of <body> so all HTML above
+         is already in the DOM before any jQuery code runs -->
+	<script src="../../js/jquery-3.6.0.js"></script>
+	<script>
+		/*
+		 * CHAINING — calling multiple jQuery methods in sequence on the same selection.
+		 *
+		 * Each jQuery method (except getters like .css('width')) returns the same
+		 * jQuery object it was called on, which allows you to keep calling methods
+		 * without repeating the selector. This is one of jQuery's core design features.
+		 *
+		 * What this chain does, step by step:
+		 *
+		 *   $('p')                          — select ALL <p> elements on the page
+		 *   .css('background-color', ...)   — set each one's background to lime green
+		 *   .on('click', function() { ... }) — attach a click listener to each one
+		 *
+		 * The click handler uses $(this) to refer only to the specific paragraph
+		 * that was clicked, not all paragraphs. Without wrapping in $(), `this`
+		 * would be a plain DOM element with no jQuery methods available.
+		 *
+		 * .slideUp() animates the element's height to zero, then sets
+		 * display:none — giving a smooth "slide away" effect.
+		 */
+		$('p')
+			.css('background-color', 'limegreen')
+			.on('click', function () {
+				/*
+				 * `this` inside a jQuery event handler refers to the DOM element
+				 * that triggered the event — in this case, the clicked <p>.
+				 * Wrapping it in $() converts it to a jQuery object so we can
+				 * call .slideUp() on it.
+				 */
+				$(this).slideUp();
+			});
+
+		/*
+		 * The chain above can also be written as a single line — identical behaviour,
+		 * just less readable. Multi-line formatting is preferred for maintainability:
+		 *
+		 * $('p').css('background-color', 'limegreen').on('click', function () { $(this).slideUp(); });
+		 */
+	</script>
+</body>
+
+</html>

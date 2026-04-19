@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Animation: exercise 1</title>
+	<link rel="stylesheet" href="../../css/exercises.css">
+</head>
+
+<body class="font-helvetica ">
+	<!--
+        The terms box appears ABOVE the checkbox intentionally.
+        .slideUp() collapses the element upward — if the checkbox were above
+        the box, the layout shift as the box collapses would push the checkbox
+        unexpectedly. Placing the box first keeps the checkbox position stable.
+    -->
+	<div id="terms">
+		Lorem Ipsum is simply dummy text of the printing and typesetting
+		industry. Lorem Ipsum has been the industry's standard dummy text
+		ever since the 1500s, when an unknown printer took a galley of type
+		and scrambled it to make a type specimen book. It has survived not
+		only five centuries, but also the leap into electronic typesetting,
+		remaining essentially unchanged. It was popularised in the 1960s
+		with the release of Letraset sheets containing Lorem Ipsum passages,
+		and more recently with desktop publishing software like Aldus
+		PageMaker including versions of Lorem Ipsum.
+	</div>
+
+	<input type="checkbox" id="chkTerms" /> I agree to the Terms and Conditions<br />
+	<button id="btnButton1">Continue</button>
+	<div id="divResult"></div>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+		$(function () {
+
+			$('#chkTerms').on('click', function () {
+
+				/*
+				 * .is(':checked') reads the checkbox's current state AFTER
+				 * the click has toggled it — so this reflects the NEW state,
+				 * not the state before the click.
+				 *
+				 * Checked   → user has agreed → hide the terms (slide up)
+				 * Unchecked → user has revoked → show the terms again (slide down)
+				 *
+				 * 'slow' ≈ 600ms. Other options to try as suggested by the exercise:
+				 *   'fast'   ≈ 200ms
+				 *   400      — any number of milliseconds
+				 *   'normal' ≈ 400ms (jQuery's default when no duration is given)
+				 */
+				if ($('#chkTerms').is(':checked')) {
+					$('#terms').slideUp('slow');
+				} else {
+					$('#terms').slideDown('slow');
+				}
+			});
+
+		}); // end document ready
+	</script>
+</body>
+
+</html>

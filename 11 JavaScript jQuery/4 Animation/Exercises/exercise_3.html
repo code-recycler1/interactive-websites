@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Animation: exercise 3</title>
+	<link rel="stylesheet" href="../../css/exercises.css">
+</head>
+
+<body class="font-helvetica">
+	<h2>Use the arrow keys to move the block</h2>
+	<div id="block"></div>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+		$(document).ready(function () {
+
+			/*
+			 * keydown fires repeatedly while a key is held down (key repeat).
+			 * Each event adds a new .animate() call to the queue — the block
+			 * keeps moving smoothly as long as the key is held.
+			 *
+			 * e.which contains the numeric key code:
+			 *   37 = left arrow
+			 *   38 = up arrow
+			 *   39 = right arrow
+			 *   40 = down arrow
+			 *
+			 * ⚠️  e.which is deprecated — modern code uses e.key:
+			 *   e.key === 'ArrowLeft' / 'ArrowRight' / 'ArrowUp' / 'ArrowDown'
+			 *
+			 * '-=50px' / '+=50px' — relative values that move the block
+			 * 50px in the chosen direction from wherever it currently is.
+			 *
+			 * No boundary checks here — the block can move off the screen.
+			 * See exercise 3 bis below for the version with bounds checking.
+			 */
+			$(document).on('keydown', function (e) {
+				switch (e.which) {
+					case 37: // left arrow
+						$('#block').animate({ 'left': '-=50px' });
+						break;
+					case 38: // up arrow
+						$('#block').animate({ 'top': '-=50px' });
+						break;
+					case 39: // right arrow
+						$('#block').animate({ 'left': '+=50px' });
+						break;
+					case 40: // down arrow
+						$('#block').animate({ 'top': '+=50px' });
+						break;
+					default:
+						// Any other key — do nothing
+						break;
+				}
+			});
+
+			/*
+			 * keyup fires once when the key is released.
+			 *
+			 * .clearQueue() removes all pending .animate() calls from
+			 * the queue WITHOUT stopping the animation currently running.
+			 * This prevents the block from continuing to drift after the
+			 * key is released — animations queued during key-repeat are
+			 * discarded, and the block stops after finishing the last
+			 * step it already started.
+			 *
+			 * Compare with .stop(true, false) which would also halt
+			 * the currently running animation immediately.
+			 */
+			$(document).on('keyup', function (e) {
+				$('#block').clearQueue();
+			});
+
+		});
+	</script>
+</body>
+
+</html>

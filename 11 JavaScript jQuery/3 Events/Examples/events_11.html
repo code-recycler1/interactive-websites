@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery Events: 11 - keypress event and e.which</title>
+	<link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body>
+	<input type="text" id="txtKeypress" placeholder="Type text" />
+	<div id="divResult" class="result-box-large"></div>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * 'keypress' EVENT — fires when a key that produces a printable
+			 * character is pressed and held. It does NOT fire for modifier
+			 * or control keys (Shift, Ctrl, Alt, Backspace, Arrow keys, etc.).
+			 *
+			 * e.which — the numeric character code (ASCII/Unicode) of the
+			 * key that was pressed. For example:
+			 *   'a' → 97,  'A' → 65,  '1' → 49,  Enter → 13
+			 *
+			 * ⚠️  DEPRECATION WARNING:
+			 * Both the 'keypress' event and e.which are DEPRECATED in the
+			 * modern Web standard and should be avoided in new code.
+			 *
+			 * Current replacements (available in jQuery 3.x):
+			 *   Event:    'keydown' or 'keyup'  (fire for ALL keys including Backspace etc.)
+			 *   Property: e.key    → the actual character typed, e.g. 'a', 'Enter', 'ArrowUp'
+			 *             e.code   → the physical key position, e.g. 'KeyA', 'Enter'
+			 *
+			 * Modern equivalent of this entire handler:
+			 *   $('#txtKeypress').on('keydown', function (e) {
+			 *       $('#divResult').html('Key pressed: ' + e.key);
+			 *   });
+			 */
+			$('#txtKeypress').on('keypress', function (e) {
+				$('#divResult').html('Key pressed: ' + e.which);
+			});
+
+		});
+	</script>
+</body>
+
+</html>

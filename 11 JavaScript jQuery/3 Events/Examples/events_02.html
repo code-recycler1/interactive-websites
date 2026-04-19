@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery Events: 2 - .hover() (mouseenter / mouseleave)</title>
+	<link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body>
+	<img src="../../img/kitten1.jpg" class="img-hover" />
+
+	<!-- Tooltip content — invisible until the user hovers over the image -->
+	<div id="divTooltip">This is our new cat Pluisje</div>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * .hover(handlerIn, handlerOut) — a convenience wrapper that binds
+			 * two separate handlers in one call:
+			 *   handlerIn  — fires when the mouse ENTERS the element (mouseenter)
+			 *   handlerOut — fires when the mouse LEAVES the element (mouseleave)
+			 *
+			 * .hover() is NOT the same as the CSS :hover pseudo-class —
+			 * it runs JavaScript, giving access to the full jQuery API.
+			 *
+			 * Here we use .css() to toggle display directly. A cleaner
+			 * jQuery alternative would be .show() / .hide(), which do the
+			 * same thing with slightly less code:
+			 *   handlerIn:  $('#divTooltip').show();
+			 *   handlerOut: $('#divTooltip').hide();
+			 *
+			 * For a smooth transition, .fadeIn() / .fadeOut() could replace
+			 * .show() / .hide() with no other changes.
+			 *
+			 * LIMITATION: the tooltip has a fixed position (top/left in CSS).
+			 * It does not follow the mouse cursor. To track the cursor,
+			 * use the mousemove event and the event.pageX / event.pageY properties.
+			 */
+			$('img').hover(
+				// handlerIn — fires on mouseenter
+				function () {
+					$('#divTooltip').css('display', 'block');
+				},
+				// handlerOut — fires on mouseleave
+				function () {
+					$('#divTooltip').css('display', 'none');
+				}
+			); // end .hover()
+
+		});
+	</script>
+</body>
+
+</html>

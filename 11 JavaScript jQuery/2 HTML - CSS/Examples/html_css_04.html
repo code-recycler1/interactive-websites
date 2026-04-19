@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery HTML-CSS: 4 - toggleClass</title>
+	<link rel="stylesheet" href="../../css/examples.css">
+</head>
+
+<body>
+	<h1>jQuery html-css examples</h1>
+	<p>This is the first paragraph.</p>
+	<p>This is the second paragraph.</p>
+	<p>This is the third paragraph.</p>
+
+	<!-- Button that triggers the toggleClass behaviour -->
+	<button id="btn1">Toggle class</button>
+
+	<!-- Load jQuery from a local file -->
+	<script src="../../js/jquery-3.6.0.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * STEP 1 — Add .blue to ALL paragraphs on page load.
+			 * All three paragraphs start with the blue highlight applied.
+			 */
+			$('p').addClass('blue');
+
+			/*
+			 * STEP 2 — Remove .blue from odd-indexed paragraphs.
+			 * :odd targets index 1 (the second paragraph).
+			 * After this line: paragraphs 0 and 2 are blue, paragraph 1 is not.
+			 */
+			$('p:odd').removeClass('blue');
+
+			/*
+			 * STEP 3 — Toggle .blue on ALL paragraphs each time the button is clicked.
+			 *
+			 * .toggleClass() adds the class if the element doesn't have it,
+			 * removes it if the element does — per element individually.
+			 *
+			 * Because paragraphs start in a mixed state (some blue, some not),
+			 * the first button click produces an interesting result:
+			 *   - Paragraphs that HAD .blue (0 and 2) lose it
+			 *   - Paragraphs that did NOT have .blue (1) gain it
+			 * Each subsequent click reverses the previous state.
+			 *
+			 * .on('click', ...) is the preferred way to attach events in jQuery 3.x.
+			 * The older shorthand .click(fn) still works but .on() is more explicit
+			 * and consistent with how all other events are bound.
+			 */
+			$('#btn1').on('click', function () {
+				$('p').toggleClass('blue');
+			});
+
+		}); // end document ready
+	</script>
+</body>
+
+</html>

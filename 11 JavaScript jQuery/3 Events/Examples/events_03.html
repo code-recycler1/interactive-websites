@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery Events: 3 - .focus() and .blur()</title>
+	<link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body>
+	<!-- Input starts with class="normal" — jQuery will swap this class on focus/blur -->
+	<input type="text" id="txtName" class="normal" />
+	<p>Click inside and outside the field to see how .focus() and .blur() work.</p>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * CHAIN: both handlers are attached in a single chain on #txtName.
+			 * jQuery returns the same element from .focus(), so .blur() can be
+			 * called directly on the result — no need to re-select the element.
+			 *
+			 * .focus(handler) — fires when the element gains focus.
+			 *   Triggered by: clicking the field, tabbing into it, or
+			 *   calling element.focus() programmatically.
+			 *
+			 * .blur(handler) — fires when the element loses focus.
+			 *   Triggered by: clicking elsewhere, pressing Tab, or
+			 *   calling element.blur() programmatically.
+			 *
+			 * .removeClass('normal').addClass('focus') swaps the visual state
+			 * in one chained call — equivalent to two separate lines but more
+			 * concise. Order matters: remove first, then add.
+			 *
+			 * $(this) refers to #txtName in both handlers.
+			 */
+			$('#txtName')
+				.focus(function () {
+					$(this).removeClass('normal').addClass('focus');
+				})
+				.blur(function () {
+					$(this).removeClass('focus').addClass('normal');
+				});
+
+		});
+	</script>
+</body>
+
+</html>

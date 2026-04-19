@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Animation: 7 - Callback timing: wrong vs right</title>
+	<link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body>
+	<div id="divResult" class="result-box-anim">Text in the div</div>
+	<button id="btnFadeToggle">Fade div</button>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * === WRONG APPROACH (commented out) ===
+			 *
+			 * This is the most common jQuery animation mistake.
+			 * The visibility check runs IMMEDIATELY after .fadeToggle() is called —
+			 * at that point the animation has only just STARTED (3000ms = 3 seconds).
+			 * The div is still in its OLD state when .is(':visible') is checked,
+			 * so the button text always shows the WRONG label.
+			 *
+			 * Example timeline:
+			 *   t=0ms:    .fadeToggle(3000) starts — div is still visible
+			 *   t=0ms:    .is(':visible') runs — reads OLD state → "Fade out"
+			 *   t=3000ms: animation completes — div is now hidden
+			 *             but the button already says "Fade out" (wrong)
+			 *
+			 * $('#btnFadeToggle').on('click', function () {
+			 *     // 1. Start the animation
+			 *     $('#divResult').fadeToggle(3000);
+			 *
+			 *     // 2. Check state — RUNS IMMEDIATELY, animation not done yet
+			 *     if ($('#divResult').is(':visible')) {
+			 *         $('#btnFadeToggle').text('Fade out');
+			 *     } else {
+			 *         $('#btnFadeToggle').text('Fade in');
+			 *     }
+			 * });
+			 */
+
+
+			/*
+			 * === CORRECT APPROACH ===
+			 *
+			 * The visibility check is placed INSIDE the callback function —
+			 * the second argument to .fadeToggle(). jQuery calls this function
+			 * only after the animation has fully completed.
+			 *
+			 * Example timeline:
+			 *   t=0ms:    .fadeToggle(3000) starts — div begins fading
+			 *   t=3000ms: animation completes — callback runs NOW
+			 *             .is(':visible') reads the NEW, final state → correct label
+			 *
+			 * RULE: any code that depends on the result of an animation
+			 * must go inside the animation's callback — never after it.
+			 *
+			 * This applies to ALL jQuery animation methods that accept a callback:
+			 *   .hide(), .show(), .toggle()
+			 *   .slideUp(), .slideDown(), .slideToggle()
+			 *   .fadeIn(), .fadeOut(), .fadeToggle(), .fadeTo()
+			 *   .animate()
+			 */
+			$('#btnFadeToggle').on('click', function () {
+				$('#divResult').fadeToggle(3000, function () {
+					// This runs AFTER the 3-second animation completes
+					if ($('#divResult').is(':visible')) {
+						// Div just became visible — next click will fade it out
+						$('#btnFadeToggle').text('Fade out');
+					} else {
+						// Div just became hidden — next click will fade it in
+						$('#btnFadeToggle').text('Fade in');
+					}
+				});
+			});
+
+		});
+	</script>
+</body>
+
+</html>

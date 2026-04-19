@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery HTML-CSS: 10 - .is(':checked') on a checkbox</title>
+	<link rel="stylesheet" href="../../css/examples.css">
+</head>
+
+<body>
+	<input type="checkbox" id="chkTerms" /> I agree to the Terms and Conditions<br />
+	<button id="btnButton1">Continue</button>
+	<div id="divResult"></div>
+
+	<!-- Load jQuery from a local file -->
+	<script src="../../js/jquery-3.6.0.js"></script>
+	<script>
+		$(function () {
+
+			$('#btnButton1').on('click', function () {
+				let msg = '';
+
+				/*
+				 * .is(selector) — tests whether the matched element satisfies
+				 * a given selector or filter, returning true or false.
+				 *
+				 * ':checked' is a CSS pseudo-class that matches any checkbox
+				 * or radio button that is currently selected.
+				 *
+				 * .is(':checked') is the jQuery equivalent of:
+				 *   document.getElementById('chkTerms').checked  ← vanilla JS
+				 *
+				 * Unlike .hasClass(), .is() can test against any valid selector
+				 * or jQuery filter — making it a general-purpose state checker.
+				 */
+				if ($('#chkTerms').is(':checked')) {
+					msg = 'Thank you for agreeing — you may proceed...';
+					// ... perform other useful actions here (e.g. submit form)
+				} else {
+					msg = 'You must accept the Terms and Conditions to continue.';
+				}
+
+				// .text() is safe here — msg is a hardcoded string, not user input
+				$('#divResult').text(msg);
+			});
+
+		}); // end document ready
+	</script>
+</body>
+
+</html>

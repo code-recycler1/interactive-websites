@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!--
+        CDN fallback chain — two remote copies of jQuery are listed here as backups.
+        However, a LOCAL copy is loaded at the bottom of <body> (see below),
+        which will be the version that actually runs. These two CDN tags are
+        effectively unused and should be removed to avoid loading jQuery three times.
+
+        If a CDN-first strategy were intended, the pattern would be:
+            1. Try Google CDN
+            2. If that fails, try Microsoft CDN
+            3. If both fail, fall back to the local file
+        But that fallback logic is not implemented here — there is no
+        window.jQuery check between the tags.
+    -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.0.min.js"></script>
+
+	<title>Introduction 1</title>
+</head>
+
+<body>
+	<h1>jQuery basic examples</h1>
+	<p>The first paragraph.</p>
+	<p>Another paragraph.</p>
+	<div>Text inside a div.</div>
+	<p>A third paragraph.</p>
+	<hr />
+
+	<!-- Empty container reserved for dynamic output — not used in this example yet -->
+	<div id="divResult"></div>
+
+
+	<!--
+        Loading jQuery from a LOCAL file, placed at the bottom of <body>.
+        Putting scripts here (rather than in <head>) is a classic performance pattern:
+        the browser renders all HTML above first, so the page is visible before
+        any script runs. This also means $('p') below is safe — all <p> elements
+        already exist in the DOM by the time jQuery executes.
+    -->
+	<script src="../../js/jquery-3.6.0.js"></script>
+
+	<script>
+		/*
+		 * Select all <p> elements on the page and set their background to lime green.
+		 *
+		 * $('p') is a jQuery selector — equivalent to document.querySelectorAll('p')
+		 * but returns a jQuery object, which gives access to jQuery's chainable methods.
+		 *
+		 * Storing the result in a variable (cache) is intentional:
+		 * if you need to work with the same set of elements more than once,
+		 * caching avoids querying the DOM repeatedly, which is a minor
+		 * but good performance habit.
+		 */
+		let paragraphs = $('p');
+		paragraphs.css('background-color', 'limegreen');
+
+		/*
+		 * The line above is exactly equivalent to this one-liner:
+		 * $('p').css('background-color', 'limegreen');
+		 *
+		 * The only practical difference is that the variable `paragraphs`
+		 * can be reused later without re-querying the DOM.
+		 */
+	</script>
+</body>
+
+</html>

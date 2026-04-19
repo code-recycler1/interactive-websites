@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery Events: 7 - Event delegation CORRECT (scoped to the right ancestor)</title>
+	<link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body>
+	<ul id="aList">
+		<li id="bub">item 0
+			<ul id="myList">
+				<li>item 1</li>
+				<li>item 2</li>
+				<li>item 3</li>
+			</ul>
+		</li>
+	</ul>
+	<button id="btnButton1">Add list item</button>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * CORRECT EVENT DELEGATION — scoped to the tightest stable ancestor.
+			 *
+			 * $('#myList').on('click', 'li', handler)
+			 *
+			 * The handler is bound to #myList (the inner <ul>), NOT to
+			 * all <li> elements globally. The delegate selector 'li' means:
+			 * "only react if the click came from a direct or descendant <li>
+			 * inside #myList".
+			 *
+			 * This solves BOTH problems from file 6:
+			 *
+			 * PROBLEM 1 — dynamic elements:
+			 *   #myList always exists. New <li> items appended into it
+			 *   automatically fall under the delegated handler — no re-binding.
+			 *
+			 * PROBLEM 2 — unintended bubbling to #bub:
+			 *   In file 6, clicking "item 1" also triggered the handler on
+			 *   the outer <li id="bub"> because $('li') matched it too.
+			 *   Here the anchor is #myList, which is a CHILD of #bub —
+			 *   so clicks on #myList items bubble UP to #myList and
+			 *   are handled there. They continue bubbling to #bub and beyond,
+			 *   but #bub has no handler in this version, so nothing fires twice.
+			 *
+			 * BEST PRACTICE — always use the CLOSEST stable ancestor as the
+			 * delegation anchor, not document or body. This limits unnecessary
+			 * event checking and makes the code's intent clear:
+			 *   Too broad:  $(document).on('click', 'li', fn)  — checks every click on the page
+			 *   Too broad:  $('body').on('click', 'li', fn)    — still checks every click
+			 *   Just right: $('#myList').on('click', 'li', fn) — scoped to the list
+			 */
+			$('#myList').on('click', 'li', function () {
+				alert('Clicked on a list item: ' + $(this).text());
+			});
+
+			/*
+			 * Adds a new <li> to #myList.
+			 * Unlike file 6, this new item WILL respond to clicks immediately.
+			 */
+			$('#btnButton1').on('click', function () {
+				var itemCount = $('#myList li').length + 1;
+				$('#myList').append('<li>item ' + itemCount + '</li>');
+			});
+
+		});
+	</script>
+</body>
+
+</html>

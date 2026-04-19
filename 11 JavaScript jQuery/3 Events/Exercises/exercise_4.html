@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events: exercise 4</title>
+    <link rel="stylesheet" href="../../css/exercises.css">
+</head>
+
+<body>
+    <input type="text" id="txtCount" placeholder="Type a number" value="0" />
+    <button id="btnButton1">Add list item(s)</button>
+
+    <!-- Validation message — visible briefly on invalid input -->
+    <span id="msg">Please enter a number!</span>
+
+    <!-- Reusable tooltip box — text is set dynamically on each hover -->
+    <div id="divTooltip">This is a list item</div>
+
+    <ul id="myList">
+        <li>item 1</li>
+        <li>item 2</li>
+        <li>item 3</li>
+    </ul>
+
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script>
+        $(function () {
+
+            /*
+             * DELEGATED HOVER TOOLTIP
+             *
+             * Both handlers are attached to the stable parent #myList using
+             * event delegation — the 'li' argument is the delegate selector.
+             * This means the tooltip works on items added dynamically by the
+             * button below, not just the three that exist on page load.
+             *
+             * The two handlers are chained on the same $('#myList') selection.
+             */
+            $('#myList')
+                .on('mouseover', 'li', function (e) {
+
+                    /*
+                     * Show the tooltip, position it near the cursor, and set
+                     * its text to match the hovered list item's content.
+                     *
+                     * e.pageX / e.pageY — cursor position relative to the document.
+                     * Passed directly as left/top values — jQuery appends 'px' automatically.
+                     *
+                     * $(this).text() — the plain text of the hovered <li>.
+                     * Using .text() is XSS-safe; .html() would not be needed here.
+                     */
+                    $('#divTooltip')
+                        .css({
+                            'display': 'block',
+                            'left': e.pageX,
+                            'top': e.pageY
+                        })
+                        .text($(this).text());
+                })
+                .on('mouseleave', 'li', function () {
+
+                    /*
+                     * Hide the tooltip when the cursor leaves a list item.
+                     * mouseleave does not bubble — it only fires when the cursor
+                     * leaves the <li> itself, not when it moves to a child element.
+                     */
+                    $('#divTooltip').css('display', 'none');
+                });
+
+
+            /*
+             * ADD LIST ITEMS IN A LOOP
+             *
+             * Reads the number the user typed, validates it, then runs a loop
+             * that many times — each iteration appends one new <li>.
+             *
+             * VALIDATION — isNaN(value):
+             *   isNaN() returns true if the value cannot be interpreted as a number.
+             *   Empty string, letters, and symbols all return true (invalid).
+             *   Plain numbers and numeric strings like "5" return false (valid).
+             *
+             *   NOTE: isNaN('') returns false because JS coerces '' to 0.
+             *   For stricter validation, Number.isNaN(Number(value)) or a regex
+             *   would be more reliable.
+             *
+             * ERROR FEEDBACK — .fadeOut(3000):
+             *   Shows the #msg span with display:inline, then smoothly fades it
+             *   out over 3 seconds. A clean UX pattern for transient error messages
+             *   that disappear automatically without the user needing to dismiss them.
+             *
+             * LOOP NOTE: `i` is used without `let` — this makes it an implicit
+             * global variable, which is a bug in strict mode. Should be `let i`.
+             */
+            $('#btnButton1').on('click', function () {
+                let count = $('#txtCount').val();
+
+                if (!isNaN(count)) {
+                    for (let i = 0; i < count; i++) {
+                        /*
+                         * Re-count existing items on each iteration so the
+                         * new item always gets the correct sequential number,
+                         * even if items were previously added or removed.
+                         */
+                        let itemNumber = $('#myList li').length + 1;
+                        $('#myList').append('<li>item ' + itemNumber + '</li>');
+                    }
+                } else {
+                    /*
+                     * .css('display', 'inline') makes the span visible,
+                     * then .fadeOut(3000) animates it to invisible over 3 seconds
+                     * and sets display:none when the fade completes.
+                     */
+                    $('span#msg').css('display', 'inline').fadeOut(3000);
+                }
+            });
+
+        });
+    </script>
+</body>
+
+</html>

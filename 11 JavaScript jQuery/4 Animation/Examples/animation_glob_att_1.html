@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Animation: Global properties - (jQuery.fx.off)</title>
+	<link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body class="page-helvetica">
+	<button id="disable">jQuery.fx.off = true (Disable)</button>
+	<button id="enable">jQuery.fx.off = false (Enable)</button>
+	<br><br>
+	<button id="toggle">Toggle animation</button>
+	<div id="cube"></div>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * jQuery.fx.off — a GLOBAL switch that disables ALL jQuery animations.
+			 *
+			 * When set to true:
+			 *   - All animation methods (.fadeIn, .slideUp, .animate, .toggle, etc.)
+			 *     skip the animation entirely and jump straight to their end state.
+			 *   - .toggle('slow') becomes instant — exactly as if no duration were given.
+			 *   - Callbacks still run immediately after the instant state change.
+			 *
+			 * When set to false (the default):
+			 *   - Animations run normally with their specified durations.
+			 *
+			 * PRIMARY USE CASE — accessibility:
+			 *   Users who have motion sensitivity (vestibular disorders) may have
+			 *   the OS "reduce motion" preference enabled. A well-built site checks
+			 *   this preference and sets jQuery.fx.off = true accordingly:
+			 *
+			 *   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+			 *       jQuery.fx.off = true;
+			 *   }
+			 *
+			 * SECONDARY USE CASE — performance testing / debugging:
+			 *   Disabling animations speeds up manual testing so you don't
+			 *   have to wait for animations to complete on every interaction.
+			 */
+			$('#disable').click(function () {
+				jQuery.fx.off = true;
+			});
+
+			$('#enable').click(function () {
+				jQuery.fx.off = false;
+			});
+
+			/*
+			 * .toggle('slow') — visible effect when fx.off is false (600ms animation),
+			 * instant state change when fx.off is true.
+			 * Targets ALL <div> elements on the page, including #cube.
+			 */
+			$('#toggle').click(function () {
+				$('div').toggle('slow');
+			});
+
+		});
+	</script>
+</body>
+
+</html>

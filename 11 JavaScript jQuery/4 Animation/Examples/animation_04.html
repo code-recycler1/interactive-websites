@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Animation: 4 - .slideToggle()</title>
+	<link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body>
+	<div id="divResult" class="result-box-anim">Text in the div</div>
+	<button id="btnToggle">Toggle visibility</button>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * .slideToggle() — combines .slideUp() and .slideDown() into one call.
+			 * Checks the element's current visibility:
+			 *   visible → runs .slideUp()   (hides it)
+			 *   hidden  → runs .slideDown() (reveals it)
+			 *
+			 * This is the slide equivalent of .toggle() for show/hide and
+			 * .fadeToggle() for opacity. All three follow the same pattern:
+			 *   .toggle()      — instant or animated size collapse
+			 *   .slideToggle() — height-only animated collapse
+			 *   .fadeToggle()  — opacity animated fade
+			 *
+			 * Accepts the same duration and callback arguments as .slideUp()
+			 * and .slideDown().
+			 */
+			$('#btnToggle').on('click', function () {
+				$('#divResult').slideToggle();
+			});
+
+		});
+	</script>
+</body>
+
+</html>

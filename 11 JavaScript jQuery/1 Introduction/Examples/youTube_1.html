@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube: JavaScript version</title>
+    <link href="../../css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/examples.css">
+    <script>
+        /*
+         * HIDE THE MOVIE SECTION ON PAGE LOAD
+         *
+         * window.onload fires after the ENTIRE page has loaded —
+         * HTML, CSS, images, and all subresources.
+         * This is later than $(document).ready(), which fires as soon
+         * as the DOM is parsed (before images finish loading).
+         *
+         * Because this script is in <head>, the DOM doesn't exist yet
+         * when the browser first parses it — window.onload is required
+         * here so that getElementById() can actually find #movie.
+         *
+         * Sets display:none directly on the element's inline style,
+         * which overrides any stylesheet rule.
+         */
+        window.onload = function () {
+            document.getElementById('movie').style.display = 'none';
+        };
+
+        /*
+         * SHOW THE MOVIE SECTION WHEN CALLED
+         *
+         * This function is called directly from the onclick attribute
+         * in the HTML below (inline event handler pattern).
+         * Sets display:block to reverse the hide applied above.
+         *
+         * Note: this approach mixes behaviour (JS) into the HTML markup,
+         * which is considered poor separation of concerns in modern code.
+         * The jQuery version below solves this cleanly.
+         */
+        function showMovie() {
+            document.getElementById('movie').style.display = 'block';
+        }
+    </script>
+</head>
+
+<body>
+    <main class="container">
+        <h1>YouTube: JavaScript version</h1>
+        <section>
+            <h2>Sympathy for the Devil</h2>
+
+            <!-- Paragraph 1: background about the song -->
+            <p>Sympathy for the Devil is a rock song by the Rolling Stones. It is one of the most well-known songs by
+                the Stones and appeared in 1968 on the album Beggars Banquet.</p>
+
+            <!-- Paragraph 2: background about the recording -->
+            <p>The song was written by the Jagger/Richards duo, but is primarily the work of Jagger. Sympathy for the
+                Devil was recorded at Olympic Studios in London. Notably, Keith Richards plays bass on this track
+                rather than the usual bassist Bill Wyman.</p>
+
+            <!--
+                The link uses an inline onclick attribute to call showMovie().
+                href="#" prevents navigation but scrolls to the top of the page —
+                a minor UX issue. href="javascript:;" avoids even the scroll,
+                but both are legacy patterns superseded by event.preventDefault().
+            -->
+            <p><a href="#" id="movieLink" onclick="showMovie();">Show movie.</a></p>
+        </section>
+
+        <!-- Movie section: hidden on load, revealed when the link is clicked -->
+        <section id="movie">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/ZRXGsPBUV5g" frameborder="0"
+                allow="autoplay; encrypted-media" allowfullscreen>
+            </iframe>
+        </section>
+    </main>
+
+    <!-- jQuery is loaded here but never actually used in this file —
+         the empty $(function(){}) below is a placeholder for a future jQuery version -->
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script>
+        $(function () {
+            // jQuery code goes here (not yet implemented in this version)
+        });
+    </script>
+</body>
+
+</html>

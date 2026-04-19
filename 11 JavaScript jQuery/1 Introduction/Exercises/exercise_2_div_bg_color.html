@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 2 - Style divs with .css() on page load</title>
+    <link href="../../css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <h1>jQuery basic examples</h1>
+
+    <!-- Three divs — all will be selected and styled by jQuery below -->
+    <div>
+        <p>The first paragraph inside a div.</p>
+    </div>
+    <div>
+        <p>Another paragraph inside a div.</p>
+    </div>
+    <div>Text inside a div.</div>
+
+    <!-- This paragraph is NOT inside a div, so it will not be affected -->
+    <p>A third paragraph.</p>
+
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+
+            /*
+             * Select all <div> elements on the page and apply two CSS properties
+             * using a CHAIN of .css() calls.
+             *
+             * Each .css(property, value) call returns the same jQuery object,
+             * so the second .css() call applies to the same three divs.
+             *
+             * This two-call chain is functionally identical to the options-object
+             * approach shown below in the comment — both write inline styles
+             * on each matched element.
+             */
+            $('div')
+                .css('background-color', '#0000FF') // solid blue background
+                .css('color', 'white');              // white text for contrast
+
+            /*
+             * ALTERNATIVE — options object form (covered in the next chapter).
+             * Both approaches produce the same result. The object form is
+             * preferred when setting three or more properties at once because
+             * it touches the DOM only once instead of once per .css() call.
+             *
+             * let cssOptions = {
+             *     'background-color': '#0000FF',
+             *     'color': 'red'
+             * };
+             * $('div').css(cssOptions);
+             */
+
+        });
+
+    </script>
+</body>
+
+</html>

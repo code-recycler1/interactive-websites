@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Animation: exercise 2</title>
+	<link rel="stylesheet" href="../../css/exercises.css">
+</head>
+
+<body class="font-helvetica font-helvetica-16">
+	<button id="startAnim">START</button>
+	<button id="pauseAnim">PAUSE</button>
+
+	<div id="animationDiv">Animate me!</div>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * CHAINED ANIMATION SEQUENCE
+			 *
+			 * Each .animate() / .fadeTo() call is added to jQuery's internal
+			 * animation QUEUE for #animationDiv. jQuery runs them one by one —
+			 * each step only starts after the previous one fully completes.
+			 *
+			 * The sequence here:
+			 *   1. Slide right 250px          (1000ms)
+			 *   2. Slide down  50px           (2000ms)
+			 *   3. Fade to 33% opacity        ('slow' ≈ 600ms)
+			 *   4. Expand height to 250px     ('slow')
+			 *   5. Move further right+down    ('slow')
+			 *   6. Fade back to full opacity  ('slow')
+			 *   7. Shrink height back to 150px ('slow')
+			 *   8. Return to near-origin      ('slow') → fires callback
+			 *
+			 * The callback on step 8 runs AFTER that final animation
+			 * completes — correct timing as demonstrated in animation file 7.
+			 *
+			 * The commented-out block above the chain shows an alternative
+			 * where a single .animate() with an options object was planned
+			 * but replaced with this more complex multi-step sequence.
+			 */
+			$('#startAnim').on('click', function () {
+				$('#animationDiv')
+					.animate({ left: '250px' }, 1000)
+					.animate({ top: '50px' }, 2000)
+					.fadeTo('slow', 0.33)
+					.animate({ height: 250 }, 'slow')
+					.animate({ left: '+=200', top: '+=100' }, 'slow')
+					.fadeTo('slow', 1)
+					.animate({ height: 150 }, 'slow')
+					.animate({ left: '10', top: '100' }, 'slow', function () {
+						// Callback — runs only after the final animation completes
+						$('#animationDiv').text('Animation complete.');
+					});
+			});
+
+			/*
+			 * PAUSE BUTTON — stops the animation mid-sequence.
+			 *
+			 * .stop(clearQueue, jumpToEnd):
+			 *
+			 *   clearQueue: true  — removes all pending animations from the queue
+			 *                       so no further steps run after stopping.
+			 *                       Setting false would pause only the current step;
+			 *                       queued steps would resume on the next interaction.
+			 *
+			 *   jumpToEnd: false  — freezes the element at its current mid-animation
+			 *                       position rather than snapping to the end value.
+			 *                       Setting true would jump to the final value before stopping.
+			 *
+			 * COMPARISON OF STOP / FINISH / DEQUEUE (extension note):
+			 *
+			 *   .stop(true, false)  — stop NOW at current position, clear queue
+			 *   .stop(true, true)   — jump to current animation's end value, clear queue
+			 *   .finish()           — jump ALL queued animations to their end values instantly
+			 *   .clearQueue()       — empties the queue without stopping the current animation
+			 *   .dequeue()          — manually starts the next item in the queue
+			 *
+			 * For a "pause and resume" feature, you would need to store the
+			 * remaining duration and restart — jQuery has no native pause/resume.
+			 */
+			$('#pauseAnim').click(function () {
+				$('#animationDiv').stop(true, false);
+			});
+
+		}); // end document ready
+	</script>
+</body>
+
+</html>

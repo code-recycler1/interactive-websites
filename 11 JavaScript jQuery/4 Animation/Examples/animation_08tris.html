@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Animation: 8 tris - .animate() with reset using .removeAttr('style')</title>
+	<link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body>
+	<div id="divResult" class="result-box-anim">Text in the div</div>
+	<button id="btnAnimate">Animate</button>
+	<button id="btnReset">Reset</button>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+		$(function () {
+
+			let animationOptions = {
+				'width': '400px',
+				'font-size': '40px'
+			};
+
+			$('#btnAnimate').on('click', function () {
+				$('#divResult').animate(animationOptions, 1500, function () {
+					$('#divResult').text('Animation complete.');
+				});
+			});
+
+			/*
+			 * RESET — restores the div to its original CSS state.
+			 *
+			 * HOW .animate() STORES ITS RESULTS:
+			 * jQuery writes animated values as INLINE styles directly on the
+			 * element's style attribute, e.g.:
+			 *   <div id="divResult" style="width: 400px; font-size: 40px;">
+			 *
+			 * Inline styles have the highest CSS specificity — they override
+			 * the stylesheet rule that sets width:200px. The stylesheet rule
+			 * still exists; it is just being overridden.
+			 *
+			 * .removeAttr('style') removes the entire inline style attribute,
+			 * which lets the original stylesheet rules take effect again —
+			 * snapping the div back to 200px × 200px immediately.
+			 *
+			 * This is a HARD RESET — it removes ALL inline styles, not just
+			 * the ones .animate() added. If other code had set inline styles
+			 * separately, those would be lost too.
+			 *
+			 * For a softer reset, you could animate back to the original values:
+			 *   $('#divResult').animate({ 'width': '200px', 'font-size': '' }, 1500);
+			 *
+			 * .text() restores the original text content which was replaced
+			 * by the callback in the animate handler.
+			 */
+			$('#btnReset').on('click', function () {
+				$('#divResult').removeAttr('style').text('Text in the div');
+			});
+
+		});
+	</script>
+</body>
+
+</html>

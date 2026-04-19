@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Events: exercise 2</title>
+	<link rel="stylesheet" href="../../css/exercises.css">
+</head>
+
+<body class="font-sm">
+	<!--
+        The field is pre-filled with a value so there is something to select
+        immediately — no typing required to test the behaviour.
+        This mirrors the YouTube embed code use case from the exercise brief:
+        a read-only URL or embed snippet that the user needs to copy quickly.
+    -->
+	<input type="text" id="txtFirstName" placeholder="Your first name" value="SDFSFSFQSDSG-121" />
+	<div id="divResult" class="result-box result-box--lg result-box--margin"></div>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+		$(function () {
+
+			$('#txtFirstName').on('click', function () {
+
+				/*
+				 * .select() — calls the native DOM .select() method on the
+				 * input element, which highlights all text inside it.
+				 *
+				 * The user can then immediately press Ctrl+C / Cmd+C to copy
+				 * without having to manually drag to select the text first.
+				 *
+				 * IMPORTANT DISTINCTION (covered in events file 10):
+				 *   .select()          → performs the DOM action (selects text)
+				 *                        but does NOT fire the 'select' event handler
+				 *   .trigger('select') → fires the event handler
+				 *                        but does NOT actually select the text
+				 *
+				 * Here we want the real selection, so .select() is correct.
+				 * The .html() call below is purely for visual confirmation
+				 * during the exercise — it would not appear in production code.
+				 */
+				$('#txtFirstName').select();
+
+				// Visual confirmation that the selection happened
+				$('#divResult').html('Text selected.');
+			});
+
+		});
+	</script>
+</body>
+
+</html>

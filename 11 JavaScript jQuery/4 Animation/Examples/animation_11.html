@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Animation: 11 - Cursor-following tooltip (basic version)</title>
+	<link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body class="page-helvetica">
+	<!--
+        The title attribute on each link provides the tooltip text.
+        NOTE: the browser's built-in tooltip (a small label that appears
+        after hovering for ~1 second) will ALSO show because the title
+        attribute is still present. File 12 solves this problem.
+    -->
+	<ul id="tabs">
+		<li><a href="#" title="Information about our services and products">Information</a></li>
+		<li><a href="#" title="Background on the company, the team, and more">About us</a></li>
+		<li><a href="#" title="Address details and directions">Contact</a></li>
+	</ul>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+		$(function () {
+
+			$('#tabs a').hover(
+
+				/*
+				 * HANDLER 1 — mouseenter (hover in)
+				 *
+				 * 1. Read the link's title attribute — this is the tooltip text.
+				 * 2. Calculate the tooltip position:
+				 *      top:  cursor's Y position minus 10px (slightly above cursor)
+				 *      left: cursor's X position plus 15px  (just to the right)
+				 *    Values use e.pageX / e.pageY — position relative to the
+				 *    document, consistent even when the page is scrolled.
+				 *    String concatenation adds 'px' as the CSS unit.
+				 * 3. Create a new <div class="tooltip"> dynamically,
+				 *    set its text, append it to <body>, position it, then fade in.
+				 *
+				 * CHAIN EXPLAINED:
+				 *   $('<div class="tooltip"></div>') — creates a new jQuery object (not in DOM yet)
+				 *   .text(title)                     — sets its text content safely (no XSS risk)
+				 *   .appendTo('body')                — inserts it into the DOM
+				 *   .css(position)                   — sets top and left
+				 *   .fadeIn()                        — animates opacity from 0 to 1
+				 */
+				function (e) {
+					var title = $(this).attr('title');
+					var position = {
+						'top': (e.pageY - 10) + 'px',
+						'left': (e.pageX + 15) + 'px'
+					};
+					$('<div class="tooltip"></div>')
+						.text(title)
+						.appendTo('body')
+						.css(position)
+						.fadeIn();
+				},
+
+				/*
+				 * HANDLER 2 — mouseleave (hover out)
+				 *
+				 * Remove the tooltip element from the DOM entirely.
+				 * .remove() deletes the element and cleans up its event handlers.
+				 * A new one is created fresh on the next mouseenter.
+				 */
+				function () {
+					$('.tooltip').remove();
+				}
+
+			).on('mousemove', function (e) {
+
+				/*
+				 * MOUSEMOVE — update tooltip position as the cursor moves.
+				 *
+				 * Without this handler, the tooltip would appear at the cursor's
+				 * position when hovering STARTED and stay frozen there.
+				 * This handler recalculates position on every mouse movement
+				 * so the tooltip follows the cursor in real time.
+				 *
+				 * The +15 / -10 offsets are the same as the initial placement —
+				 * keeping the tooltip consistently offset from the cursor tip.
+				 */
+				var position = {
+					'top': (e.pageY - 10) + 'px',
+					'left': (e.pageX + 15) + 'px'
+				};
+				$('.tooltip').css(position);
+
+			});
+
+		});
+	</script>
+</body>
+
+</html>

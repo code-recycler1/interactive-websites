@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery introduction 4</title>
+</head>
+
+<body>
+	<h1>jQuery basic examples</h1>
+	<p>The first paragraph.</p>
+	<p>Another paragraph.</p> <!-- Note: original had a typo "N og" — corrected here -->
+	<div>Text inside a div.</div>
+	<p>A third paragraph.</p>
+
+	<!--
+        A 4x3 table (4 rows, 3 columns = 12 cells total).
+        Used below to demonstrate row/cell selection and filtering.
+    -->
+	<table id="myTable">
+		<tr>
+			<td>cell 1</td>
+			<td>cell 2</td>
+			<td>cell 3</td>
+		</tr>
+		<tr>
+			<td>cell 4</td>
+			<td>cell 5</td>
+			<td>cell 6</td>
+		</tr>
+		<tr>
+			<td>cell 7</td>
+			<td>cell 8</td>
+			<td>cell 9</td>
+		</tr>
+		<tr>
+			<td>cell 10</td>
+			<td>cell 11</td>
+			<td>cell 12</td>
+		</tr>
+	</table>
+
+
+	<!-- Load jQuery from a local file, placed at the bottom of <body> -->
+	<script src="../../js/jquery-3.6.0.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * COUNT PARAGRAPHS
+			 *
+			 * $('p') selects all <p> elements and returns a jQuery object.
+			 * .length is a property (not a method) that returns how many
+			 * elements matched the selector — in this case, 3.
+			 *
+			 * The two lines below are identical in result:
+			 *   let paragraphs = $('p');
+			 *   console.log('number of paragraphs: ' + paragraphs.length);
+			 * Caching in a variable is only worth it if you reuse the selection.
+			 */
+			console.log('number of paragraphs: ' + $('p').length);
+			// Output: "number of paragraphs: 3"
+
+
+			/*
+			 * COUNT ALL TABLE ROWS
+			 *
+			 * $('#myTable tr') uses a descendant selector:
+			 *   #myTable — the specific table by ID
+			 *   tr       — any <tr> element inside it
+			 * Returns all 4 rows.
+			 */
+			console.log('number of table rows: ' + $('#myTable tr').length);
+			// Output: "number of table rows: 4"
+
+
+			/*
+			 * COUNT ODD TABLE ROWS
+			 *
+			 * :odd is a jQuery positional filter. It uses zero-based indexing,
+			 * so :odd selects elements at index 1, 3, 5 ... (visually the 2nd, 4th rows).
+			 * :even would select index 0, 2 ... (visually the 1st, 3rd rows).
+			 *
+			 * NOTE: :odd and :even are jQuery-only — not valid CSS selectors.
+			 * CSS uses :nth-child(odd) / :nth-child(even), which are 1-based.
+			 */
+			console.log('number of odd table rows: ' + $('#myTable tr:odd').length);
+			// Output: "number of odd table rows: 2"  (rows at index 1 and 3)
+
+
+			/*
+			 * SELECT ALL ELEMENTS INSIDE <body>
+			 *
+			 * $('body *') uses the universal selector (*) scoped to body.
+			 * This matches EVERY element that is a descendant of <body> —
+			 * including nested elements like <td> inside <tr> inside <table>.
+			 * The count will be higher than expected because it is recursive.
+			 */
+			console.log('all elements in body: ' + $('body *').length);
+			// Output: will include h1, p×3, div, table, tr×4, td×12, etc.
+
+
+			/*
+			 * DIRECT CHILDREN OF THE DOCUMENT (i.e. direct children of <html>)
+			 *
+			 * $(document).children() returns the immediate child elements of the
+			 * document root — in a standard HTML page this is just <html>.
+			 * To get <head> and <body>, call .children() again on the <html> element:
+			 *   $(document).children().children()  →  <head> and <body>
+			 */
+			console.log('direct children of document: ' + $(document).children().length);
+			// Output: "direct children of document: 1"  (just <html>)
+
+
+			/*
+			 * COUNT ALL TABLE CELLS
+			 *
+			 * $('#myTable td') selects every <td> inside the table.
+			 * 4 rows × 3 cells = 12 total.
+			 *
+			 * Alternative using the jQuery filter :
+			 *   $('#myTable tr td').length  — same result, more explicit path
+			 */
+			console.log('number of table cells: ' + $('#myTable td').length);
+			// Output: "number of table cells: 12"
+
+
+			/*
+			 * SELECT ONLY PARAGRAPHS AND DIVS — multiple selector
+			 *
+			 * Comma-separated selectors work identically to CSS:
+			 * jQuery collects all matches for each selector and merges them
+			 * into a single jQuery object, removing duplicates.
+			 *
+			 * Result here: 3 <p> elements + 1 <div> = 4 elements total.
+			 */
+			let paragraphsAndDivs = $('p, div');
+			console.log('paragraphs and divs: ' + paragraphsAndDivs.length);
+			// Output: "paragraphs and divs: 4"
+
+
+			/*
+			 * ADD CSS CLASSES TO PARAGRAPHS, THEN SELECT BY CLASS AND LOG THEM
+			 *
+			 * Step 1: .addClass() adds one or more space-separated class names
+			 *         to every element in the selection. Does not remove existing classes.
+			 *
+			 * Step 2: $('.highlight') selects by the class we just added.
+			 *         .each() iterates over every matched element, passing the
+			 *         zero-based index and the raw DOM element as arguments.
+			 *
+			 * Step 3: Inside .each(), $(elem) wraps the raw DOM element back into
+			 *         a jQuery object. .text() reads its text content as a plain string.
+			 */
+			$('p').addClass('highlight important');
+
+			console.log('paragraphs with class "highlight":');
+			$('.highlight').each(function (index, elem) {
+				// `this` and `elem` are the same raw DOM element here
+				console.log('  [' + index + '] ' + $(elem).text());
+			});
+			// Output:
+			//   [0] The first paragraph.
+			//   [1] Another paragraph.
+			//   [2] A third paragraph.
+
+		});
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery Events: 4 - The event delegation problem (direct binding FAILS for dynamic elements)</title>
+	<link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body>
+	<div id="divResult" class="result-box-small"></div>
+	<div class="demo-div">Text in the div</div>
+	<div class="demo-div">Text in the div</div>
+	<button id="btnButton1">Add div</button>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+		/*
+		 * Counter declared OUTSIDE $(function(){}) so it persists
+		 * across multiple button clicks without resetting.
+		 * Inside the ready handler it would reset to 0 on every page load —
+		 * which is actually fine — but this placement makes the intent clear.
+		 */
+		let counter = 0;
+
+		$(function () {
+
+			/*
+			 * PROBLEM DEMONSTRATION — direct binding does NOT work for
+			 * dynamically added elements.
+			 *
+			 * $('div').click(...) runs once at DOM-ready and attaches the
+			 * handler to every <div> that EXISTS AT THAT MOMENT.
+			 * It takes a snapshot of the matched elements and binds to them.
+			 *
+			 * When the button adds a new <div> later, jQuery is not watching —
+			 * the new element is invisible to this handler.
+			 *
+			 * Clicking any of the original two divs WILL increment the counter.
+			 * Clicking any newly added div will NOT. This is the bug this
+			 * file is designed to expose.
+			 *
+			 * See file 5 for the fix using event delegation.
+			 */
+			$('div').click(function () {
+				$('#divResult').text(++counter + ' times clicked');
+			});
+
+			/*
+			 * Appends a brand new <div> to <body> on each button click.
+			 * The new div has no click handler — demonstrating the problem above.
+			 */
+			$('#btnButton1').click(function () {
+				$('body').append('<div class="demo-div">New div</div>');
+			});
+
+		});
+	</script>
+</body>
+
+</html>

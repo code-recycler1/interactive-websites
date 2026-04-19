@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Animation: 10 - Tab interface with .show() / .hide()</title>
+	<link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body class="page-helvetica">
+	<!--
+        Tab links use href="#id" to reference which content panel to show.
+        jQuery reads this href value to select the correct panel.
+        The first tab starts with class="selected".
+    -->
+	<ul id="tabs">
+		<li><a href="#info" class="selected">Information</a></li>
+		<li><a href="#about">About us</a></li>
+		<li><a href="#contact">Contact</a></li>
+	</ul>
+
+	<div id="content">
+		<div id="info" class="tab">Information about our services, products, etc.</div>
+		<div id="about" class="tab">Background on the company, the team, and more.</div>
+		<div id="contact" class="tab">Contact details...</div>
+	</div>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * STEP 1 — hide all tab panels except the first on page load.
+			 *
+			 * :not(:first) selects all .tab divs except the one at index 0.
+			 * This means only the "Information" panel is visible initially,
+			 * matching the .selected class already on the first tab link.
+			 */
+			$('#content div:not(:first)').hide();
+
+			/*
+			 * STEP 2 — handle tab link clicks.
+			 */
+			$('#tabs a').on('click', function (e) {
+
+				/*
+				 * 2a. e.preventDefault() — stops the browser from following
+				 * the href link (which would jump to the anchor or reload the page).
+				 * The navigation is handled entirely by jQuery instead.
+				 */
+				e.preventDefault();
+
+				// 2b. Hide ALL content panels before showing the selected one.
+				$('#content div').hide();
+
+				// 2c. Remove .selected from whichever tab link currently has it.
+				$('#tabs a.selected').removeClass('selected');
+
+				// 2d. Add .selected to the clicked tab link.
+				$(this).addClass('selected');
+
+				/*
+				 * 2e. Show the panel whose id matches the clicked link's href.
+				 *
+				 * $(this).attr('href') returns e.g. '#info'.
+				 * $(selectie) uses that string directly as a selector —
+				 * '#info' selects the element with id="info".
+				 * .show() removes its display:none, making it visible.
+				 *
+				 * This is the key technique: the href attribute doubles as
+				 * both a navigational anchor AND a jQuery selector target.
+				 */
+				var selection = $(this).attr('href');
+				$(selection).show();
+
+			});
+
+		});
+	</script>
+</body>
+
+</html>

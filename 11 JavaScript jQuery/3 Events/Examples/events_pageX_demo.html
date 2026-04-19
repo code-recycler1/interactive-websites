@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title> jQuery Events: event.pageX demo</title>
+  <link rel="stylesheet" href="../../css/custom.css">
+  <!--
+        This file loads jQuery from the official jQuery CDN rather than a local file.
+        It uses the unminified development build (.js not .min.js) — larger but
+        human-readable, useful for learning and debugging.
+    -->
+  <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+</head>
+
+<body class="page-pagex">
+
+  <!-- Output container — updated live as the mouse moves -->
+  <div id="log"></div>
+
+  <script>
+    /*
+     * Minimal standalone version of the mousemove demo from file 9.
+     * No $(document).ready() wrapper — the script is in <body> so the
+     * DOM is already parsed. $(document).ready() would also be fine here.
+     *
+     * Differences from file 9:
+     *   - Uses $( document ) with spaces around the argument (style only, no effect)
+     *   - Displays both X and Y on one line separated by a comma
+     *   - Uses .text() instead of .html() — cleaner and XSS-safe since
+     *     the content is browser-generated numbers, but .text() is correct habit
+     *   - No #divResult styling — the output is unstyled plain text
+     *
+     * This appears to be sourced directly from the official jQuery documentation
+     * as a reference example — the CDN link and minimal structure are
+     * characteristic of jQuery's API docs code samples.
+     */
+    $(document).on('mousemove', function (event) {
+      let posX = event.pageX;
+      let posY = event.pageY;
+      $('#log').text('pageX: ' + posX + ', pageY: ' + posY);
+    });
+  </script>
+
+</body>
+
+</html>

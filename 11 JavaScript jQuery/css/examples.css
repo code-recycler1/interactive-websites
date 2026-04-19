@@ -1,0 +1,534 @@
+/* --------------------------------------------------------------------------
+   1. BASE — applied to every file in the series
+   -------------------------------------------------------------------------- */
+
+body {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 24px;
+}
+
+/*
+ * .page-helvetica — overrides the base font for animation files 9–12
+ * and both global-properties files, which all use Helvetica.
+ * Scoped to a body class so the override does not bleed into other files.
+ * Activate by adding class="page-helvetica" to <body> in those files.
+ */
+.page-helvetica {
+    font-family: Helvetica, Arial, 'DejaVu Sans', 'Liberation Sans', Freesans, sans-serif;
+}
+
+
+/* --------------------------------------------------------------------------
+   2. UTILITY CLASSES — reusable across multiple files
+   -------------------------------------------------------------------------- */
+
+/*
+ * .blue — text colour utility used throughout the html-css and events series.
+ */
+.blue {
+    color: #06F;
+}
+
+/*
+ * .highlight — full blue-background treatment used in html-css 3, 4, 5.
+ * jQuery's .addClass('highlight') applies this block in those exercises.
+ * Kept separate from .blue because it is a visual treatment (bg + border),
+ * not just a colour.
+ */
+.highlight {
+    background-color: #09F;
+    color: #fff;
+    border: 1px solid #000;
+}
+
+/*
+ * .large — 48px font size, used as a secondary demo class in html-css 3–5.
+ * Consolidates the original Dutch .groot and .rood placeholder classes.
+ */
+.large {
+    font-size: 48px;
+}
+
+/*
+ * .img-preview — block image at a fixed preview width.
+ * Used in html-css 7 and 8 (kitten image switcher).
+ * A class keeps this from resizing every <img> on every page.
+ */
+.img-preview {
+    display: block;
+    width: 300px;
+}
+
+/*
+ * .img-hover — width-only image sizing, no display override.
+ * Used in events 2 (static tooltip demo).
+ * Distinct from .img-preview which also sets display:block.
+ */
+.img-hover {
+    width: 300px;
+}
+
+/*
+ * .fadeable — dimmed image that brightens to full opacity on hover.
+ * Used in animation 6bis (.fadeTo() demo).
+ * Originally a bare `img` selector — converted to a class so it only
+ * affects the three kitten images in that file.
+ * Add class="fadeable" to each <img> in animation 6bis.
+ */
+.fadeable {
+    width: 200px;
+    opacity: 0.4;
+}
+
+/*
+ * .cursor-pointer — gives an element a hand/pointer cursor on hover.
+ * Applied to <p> elements in events 1 via a body-scoped rule (see section 6).
+ */
+.cursor-pointer {
+    cursor: pointer;
+}
+
+
+/* --------------------------------------------------------------------------
+   3. RESULT BOX VARIANTS
+   #divResult appears in many files with four distinct styles.
+   Apply the matching variant class to the element in each file.
+   -------------------------------------------------------------------------- */
+
+/*
+ * .result-box-subtle — events 1.
+ * Minimal border and padding — just enough to make an empty box visible.
+ */
+.result-box-subtle {
+    border: 1px solid #999;
+    padding: 4px;
+}
+
+/*
+ * .result-box-small — events 4–8.
+ * Small yellow output area for the click-counter demos.
+ */
+.result-box-small {
+    background-color: #ffc;
+    width: 200px;
+    height: 30px;
+}
+
+/*
+ * .result-box-large — events 9–11.
+ * Taller yellow output area for the mousemove / keypress / select demos.
+ */
+.result-box-large {
+    background-color: #ffc;
+    width: 300px;
+    height: 100px;
+    border: 1px solid #333;
+    border-radius: 4px;
+}
+
+/*
+ * .result-box-anim — animation 1–8, 8bis, 8tris, 6, 7.
+ * Square yellow demo box used as the animation target throughout the
+ * animation series. Fixed dimensions make show/hide/slide/fade effects
+ * clearly visible even before any interaction.
+ */
+.result-box-anim {
+    border: 1px solid #999;
+    background-color: #ffc;
+    padding: 4px;
+    width: 200px;
+    height: 200px;
+}
+
+
+/* --------------------------------------------------------------------------
+   4. DEMO DIV — events 4–8 (pink clickable boxes)
+   The original files used a bare `div` selector which bleeds globally.
+   Replace with class="demo-div" on the relevant <div> elements.
+   Do NOT apply this class to #divResult — it gets a result-box variant.
+   -------------------------------------------------------------------------- */
+
+.demo-div {
+    width: 300px;
+    height: 50px;
+    border: 1px solid #999;
+    background-color: #fcc;
+    /* light pink — the clickable target */
+    border-radius: 4px;
+    margin: 4px;
+}
+
+
+/* --------------------------------------------------------------------------
+   5. HTML-CSS SERIES — component styles
+   -------------------------------------------------------------------------- */
+
+/*
+ * #sect2 — live demo target in the css() method introduction.
+ * Fixed width and border make getter/setter changes visually obvious.
+ */
+#sect2 {
+    border: solid 1px red;
+    padding: 20px;
+    width: 600px;
+    margin: 10px auto;
+}
+
+/*
+ * #movie — YouTube embed container (JS and jQuery versions).
+ * Centres the <iframe> within its section.
+ */
+#movie {
+    text-align: center;
+}
+
+/*
+ * #divResult-fixed — html-css 16 (.empty() / .remove() demo).
+ * Fixed dimensions keep the box visible after .empty() clears its content.
+ * Use id="divResult-fixed" in html-css 16 instead of id="divResult".
+ */
+#divResult-fixed {
+    width: 200px;
+    height: 150px;
+    border: 2px solid red;
+}
+
+/*
+ * .wrap-demo — html-css 15 (.wrap() / .wrapInner() demo).
+ * Blue border on every <div> reveals each wrapper layer as jQuery adds it.
+ * Activate by adding class="wrap-demo" to <body> in html-css 15 only.
+ */
+.wrap-demo div {
+    border: 2px solid blue;
+}
+
+
+/* --------------------------------------------------------------------------
+   6. EVENTS SERIES — component styles
+   -------------------------------------------------------------------------- */
+
+/* --- Events 1 — click on paragraphs --- */
+
+/*
+ * Scoped to a body class so cursor:pointer only applies in events 1.
+ * Activate by adding class="events-clickable" to <body> in events 1.
+ */
+.events-clickable p {
+    cursor: pointer;
+}
+
+
+/* --- Events 2 — static hover tooltip --- */
+
+/*
+ * Fixed-position tooltip shown/hidden by jQuery .hover().
+ * Does not follow the cursor — uses a static top/left position.
+ */
+#divTooltip {
+    position: absolute;
+    top: 50px;
+    left: 200px;
+    display: none;
+    width: 150px;
+    border: 2px solid #999;
+    background-color: #FFFFCC;
+    color: #333;
+    border-radius: 4px;
+}
+
+
+/* --- Events 3 — focus / blur input states --- */
+
+/*
+ * .normal and .focus represent the two visual states of the text input.
+ * jQuery swaps between them on focus and blur.
+ */
+.normal {
+    width: 100px;
+    border: 1px solid #999;
+    border-radius: 4px;
+    height: 24px;
+    font-size: 20px;
+}
+
+.focus {
+    width: 300px;
+    border: 1px solid #222;
+    background-color: #FFFFCC;
+    color: #333;
+    border-radius: 4px;
+    height: 24px;
+    font-size: 20px;
+    /* TODO: add transition: width 0.3s ease, background-color 0.2s ease;
+             for a smooth animated expansion on focus */
+}
+
+
+/* --- Events 12 — mouse-tracking circle demo --- */
+
+/*
+ * Circle that follows the cursor. Negative margins centre it on the
+ * cursor point. backface-visibility:hidden reduces animation jitter.
+ */
+.circle {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    top: 50%;
+    left: 50%;
+    margin: -50px 0 0 -50px;
+    background: white;
+    border-radius: 80%;
+    backface-visibility: hidden;
+}
+
+.coordsx {
+    top: 5px;
+    left: 5px;
+    color: black;
+    display: block;
+}
+
+.coordsy {
+    top: 15px;
+    left: 5px;
+    color: black;
+    display: block;
+}
+
+#canvas {
+    width: 30%;
+    height: 30%;
+    position: absolute;
+    border: 1px solid #999;
+    background-color: yellowgreen;
+    vertical-align: middle;
+}
+
+
+/* --- Events 13 — window resize / centring demo --- */
+
+/*
+ * margin:0 and Roboto font, scoped to avoid overriding the global base.
+ * Activate by adding class="page-resize" to <body> in events 13.
+ */
+.page-resize {
+    margin: 0;
+    font-family: Roboto, Geneva, sans-serif;
+}
+
+.resized {
+    width: 400px;
+    height: 200px;
+    background-color: #02B3E4;
+    line-height: 200px;
+    text-align: center;
+    color: #FFFFFA;
+    position: absolute;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+
+/* --- Events: bubbling demo --- */
+
+/*
+ * Red border = <ul>, green border = <li>.
+ * Visual nesting makes the three handler layers obvious at a glance.
+ */
+#bubble ul {
+    border: solid 1px red;
+    padding: 10px;
+}
+
+#bubble li {
+    border: solid 1px green;
+    padding: 10px;
+}
+
+
+/* --- Events: pageX demo --- */
+
+/*
+ * Distinct background and padded div, scoped to avoid global bleed.
+ * Activate by adding class="page-pagex" to <body> in that file.
+ */
+.page-pagex {
+    background-color: #eef;
+}
+
+.page-pagex div {
+    padding: 20px;
+}
+
+
+/* --------------------------------------------------------------------------
+   7. ANIMATION SERIES — component styles
+   -------------------------------------------------------------------------- */
+
+
+/* --- Animation 9 (menu) — animated list items --- */
+
+/*
+ * Each menu item is a fixed-size orange block.
+ * margin-left is intentional — .animate() increases it on hover to
+ * create the slide-right effect using relative += values.
+ * ID-scoped to #menu so it cannot affect other lists.
+ */
+#menu li {
+    display: block;
+    width: 150px;
+    height: 24px;
+    background-color: #FF9933;
+    border: 1px solid #309;
+    padding: 10px;
+    margin: 4px 10px;
+    cursor: pointer;
+}
+
+
+/* --- Animation 9 (advanced) — simultaneous/sequential animate demo --- */
+
+/*
+ * position:relative is required for animating `left`.
+ * Without it, `left` has no effect on a statically positioned element.
+ *
+ * The original file used `section div { ... }` — a bare descendant selector
+ * that would affect every <div> inside every <section> on every page.
+ * Scoped here to .anim-section to contain it to the one demo section.
+ * Add class="anim-section" to the <section> in animation 9 advanced.
+ */
+.anim-section div {
+    background-color: #FF9;
+    border: solid 1px red;
+    position: relative;
+    padding: 10px;
+}
+
+
+/* --- Animation 10 — tab interface --- */
+
+/*
+ * Horizontal tab bar — list items sit inline side by side.
+ * ID-scoped to #tabs so it cannot affect other lists on the page.
+ */
+#tabs li {
+    display: inline;
+}
+
+#tabs a {
+    display: inline-block;
+    padding: 4px;
+    text-decoration: none;
+}
+
+/*
+ * .selected marks the active tab — applied and removed by jQuery.
+ * Shares the same visual style as the :hover state so the active tab
+ * always looks pressed regardless of cursor position.
+ */
+.selected,
+#tabs a:hover {
+    background-color: #309;
+    color: #fff;
+}
+
+/*
+ * .tab — each content panel beneath the tab bar.
+ * Fixed dimensions keep all panels the same size regardless of content.
+ */
+.tab {
+    display: block;
+    width: 450px;
+    height: 150px;
+    border: 1px solid #309;
+    padding: 10px;
+    margin: 4px 10px;
+}
+
+
+/* --- Animations 11 & 12 — cursor-following tooltip --- */
+
+/*
+ * The custom tooltip div created dynamically by jQuery and appended to <body>.
+ * display:none on load — jQuery's .fadeIn() reveals it on mouseenter.
+ * position:absolute is required so top/left cursor-tracking works.
+ * The pale yellow background matches the classic browser tooltip appearance.
+ *
+ * Shared between animation 11 (basic) and animation 12 (improved version
+ * that suppresses the native browser tooltip using .data() + .removeAttr()).
+ */
+.tooltip {
+    display: none;
+    position: absolute;
+    border: 2px solid #777;
+    border-radius: 4px;
+    padding: 2px 6px;
+    background-color: #FFFF99;
+    color: #333;
+}
+
+
+/* --- Animation global properties (both versions) --- */
+
+/*
+ * #cube — the green square used to demonstrate jQuery.fx.off
+ * and the .animate() step callback.
+ * ID-scoped — safe as a global rule.
+ */
+#cube {
+    background: #98BF21;
+    width: 100px;
+    height: 100px;
+    margin: 50px;
+}
+
+
+/* ==========================================================================
+   REQUIRED HTML CHANGES — complete summary
+   ==========================================================================
+
+   Link the stylesheet in every file:
+     <link href="../css/style.css" rel="stylesheet">
+     (animation files are one level deeper — adjust path to ../../css/style.css)
+
+   ── BODY CLASS CHANGES ─────────────────────────────────────────────────────
+
+   ┌──────────────────────────────────┬──────────────────────────────────────┐
+   │ File                             │ Add to <body>                        │
+   ├──────────────────────────────────┼──────────────────────────────────────┤
+   │ Events 1                         │ class="events-clickable"             │
+   │ Events 13                        │ class="page-resize"                  │
+   │ Events pageX demo                │ class="page-pagex"                   │
+   │ html-css 15                      │ class="wrap-demo"                    │
+   │ Animation 9 (menu)               │ class="page-helvetica"               │
+   │ Animation 9 (advanced)           │ class="page-helvetica"               │
+   │ Animation 10                     │ class="page-helvetica"               │
+   │ Animation 11                     │ class="page-helvetica"               │
+   │ Animation 12                     │ class="page-helvetica"               │
+   │ Animation global properties      │ class="page-helvetica"               │
+   │ Animation global properties bis  │ class="page-helvetica"               │
+   └──────────────────────────────────┴──────────────────────────────────────┘
+
+   ── ELEMENT CLASS / ID CHANGES ─────────────────────────────────────────────
+
+   ┌──────────────────────────────────┬──────────────────────────────────────┐
+   │ File                             │ Element change                       │
+   ├──────────────────────────────────┼──────────────────────────────────────┤
+   │ Events 1                         │ <div id="divResult"                  │
+   │                                  │   class="result-box-subtle">         │
+   │ Events 2                         │ <img class="img-hover" ...>          │
+   │ Events 4–8                       │ <div class="demo-div"> (pink boxes)  │
+   │ Events 4–8                       │ <div id="divResult"                  │
+   │                                  │   class="result-box-small">          │
+   │ Events 9–11                      │ <div id="divResult"                  │
+   │                                  │   class="result-box-large">          │
+   │ html-css 16                      │ id="divResult-fixed" (rename the id) │
+   │ Animation 1–8, 8bis, 8tris, 6, 7 │ <div id="divResult"                  │
+   │                                  │   class="result-box-anim">           │
+   │ Animation 6bis                   │ <img class="fadeable" ...>           │
+   │                                  │   (all three kitten images)          │
+   │ Animation 9 (advanced)           │ <section class="anim-section">       │
+   └──────────────────────────────────┴──────────────────────────────────────┘
+
+   ========================================================================== */

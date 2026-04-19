@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animation: exercise 4</title>
+    <link rel="stylesheet" href="../../css/exercises.css">
+</head>
+
+<body class="font-helvetica">
+    <h2>Simple photo gallery</h2>
+
+    <!-- Large photo — src is swapped by jQuery after each fade-out -->
+    <div id="container">
+        <img src="../../img/kitten1.jpg" />
+    </div>
+
+    <!--
+        Thumbnail strip — each img has a title attribute that doubles as
+        the caption text shown in #caption after the photo loads.
+        The src attributes must exactly match the large photo paths because
+        jQuery copies the thumbnail's src directly to the large image.
+    -->
+    <div id="strip">
+        <img src="../../img/kitten1.jpg" title="kitten 1" />
+        <img src="../../img/kitten2.jpg" title="kitten 2" />
+        <img src="../../img/kitten3.jpg" title="kitten 3" />
+        <img src="../../img/puppy1.jpg" title="puppy 1" />
+        <img src="../../img/puppy2.jpg" title="puppy 2" />
+        <img src="../../img/puppy3.jpg" title="puppy 3" />
+    </div>
+
+    <!-- Caption bar — text is set in the fade-out callback below -->
+    <div id="caption"></div>
+
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script>
+        $(document).ready(function (e) {
+
+            /*
+             * DELEGATED CLICK on thumbnail strip.
+             *
+             * $('#strip').on('click', 'img', ...) uses event delegation —
+             * the handler lives on #strip but only fires when a click
+             * originates from an <img> inside it. This would also work for
+             * thumbnails added dynamically, though this gallery is static.
+             */
+            $('#strip').on('click', 'img', function () {
+
+                /*
+                 * Step 1 — save the thumbnail's src and title BEFORE the
+                 * fade-out starts. Inside the fadeOut callback, `this` will
+                 * refer to the LARGE image, not the clicked thumbnail — so
+                 * we must capture these values now while `this` is still
+                 * the thumbnail.
+                 */
+                let source = $(this).attr('src');
+                let title = $(this).attr('title');
+
+                /*
+                 * Step 2 — fade out the large image.
+                 *
+                 * 'fast' ≈ 200ms — quick enough to feel snappy.
+                 * The callback runs AFTER the fade completes (correct
+                 * timing — see animation file 7).
+                 *
+                 * Inside the callback, `this` is the large <img> element
+                 * (the one that just faded out), not the thumbnail.
+                 *
+                 * Step 3 (inside callback) — swap the src and fade back in.
+                 *   .attr('src', source) updates the large image's source.
+                 *   The browser loads the new image, then .fadeIn() reveals it.
+                 *
+                 * Step 4 (inside callback) — update the caption bar with
+                 *   the title text saved in step 1.
+                 */
+                $('#container img').fadeOut('fast', function () {
+                    $(this).attr('src', source).fadeIn('fast');
+                    $('#caption').text(title);
+                });
+            });
+
+        });
+    </script>
+</body>
+
+</html>

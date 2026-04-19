@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>jQuery HTML-CSS: 15 - .wrap() and .wrapInner()</title>
+  <link rel="stylesheet" href="../../css/examples.css">
+</head>
+
+<body class="wrap-demo">
+  <div id="divResult">This is the content</div>
+
+  <p>Hello</p>
+  <p>cruel</p>
+  <p>World</p>
+
+  <script src="../../js/jquery-3.6.0.js"></script>
+  <script>
+    $(function () {
+
+      /*
+       * .wrap(wrappingElement) — places a new parent element AROUND each
+       * matched element individually. The matched element becomes a child
+       * of the new wrapper.
+       *
+       * $('p').wrap('<div></div>') wraps EACH <p> in its OWN separate <div>.
+       * Three paragraphs → three separate wrapper divs.
+       * This is NOT the same as wrapping all three in one shared div
+       * (that would be .wrapAll()).
+       *
+       * Before:
+       *   <p>Hello</p>
+       *   <p>cruel</p>
+       *   <p>World</p>
+       *
+       * After:
+       *   <div><p>Hello</p></div>
+       *   <div><p>cruel</p></div>
+       *   <div><p>World</p></div>
+       */
+      $('p').wrap('<div></div>');
+
+      /*
+       * .wrap() on a single element — wraps #divResult in a new outer div.
+       *
+       * Before:
+       *   <div id="divResult">This is the content</div>
+       *
+       * After:
+       *   <div id="divOuter">
+       *     <div id="divResult">This is the content</div>
+       *   </div>
+       *
+       * The blue border CSS rule now applies to both divs, making the
+       * nesting visually clear in the browser.
+       */
+      $('#divResult').wrap('<div id="divOuter"></div>');
+
+      /*
+       * .wrapInner(wrappingElement) — places a new element AROUND all the
+       * CONTENTS of the matched element, not around the element itself.
+       * The matched element stays in place; its children get a new parent.
+       *
+       * .wrapInner('<strong />') uses self-closing shorthand — jQuery
+       * expands this to a full <strong></strong> pair.
+       *
+       * Before:
+       *   <div id="divResult">This is the content</div>
+       *
+       * After:
+       *   <div id="divResult"><strong>This is the content</strong></div>
+       *
+       * The text is now bold. The <div> itself is unchanged.
+       *
+       * SUMMARY — the three wrapping methods compared:
+       *   .wrap()      → new element goes AROUND the matched element
+       *   .wrapInner() → new element goes AROUND the matched element's CONTENTS
+       *   .wrapAll()   → one new element wraps ALL matched elements together
+       *                  (not shown here)
+       */
+      $('#divResult').wrapInner('<strong />');
+
+    }); // end document ready
+  </script>
+</body>
+
+</html>

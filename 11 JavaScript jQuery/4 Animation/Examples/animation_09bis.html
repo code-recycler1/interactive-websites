@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animation: 9 bis - Simultaneous and sequential .animate() with .stop()</title>
+    <link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body class="page-helvetica">
+    <section class="anim-section">
+        <h2>div3: simultaneous (width, left, opacity) + sequential animation (slideUp)</h2>
+        <p>
+            <input class="button" type="button" id="anim" value="animate div3">
+            <!--
+                data-id="div3" stores which div this reset button controls.
+                jQuery reads this with .attr('data-id') or .data('id').
+                This pattern allows one reset handler to control many divs
+                without hard-coding the target id in the JS.
+            -->
+            <input class="button resetAnim" type="button" id="reset3" data-id="div3" value="stop animation">
+        </p>
+        <div id="div3">
+            <p>Lorem ipsum placeholder text. Lorem ipsum placeholder text.
+                Lorem ipsum placeholder text. Lorem ipsum placeholder text.
+                Lorem ipsum placeholder text. And more text.</p>
+        </div>
+    </section>
+
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script>
+        $(function () {
+
+            var speed = 2000; // 2 seconds per animation step
+
+            /*
+             * SEQUENTIAL animation (commented out — three equivalent versions):
+             *
+             * Chaining .animate() calls creates a QUEUE — jQuery runs each
+             * animation only after the previous one fully completes.
+             * .slideUp() at the end is also queued and runs last.
+             *
+             * $('#anim').click(function() {
+             *     $('#div3')
+             *         .animate({ width: '50%' }, speed)     // step 1
+             *         .animate({ left: 200 }, speed)         // step 2 (after step 1)
+             *         .animate({ opacity: .25 }, speed)      // step 3 (after step 2)
+             *         .slideUp(speed);                        // step 4 (after step 3)
+             * });
+             */
+
+            /*
+             * SIMULTANEOUS animation (commented out):
+             *
+             * Placing multiple properties in ONE .animate() call animates all
+             * of them AT THE SAME TIME. Width shrinks, left moves, and opacity
+             * fades all in parallel over the same 2-second duration.
+             *
+             * $('#anim').click(function() {
+             *     $('#div3').animate({
+             *         width: '50%',
+             *         left: 200,
+             *         opacity: 0.25
+             *     }, speed);
+             * });
+             */
+
+            /*
+             * SIMULTANEOUS + SEQUENTIAL (active version):
+             *
+             * Combining both approaches:
+             *   Step 1 — width, left, and opacity all animate simultaneously
+             *   Step 2 — .slideUp() runs sequentially AFTER step 1 completes
+             *
+             * This works because jQuery maintains an animation queue per element.
+             * Each chained call adds to that queue and runs when the previous
+             * animation finishes.
+             */
+            $('#anim').click(function () {
+                $('#div3')
+                    .animate({
+                        width: '50%',
+                        left: 200,
+                        opacity: 0.25
+                    }, speed)
+                    .slideUp(speed); // queued — runs after the animate above
+            });
+
+            /*
+             * STOP AND RESET using .stop() and .attr('style', '').
+             *
+             * .stop(clearQueue, jumpToEnd):
+             *
+             *   ARGUMENT 1 — clearQueue: true
+             *     Removes all pending animations from the queue.
+             *     Without this, only the CURRENT animation stops — queued
+             *     animations would still run afterwards.
+             *
+             *   ARGUMENT 2 — jumpToEnd: true
+             *     Instantly completes the current animation (jumps to its
+             *     final value) before stopping. Setting false would freeze
+             *     the element mid-animation.
+             *     Here true + .attr('style', '') = "finish then wipe all styles".
+             *
+             * .attr('style', '') removes all inline styles written by .animate(),
+             * restoring the element to its CSS-defined appearance.
+             *
+             * The target div id is read from the button's data-id attribute,
+             * making this one handler reusable for any div with a data-id.
+             */
+            $('.resetAnim').click(function () {
+                var divId = $(this).attr('data-id'); // reads 'div3' from data-id="div3"
+                $('#' + divId).stop(true, true).attr('style', ''); // stop and reset
+            });
+
+        });
+    </script>
+</body>
+
+</html>

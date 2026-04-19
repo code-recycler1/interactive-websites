@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery HTML-CSS: 11 - Radio buttons with .val()</title>
+	<link rel="stylesheet" href="../../css/examples.css">
+</head>
+
+<body>
+	<!--
+        Three radio buttons sharing the same `name` attribute ("radioGroup1").
+        Grouping by name means only one can be selected at a time —
+        selecting any one automatically deselects the others.
+        The `value` attribute is what jQuery reads, not the visible label text.
+    -->
+	<input type="radio" name="radioGroup1" value="yellow" /> Yellow<br />
+	<input type="radio" name="radioGroup1" value="red" /> Red<br />
+	<input type="radio" name="radioGroup1" value="blue" /> Blue<br />
+	<div id="divResult"></div>
+
+	<!-- Load jQuery from a local file -->
+	<script src="../js/jquery-3.6.0.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * ATTRIBUTE SELECTOR — $('input[type=radio]')
+			 *
+			 * Selects all <input> elements whose `type` attribute equals "radio".
+			 * A click handler is attached to ALL three at once.
+			 *
+			 * This is more robust than using IDs or classes when you want to
+			 * act on a whole group of similar inputs.
+			 *
+			 * Inside the handler, $(this) refers to the specific radio button
+			 * that was clicked. .val() reads its `value` attribute ('yellow',
+			 * 'red', or 'blue') — NOT the visible label text next to it.
+			 */
+			$('input[type=radio]').on('click', function () {
+				$('#divResult').text('Selected: ' + $(this).val());
+			});
+
+		}); // end document ready
+	</script>
+</body>
+
+</html>

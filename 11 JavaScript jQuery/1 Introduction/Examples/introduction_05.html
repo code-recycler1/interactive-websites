@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery introduction 5</title>
+</head>
+
+<body>
+	<h1>jQuery basic examples</h1>
+
+	<!-- First paragraph has class="detail" — used at the bottom to demo class+tag combined selector -->
+	<p class="detail">The first paragraph.</p>
+	<p>Another paragraph.</p> <!-- Note: original had a typo "N og" — corrected here -->
+	<div>Text inside a div.</div>
+	<p>A third paragraph.</p>
+
+	<!--
+        Emmet shorthand used to generate this table:
+        table>tr*4>td*3{cell $}
+        Reads as: a <table> containing 4 <tr> elements,
+        each containing 3 <td> elements with auto-numbered text ("cell 1", "cell 2" ...)
+    -->
+	<table id="myTable">
+		<tr>
+			<td>cell 1</td>
+			<td>cell 2</td>
+			<td>cell 3</td>
+		</tr>
+		<tr>
+			<td>cell 4</td>
+			<td>cell 5</td>
+			<td>cell 6</td>
+		</tr>
+		<tr>
+			<td>cell 7</td>
+			<td>cell 8</td>
+			<td>cell 9</td>
+		</tr>
+		<tr>
+			<td>cell 10</td>
+			<td>cell 11</td>
+			<td>cell 12</td>
+		</tr>
+	</table>
+
+
+	<!-- Load jQuery from a local file, placed at the bottom of <body> -->
+	<script src="../../js/jquery-3.6.0.js"></script>
+	<script>
+		/*
+		 * $(function() { ... }) — shorthand for $(document).ready().
+		 * Guarantees all DOM elements above are fully parsed before
+		 * any selector or manipulation runs.
+		 */
+		$(function () {
+
+			/*
+			 * COUNT PARAGRAPHS
+			 *
+			 * .length returns the number of elements matched by the selector.
+			 * Equivalent to the two-line version using a cached variable:
+			 *   let paragraphs = $('p');
+			 *   console.log('number of paragraphs: ' + paragraphs.length);
+			 */
+			console.log('number of paragraphs: ' + $('p').length);
+			// Output: "number of paragraphs: 3"
+
+
+			/*
+			 * COUNT ALL TABLE ROWS — stored in a const for reuse.
+			 *
+			 * Caching the jQuery result in `rows` avoids querying the DOM
+			 * a second time if you need to work with the rows again later.
+			 * Using const signals this reference will not be reassigned.
+			 */
+			const rows = $('#myTable tr');
+			console.log('number of rows: ' + rows.length);
+			// Output: "number of rows: 4"
+
+
+			/*
+			 * COUNT ODD-INDEXED TABLE ROWS
+			 *
+			 * :odd is a jQuery filter using zero-based indexing:
+			 *   index 0 = even (row 1), index 1 = odd (row 2), etc.
+			 * So :odd selects visually the 2nd and 4th rows here.
+			 *
+			 * Not a valid CSS selector — jQuery resolves it internally.
+			 */
+			const odd = $('#myTable tr:odd');
+			console.log('number of odd rows: ' + odd.length);
+			// Output: "number of odd rows: 2"
+
+
+			/*
+			 * LOG ALL DIRECT CHILDREN OF <body>
+			 *
+			 * .children() returns only IMMEDIATE children — not grandchildren.
+			 * Passing the jQuery object directly to console.log() prints
+			 * an inspectable jQuery object in the browser's dev tools,
+			 * showing the matched DOM elements.
+			 *
+			 * Direct children of <body> here: h1, p, p, div, p, table, script×2
+			 */
+			console.log($('body').children());
+
+
+			/*
+			 * LOG DIRECT CHILDREN OF <html>
+			 *
+			 * <html> has exactly two direct children in a standard document:
+			 * <head> and <body>.
+			 * This demonstrates that .children() is not recursive —
+			 * it only goes one level deep.
+			 */
+			console.log($('html').children());
+			// Output: jQuery object containing [head, body]
+
+
+			/*
+			 * COUNT ALL TABLE CELLS
+			 *
+			 * Selects every <td> inside #myTable.
+			 * 4 rows × 3 cells per row = 12 total.
+			 */
+			console.log('number of cells: ' + $('#myTable td').length);
+			// Output: "number of cells: 12"
+
+
+			/*
+			 * SELECT ALL DIVS AND PARAGRAPHS, APPLY GREEN BACKGROUND, LOG THE RESULT
+			 *
+			 * The comma in $('div, p') is a multi-selector — jQuery collects
+			 * all <div> and all <p> elements into one jQuery object.
+			 *
+			 * .css() here acts as a SETTER (two arguments), so it applies the
+			 * style AND returns the same jQuery object — making it loggable.
+			 * console.log() receives the jQuery object after the style is applied,
+			 * so both the DOM change and the log happen in the same expression.
+			 *
+			 * Result: 1 div + 3 paragraphs = 4 elements styled and logged.
+			 */
+			console.log($('div, p').css('background-color', 'limegreen'));
+
+
+			/*
+			 * COUNT PARAGRAPHS WITH A SPECIFIC CLASS — combined tag + class selector
+			 *
+			 * 'p.detail' selects only <p> elements that also have class="detail".
+			 * Writing it as 'p.detail' is more precise than '.detail' alone —
+			 * '.detail' would match ANY element with that class (div, span, etc.).
+			 *
+			 * Only the first <p> in the HTML has class="detail", so result is 1.
+			 */
+			console.log('number of p.detail: ' + $('p.detail').length);
+			// Output: "number of p.detail: 1"
+
+		});
+	</script>
+</body>
+
+</html>

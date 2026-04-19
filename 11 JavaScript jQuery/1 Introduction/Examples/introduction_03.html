@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery introduction 3</title>
+</head>
+
+<body>
+	<h1>jQuery basic examples</h1>
+	<p>The first paragraph.</p>
+	<p>Another paragraph.</p>
+	<div>Text inside a div.</div>
+	<p>A third paragraph.</p>
+	<hr />
+
+	<!-- Empty container reserved for dynamic output — not used in this example yet -->
+	<div id="divResult"></div>
+
+
+	<!-- Load jQuery from a local file, placed at the bottom of <body> -->
+	<script src="../../js/jquery-3.6.0.js"></script>
+	<script>
+		/*
+		 * ARTIFICIAL DELAY — inserted purely to demonstrate why $(document).ready() matters.
+		 *
+		 * This loop runs 200,000 iterations of console.log(), which is intentionally
+		 * slow. It blocks the browser's main thread, simulating a situation where
+		 * a heavy script starts executing before the page has fully rendered.
+		 *
+		 * The commented-out .append() line would have also written every number
+		 * into #divResult — left commented to keep the demo readable.
+		 *
+		 * KEY POINT: even though this script is at the bottom of <body> and the
+		 * HTML above it is already parsed, this blocking loop proves that "script
+		 * at bottom of body" alone is not a substitute for $(document).ready() —
+		 * complex scripts can still cause timing issues.
+		 */
+		for (let index = 0; index < 199999; index++) {
+			// $('#divResult').append(index); // would flood #divResult with numbers
+			console.log(index); // logs to browser console instead
+		}
+
+		/*
+		 * DOCUMENT READY — ensures the enclosed code only runs once the full
+		 * DOM tree has been parsed and is safe to query and manipulate.
+		 *
+		 * $(function() { ... }) is the shorthand form of:
+		 *   $(document).ready(function() { ... });
+		 * Both are identical in behaviour. The shorthand is preferred in modern code.
+		 *
+		 * Without this wrapper, a script in <head> trying to select $('p') would
+		 * get an empty result — the <p> elements wouldn't exist in the DOM yet.
+		 * Even at the bottom of <body>, the ready wrapper is a safety net against
+		 * the kind of blocking delay demonstrated by the loop above.
+		 */
+		$(function () {
+
+			/*
+			 * Select all <p> elements and:
+			 *   1. Set their background colour to lime green via .css()
+			 *   2. Attach a click handler via .on() that slides the clicked
+			 *      paragraph out of view using an animated collapse (.slideUp())
+			 *
+			 * $(this) inside the handler refers to the specific <p> that was
+			 * clicked, wrapped as a jQuery object so .slideUp() is available.
+			 *
+			 * See introduction 2 for a detailed breakdown of this chain.
+			 */
+			$('p')
+				.css('background-color', 'limegreen')
+				.on('click', function () {
+					$(this).slideUp();
+				});
+		});
+	</script>
+</body>
+
+</html>

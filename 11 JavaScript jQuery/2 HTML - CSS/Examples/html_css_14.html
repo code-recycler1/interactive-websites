@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery HTML-CSS: 14 - .before() and .after()</title>
+	<link rel="stylesheet" href="../../css/examples.css">
+</head>
+
+<body>
+	<div id="divResult"></div>
+
+	<script src="../../js/jquery-3.6.0.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * .append() / .prepend() — insert INSIDE the target element.
+			 * (Same as file 13 — included here as a baseline for comparison.)
+			 */
+			$('#divResult').append('<p>This text is added at the end</p>');
+			$('#divResult').prepend('<p>This text is added at the beginning</p>');
+
+			/*
+			 * .before(content) — inserts content as a SIBLING immediately BEFORE
+			 * the target element in the DOM. The new element ends up OUTSIDE
+			 * and above #divResult, at the same level in the tree.
+			 *
+			 * .after(content) — inserts content as a SIBLING immediately AFTER
+			 * the target element. The new element ends up OUTSIDE and below
+			 * #divResult, at the same level in the tree.
+			 *
+			 * KEY DISTINCTION — before/after vs prepend/append:
+			 *
+			 *   .prepend / .append  → go INSIDE  the element (become children)
+			 *   .before  / .after   → go OUTSIDE the element (become siblings)
+			 *
+			 * Final DOM structure after all four calls:
+			 *
+			 *   <p>Inserted with .before()</p>          ← sibling above
+			 *   <div id="divResult">
+			 *     <p>This text is added at the beginning</p>  ← first child
+			 *     <p>This text is added at the end</p>        ← last child
+			 *   </div>
+			 *   <p>Inserted with .after()</p>           ← sibling below
+			 */
+			$('#divResult').before('<p>Inserted with .before()</p>');
+			$('#divResult').after('<p>Inserted with .after()</p>');
+
+		}); // end document ready
+	</script>
+</body>
+
+</html>

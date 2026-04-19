@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Animation: 12 - Cursor-following tooltip (improved — suppresses native browser tooltip)</title>
+	<link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body class="page-helvetica">
+	<ul id="tabs">
+		<li><a href="#" title="Information about our services and products">Information</a></li>
+		<li><a href="#" title="Background on the company, the team, and more">About us</a></li>
+		<li><a href="#" title="Address details and directions">Contact</a></li>
+	</ul>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+		$(function () {
+
+			$('#tabs a').hover(
+
+				/*
+				 * IMPROVEMENT OVER FILE 11 — suppressing the native browser tooltip.
+				 *
+				 * The problem with file 11: leaving the title attribute on the <a>
+				 * causes the browser to show its own built-in tooltip label
+				 * (a small yellow box after ~1 second of hovering). This overlaps
+				 * with the custom jQuery tooltip and looks broken.
+				 *
+				 * THE FIX — a two-step approach:
+				 *
+				 * Step 1: SAVE the title text using jQuery's .data() storage,
+				 *         then REMOVE the title attribute with .removeAttr('title').
+				 *         Without a title attribute, the browser shows no native tooltip.
+				 *
+				 * .data('tooltipText', title) stores the string in jQuery's internal
+				 * data cache tied to this element — NOT in the DOM. It is invisible
+				 * to the browser but retrievable by jQuery at any time.
+				 *
+				 * Step 2: On mouseout, RESTORE the title attribute by reading back
+				 *         the saved value from .data('tooltipText').
+				 *         This is important for accessibility — screen readers and
+				 *         other tools rely on the title attribute being present.
+				 *
+				 * The rest of the tooltip logic (create, position, fadeIn) is
+				 * identical to file 11.
+				 */
+				function (e) {
+					var title = $(this).attr('title');
+					var position = {
+						'top': (e.pageY - 10) + 'px',
+						'left': (e.pageX + 15) + 'px'
+					};
+
+					/*
+					 * Save title text to jQuery data cache, then remove the attribute.
+					 * Chained on the same element in one expression.
+					 */
+					$(this)
+						.data('tooltipText', title)
+						.removeAttr('title');
+
+					// Create and show the custom tooltip
+					$('<div class="tooltip"></div>')
+						.text(title)
+						.appendTo('body')
+						.css(position)
+						.fadeIn();
+				},
+
+				function () {
+					/*
+					 * MOUSELEAVE — restore the title attribute and remove tooltip.
+					 *
+					 * .data('tooltipText') retrieves the value saved on mouseenter.
+					 * .attr('title', title) puts it back on the element.
+					 * .remove() deletes the custom tooltip from the DOM.
+					 */
+					var title = $(this).data('tooltipText');
+					$(this).attr('title', title);
+					$('.tooltip').remove();
+				}
+
+			).on('mousemove', function (e) {
+
+				// Same as file 11 — keep the tooltip following the cursor
+				var position = {
+					'top': (e.pageY - 10) + 'px',
+					'left': (e.pageX + 15) + 'px'
+				};
+				$('.tooltip').css(position);
+
+			});
+
+		});
+	</script>
+</body>
+
+</html>

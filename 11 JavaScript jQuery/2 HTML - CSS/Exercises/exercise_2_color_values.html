@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 2 - Color Values</title>
+    <link rel="stylesheet" href="../../css/exercises.css">
+</head>
+
+<body class="font-helvetica">
+    <!--
+        Five radio buttons in one group (name="choice").
+        Only one can be active at a time — the active one determines
+        what the text field value is applied to when the button is clicked.
+        "Foreground" is the default selection.
+    -->
+    <input type="radio" id="rdForeground" name="choice" checked /> Foreground
+    <input type="radio" id="rdBackground" name="choice" /> Background
+    <input type="radio" id="rdText" name="choice" /> Text
+    <input type="radio" id="rdHeight" name="choice" /> Height
+    <input type="radio" id="rdWidth" name="choice" /> Width<br />
+
+    <!--
+        Single text field for all five modes.
+        The placeholder tells the user what format is accepted.
+    -->
+    <input type="text" id="txtChoice" class="txt-input" placeholder="colour value (#RRGGBB), number, or text." />
+    <button id="btnSetColor">Apply</button><br />
+
+    <div id="divResult" class="preview-box preview-box--lg">Sample text</div>
+
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('#btnSetColor').on('click', function () {
+
+                /*
+                 * Step 1 — read the value the user typed into the text field.
+                 */
+                let value = $('#txtChoice').val();
+
+                /*
+                 * Step 2 — find which radio button is currently checked.
+                 *
+                 * $('input[name=choice]:checked') — attribute selector combined
+                 * with the :checked filter. Selects the one checked input whose
+                 * name attribute equals "choice".
+                 *
+                 * .attr('id') reads its id attribute — returns one of:
+                 * 'rdForeground', 'rdBackground', 'rdText', 'rdHeight', 'rdWidth'
+                 *
+                 * Storing the id in a variable avoids re-querying the DOM
+                 * inside every branch of the if-chain below.
+                 */
+                let choice = $('input[name=choice]:checked').attr('id');
+
+                /*
+                 * Step 3 — perform the correct action based on the selection.
+                 *
+                 * An if/else-if chain is used here. A switch statement would
+                 * also work and may be slightly more readable for 5+ branches.
+                 */
+                if (choice === 'rdBackground') {
+                    // 3a — set background colour of the preview div
+                    $('#divResult').css('background-color', value);
+
+                } else if (choice === 'rdForeground') {
+                    // 3b — set text (foreground) colour of the preview div
+                    $('#divResult').css('color', value);
+
+                } else if (choice === 'rdText') {
+                    /*
+                     * 3c — APPEND new text to whatever is already in the div.
+                     *
+                     * .text() with no argument is a GETTER — reads the current
+                     * plain text content of #divResult.
+                     * Concatenating it with `value` and passing the result to
+                     * .append() adds the new text at the end without erasing
+                     * what was already there.
+                     *
+                     * The commented-out alternative below would REPLACE the
+                     * existing content instead of appending:
+                     *   $('#divResult').text(value);
+                     */
+                    $('#divResult').append($('#divResult').text() + value);
+
+                } else if (choice === 'rdHeight') {
+                    /*
+                     * 3d — set the height of the preview div.
+                     * The user enters a plain number (e.g. "300") — we append
+                     * 'px' to make it a valid CSS pixel value.
+                     */
+                    $('#divResult').css('height', value + 'px');
+
+                } else if (choice === 'rdWidth') {
+                    // 3e — set the width of the preview div
+                    $('#divResult').css('width', value + 'px');
+                }
+            });
+
+            /*
+             * CLEAR ON CLICK — empties the text field when the user clicks into it.
+             *
+             * This gives a clean input experience: no need to manually select
+             * and delete the previous value before typing a new one.
+             * .val('') sets the input's value to an empty string.
+             */
+            $('#txtChoice').on('click', function () {
+                $(this).val('');
+            });
+
+        });
+    </script>
+</body>
+
+</html>

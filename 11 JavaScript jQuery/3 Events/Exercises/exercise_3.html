@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events: exercise 3</title>
+    <link rel="stylesheet" href="../../css/exercises.css">
+</head>
+
+<body>
+    <input type="text" id="txtKeypress" placeholder="Type text" />
+    <div id="divResult" class="result-box result-box--lg result-box--margin"></div>
+
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script>
+        $(function () {
+
+            /*
+             * 'keypress' fires for every key that produces a printable character,
+             * plus Enter (key code 13). It does NOT fire for Shift, Ctrl, Alt,
+             * Backspace, or arrow keys.
+             *
+             * ⚠️  DEPRECATION WARNING:
+             * Both 'keypress' and e.which are deprecated in the modern web
+             * standard. This exercise uses them because they were current at
+             * the time it was written. For new code, prefer:
+             *   Event:    'keydown'
+             *   Key check: e.key === 'Enter'  (for Enter)
+             *              e.key             (for any other key — returns 'a', 'B', '3' etc.)
+             *
+             * Modern equivalent of this whole handler:
+             *   $('#txtKeypress').on('keydown', function (e) {
+             *       if (e.key === 'Enter') {
+             *           alert('You pressed Enter — submitting the form!');
+             *       } else {
+             *           $('#divResult').html('Key pressed: ' + e.key);
+             *       }
+             *   });
+             */
+            $('#txtKeypress').on('keypress', function (e) {
+
+                /*
+                 * e.which — the numeric key code of the pressed key.
+                 * Enter always produces key code 13 across all browsers.
+                 *
+                 * The if/else splits behaviour into two branches:
+                 *   Enter key  → alert simulating a form submission
+                 *   Any other  → display the numeric key code in #divResult
+                 */
+                if (e.which === 13) {
+                    alert('You pressed Enter — the form will be submitted!');
+                } else {
+                    $('#divResult').html('Key pressed: ' + e.which);
+                }
+            });
+
+        });
+    </script>
+</body>
+
+</html>

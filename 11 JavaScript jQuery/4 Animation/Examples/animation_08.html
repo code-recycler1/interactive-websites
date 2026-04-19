@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Animation: 8 - .animate() basic</title>
+	<link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body>
+	<div id="divResult" class="result-box-anim">Text in the div</div>
+	<button id="btnAnimate">Animate</button>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * .animate(properties, duration) — the core jQuery custom animation method.
+			 *
+			 * Unlike .fadeIn() / .slideUp() which animate fixed properties,
+			 * .animate() lets you define WHICH CSS properties to animate and
+			 * what TARGET value each should reach.
+			 *
+			 * ARGUMENT 1 — properties object:
+			 *   Each key is a CSS property name (quoted kebab-case or camelCase).
+			 *   Each value is the TARGET value the property will animate TO.
+			 *   jQuery interpolates from the current value to the target over
+			 *   the specified duration.
+			 *
+			 * ARGUMENT 2 — duration: 1500ms (1.5 seconds).
+			 *
+			 * IMPORTANT CONSTRAINT — only NUMERIC CSS properties can be animated:
+			 *   ✅  width, height, margin, padding, opacity, font-size, left, top ...
+			 *   ❌  color, background-color, display, font-family ...
+			 *   To animate colours, the jQuery UI library is required.
+			 *
+			 * Storing the options in a variable before the click handler avoids
+			 * recreating the object on every click — a minor efficiency gain.
+			 *
+			 * NOTE: each click re-animates from the CURRENT value to the target.
+			 * Once the div reaches 400px wide, clicking again has no visible effect
+			 * because it is already at the target. See file 8tris for the reset.
+			 */
+			let animationOptions = {
+				'width': '400px',
+				'font-size': '40px'
+			};
+
+			$('#btnAnimate').on('click', function () {
+				$('#divResult').animate(animationOptions, 1500);
+			});
+
+		});
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Animation: 2 - .toggle() with a completion callback</title>
+	<link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body>
+	<div id="divResult" class="result-box-anim">Text in the div</div>
+	<button id="btnToggle">Toggle visibility</button>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+
+		/*
+		 * BASIC VERSION (commented out) — no duration, no callback.
+		 * .toggle() with no arguments switches instantly between
+		 * visible and hidden — equivalent to calling .hide() or .show()
+		 * depending on the current state.
+		 *
+		 * $(function() {
+		 *     $('#btnToggle').on('click', function () {
+		 *         $('#divResult').toggle();
+		 *     });
+		 * });
+		 */
+
+		$(function () {
+
+			$('#btnToggle').on('click', function () {
+
+				/*
+				 * .toggle(duration, callback) — two-argument form.
+				 *
+				 * ARGUMENT 1 — duration: 'slow'
+				 *   Controls how long the animation takes.
+				 *   Named values:  'slow' ≈ 600ms,  'fast' ≈ 200ms
+				 *   Numeric value: any number of milliseconds, e.g. 400
+				 *
+				 * ARGUMENT 2 — callback function
+				 *   Runs AFTER the animation has fully completed.
+				 *   This is the correct place to check the element's
+				 *   new visibility state — checking inside the click
+				 *   handler but outside the callback would read the
+				 *   state BEFORE the animation finishes (see file 7
+				 *   for a full demonstration of this timing mistake).
+				 *
+				 * Inside the callback, the div has already finished
+				 * animating, so .is(':visible') reflects its final state:
+				 *   visible  → the div just became visible (was hidden)
+				 *   hidden   → the div just became hidden  (was visible)
+				 *
+				 * The button colour is updated to match the new state.
+				 */
+				$('#divResult').toggle('slow', function () {
+
+					if ($('#divResult').is(':visible')) {
+						// Div is now visible — reset button to default colours
+						$('#btnToggle').css({
+							'background-color': 'white',
+							'color': '#000'
+						});
+					} else {
+						// Div is now hidden — style button to signal hidden state
+						$('#btnToggle').css({
+							'background-color': 'olive',
+							'color': '#FFF'
+						});
+					}
+
+				}); // end .toggle()
+
+			}); // end click
+
+		}); // end document ready
+	</script>
+</body>
+
+</html>

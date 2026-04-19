@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube: jQuery version</title>
+    <link href="../../css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/examples.css">
+    </style>
+    <!--
+        No <script> block in <head> this time.
+        jQuery is loaded at the bottom of <body>, so there is no need for
+        window.onload or any other deferred execution trick — the DOM is
+        already fully built by the time the script runs.
+    -->
+</head>
+
+<body>
+    <main class="container">
+        <h1>YouTube: jQuery version</h1>
+        <section>
+            <h2>Sympathy for the Devil</h2>
+
+            <p>Sympathy for the Devil is a rock song by the Rolling Stones. It is one of the most well-known songs by
+                the Stones and appeared in 1968 on the album Beggars Banquet.</p>
+
+            <p>The song was written by the Jagger/Richards duo, but is primarily the work of Jagger. Sympathy for the
+                Devil was recorded at Olympic Studios in London. Notably, Keith Richards plays bass on this track
+                rather than the usual bassist Bill Wyman.</p>
+
+            <!--
+                STRUCTURAL CHANGE from the JS version:
+                The id has moved from the <a> to the wrapping <p>.
+                The onclick attribute has been completely removed — behaviour
+                is now handled entirely in the jQuery script below.
+                This is clean separation of concerns: HTML defines structure,
+                JS defines behaviour, nothing bleeds between the two.
+            -->
+            <p id="movieLink"><a href="#">Show movie.</a></p>
+        </section>
+
+        <!--
+            Movie section starts VISIBLE in the HTML.
+            jQuery's .hide() sets display:none immediately on DOM ready —
+            the section is hidden before the user sees the page render.
+            This differs from the JS version which used window.onload
+            (which fires later, after all images load).
+        -->
+        <section id="movie">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/ZRXGsPBUV5g" frameborder="0"
+                allow="autoplay; encrypted-media" allowfullscreen>
+            </iframe>
+        </section>
+
+        <!-- Empty trailing section — no content or id, likely leftover/unused -->
+        <section></section>
+    </main>
+
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script>
+        /*
+         * $(function() { ... }) — runs as soon as the DOM is ready.
+         * Faster than window.onload because it does not wait for
+         * images or other subresources to finish loading.
+         */
+        $(function () {
+
+            /*
+             * HIDE THE MOVIE SECTION IMMEDIATELY ON DOM READY
+             *
+             * .hide() is equivalent to setting display:none via inline style.
+             * jQuery writes this directly to the element's style attribute,
+             * so it takes priority over any CSS stylesheet rule.
+             *
+             * Why hide it here in JS rather than in CSS?
+             * If the user has JavaScript disabled, the movie section stays
+             * visible — they can still see the content even without
+             * the show/hide interaction.
+             */
+            $('#movie').hide();
+
+            /*
+             * SHOW THE MOVIE WHEN THE LINK PARAGRAPH IS CLICKED
+             *
+             * The click handler is attached to #movieLink (the <p>),
+             * not to the <a> inside it. A click anywhere in the paragraph
+             * area — including the link text — will trigger this.
+             *
+             * .show() reverses .hide() by restoring the element's
+             * previous display value (block for a <section>).
+             *
+             * Note: clicking the link will also scroll the page to the top
+             * because href="#" is still present on the <a>. To prevent this,
+             * attach the handler to the <a> directly and call
+             * event.preventDefault() inside the callback.
+             */
+            $('#movieLink').click(function () {
+                $('#movie').show();
+            });
+
+        });
+    </script>
+</body>
+
+</html>

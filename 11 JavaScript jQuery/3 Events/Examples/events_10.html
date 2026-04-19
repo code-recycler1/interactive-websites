@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery Events: 10 - select event and .trigger()</title>
+	<link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body>
+	<input type="text" id="txtFirstName" placeholder="Your first name" />
+	<button id="btnSelect">Select all text</button>
+	<div id="divResult" class="result-box-large"></div>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * 'select' EVENT — fires when the user selects text inside a
+			 * text input or textarea by dragging or using keyboard shortcuts
+			 * (e.g. Ctrl+A, Shift+Arrow).
+			 *
+			 * This is a native browser event — jQuery just normalises it.
+			 * It does NOT fire when .select() is called programmatically
+			 * (see the button handler below for why this matters).
+			 */
+			$('#txtFirstName').on('select', function (e) {
+				$('#divResult').html('Event: text has been selected');
+			});
+
+			/*
+			 * BUTTON CLICK — demonstrates two approaches for programmatically
+			 * selecting all text, and explains the difference.
+			 *
+			 * APPROACH 1 (commented out): $('#txtFirstName').select()
+			 *   Calls the native DOM .select() method via jQuery.
+			 *   This DOES select all text in the field visually, but it does
+			 *   NOT fire the 'select' event listener bound above — so the
+			 *   #divResult message won't update. The selection happens silently.
+			 *
+			 * APPROACH 2 (active): $('#txtFirstName').trigger('select')
+			 *   .trigger(eventName) manually fires the named event on the element,
+			 *   causing ALL 'select' handlers on it to run.
+			 *   This DOES update #divResult — but it does NOT actually select
+			 *   the text in the field. It only simulates the event.
+			 *
+			 * To both select text AND fire the event, you need both calls:
+			 *   $('#txtFirstName').select();          // visually selects text
+			 *   $('#txtFirstName').trigger('select'); // fires the event handler
+			 *
+			 * KEY TAKEAWAY:
+			 *   .select()          → DOM action only  (no event fired)
+			 *   .trigger('select') → event fired only (no DOM action)
+			 */
+			$('#btnSelect').on('click', function () {
+				// $('#txtFirstName').select();           // selects text, no event
+				$('#divResult').html('Trigger: text selected via button');
+				// $('#txtFirstName').trigger('select')  // fires event, no selection
+			});
+
+		});
+	</script>
+</body>
+
+</html>

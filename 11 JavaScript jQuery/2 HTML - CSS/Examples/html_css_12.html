@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery HTML-CSS: 12 - Checkboxes with .each() and array collection</title>
+	<link rel="stylesheet" href="../../css/examples.css">
+</head>
+
+<body>
+	<!--
+        Three independent checkboxes — no shared `name`, so any combination
+        can be selected simultaneously. This is the key difference from
+        radio buttons: multiple selections are allowed.
+    -->
+	<input type="checkbox" value="yellow" /> Yellow<br />
+	<input type="checkbox" value="red" /> Red<br />
+	<input type="checkbox" value="blue" /> Blue<br />
+	<div id="divResult"></div>
+
+	<!-- Load jQuery from a local file -->
+	<script src="../../js/jquery-3.6.0.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * Attach a click handler to ALL checkboxes.
+			 * Fires whenever any checkbox is ticked or unticked.
+			 */
+			$('input[type=checkbox]').on('click', function () {
+
+				// Step 1 — clear any previous result and prepare a fresh array
+				$('#divResult').empty();
+				let colours = [];
+
+				/*
+				 * Step 2 — collect the values of all CURRENTLY CHECKED checkboxes.
+				 *
+				 * $('input[type=checkbox]:checked') combines:
+				 *   - the attribute selector [type=checkbox] — only checkboxes
+				 *   - the :checked filter               — only the ticked ones
+				 *
+				 * .each() iterates over every matched element.
+				 * Inside the callback, $(this) is the current checkbox.
+				 * .val() reads its `value` attribute.
+				 * .push() appends it to the colours array.
+				 *
+				 * We re-query ALL checked boxes (not just $(this)) because
+				 * we need the full current selection — not only the one just clicked.
+				 */
+				$('input[type=checkbox]:checked').each(function () {
+					colours.push($(this).val());
+				});
+
+				/*
+				 * Step 3 — display the collected values as a comma-separated string.
+				 *
+				 * Array.join(', ') produces e.g. "yellow, blue"
+				 * Array.toString() would also work but uses a comma without a space.
+				 * .text() is safe here — values are our own hardcoded strings.
+				 */
+				$('#divResult').text('Selected: ' + colours.join(', '));
+			});
+
+		}); // end document ready
+	</script>
+</body>
+
+</html>

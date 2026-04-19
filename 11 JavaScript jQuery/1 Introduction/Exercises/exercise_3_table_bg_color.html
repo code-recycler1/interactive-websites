@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 3 - Zebra-stripe a table with :odd</title>
+    <link href="../../css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <h1>jQuery basic examples</h1>
+    <p class="detail">The first paragraph.</p>
+    <p>Another paragraph.</p>
+    <div>Text inside a div.</div>
+    <p>A third paragraph.</p>
+
+    <!--
+        5-row table (5 × 3 = 15 cells total).
+        Rows at index 1 and 3 (zero-based) will be styled by :odd below.
+        Visually these are the 2nd and 4th rows.
+    -->
+    <table id="myTable">
+        <tr>
+            <td>cell 1</td>
+            <td>cell 2</td>
+            <td>cell 3</td>
+        </tr>
+        <tr>
+            <td>cell 4</td>
+            <td>cell 5</td>
+            <td>cell 6</td>
+        </tr>
+        <tr>
+            <td>cell 7</td>
+            <td>cell 8</td>
+            <td>cell 9</td>
+        </tr>
+        <tr>
+            <td>cell 10</td>
+            <td>cell 11</td>
+            <td>cell 12</td>
+        </tr>
+        <tr>
+            <td>cell 13</td>
+            <td>cell 14</td>
+            <td>cell 15</td>
+        </tr>
+    </table>
+
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+
+            /*
+             * :odd — jQuery positional filter using zero-based indexing.
+             * Rows are indexed 0, 1, 2, 3, 4 — :odd selects index 1 and 3
+             * (visually the 2nd and 4th rows).
+             *
+             * NOTE: the exercise asks for "light grey" but the teacher's
+             * solution uses blue (#0000FF) with red text — intentionally
+             * vivid to make the selection obvious during class demonstration.
+             * Replace with '#EEE' and a dark text colour for the grey version
+             * shown in the short commented alternative below.
+             *
+             * :odd is jQuery-only — it is NOT a valid CSS selector.
+             * The CSS equivalent would be tr:nth-child(even) — note the
+             * inversion: CSS :nth-child is 1-based, so "even" in CSS
+             * matches the same visual rows as "odd" in jQuery.
+             */
+            console.log('number of odd rows: ' + $('#myTable tr:odd').length);
+            // Output: "number of odd rows: 2"  (rows at index 1 and 3)
+
+            /*
+             * Apply multiple CSS properties at once using an options object.
+             * More efficient than chaining two separate .css() calls because
+             * jQuery updates the element's inline style only once.
+             */
+            let cssOptions = {
+                'background-color': '#0000FF', // blue (use '#EEE' for light grey)
+                'color': 'red'                 // red text on blue background
+            };
+
+            $('#myTable tr:odd').css(cssOptions);
+
+            /*
+             * SHORTER ALTERNATIVE — chained single-property calls.
+             * Identical result, slightly less readable at scale:
+             *
+             * $('#myTable tr:odd').css('background-color', '#EEE').css('color', 'red');
+             */
+
+        });
+
+    </script>
+</body>
+
+</html>

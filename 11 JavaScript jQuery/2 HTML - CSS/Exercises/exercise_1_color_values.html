@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 1 - Color Values</title>
+    <link rel="stylesheet" href="../../css/exercises.css">
+</head>
+
+<body>
+    <!--
+        Two radio buttons share name="type" so only one can be selected at a time.
+        "Foreground" is checked by default — colour input will affect text colour.
+        "Background" switches the target to background-color.
+    -->
+    <input type="radio" id="rdForeground" name="type" checked /> Foreground
+    <input type="radio" id="rdBackground" name="type" /> Background<br />
+
+    <!-- Accepts a hex colour value entered by the user, e.g. #45A966 -->
+    <input type="text" id="txtColor" class="txt-input" placeholder="colour value (#RRGGBB)" />
+
+    <button id="btnSetColor">Set colour</button><br />
+
+    <!-- Preview box — background or text colour changes here after clicking -->
+    <div id="divResult" class="preview-box preview-box--md">Sample text</div>
+
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('#btnSetColor').on('click', function () {
+
+                /*
+                 * Step 1 — read the colour value entered by the user.
+                 * .val() returns the current string in the text field.
+                 * No validation is done here — any string is passed directly
+                 * to .css(). Browsers silently ignore invalid colour values,
+                 * so an incorrect hex code simply has no visible effect.
+                 */
+                let color = $('#txtColor').val();
+
+                /*
+                 * Step 2 — check which radio button is currently selected.
+                 *
+                 * .is(':checked') returns true if the element is currently
+                 * checked. We check the Background radio first; if it is NOT
+                 * checked, the Foreground radio must be active (since the two
+                 * share the same name group and one is always selected).
+                 */
+                if ($('#rdBackground').is(':checked')) {
+                    // 2a — apply the colour to the background
+                    $('#divResult').css('background-color', color);
+                } else {
+                    // 2b — apply the colour to the text (foreground)
+                    $('#divResult').css('color', color);
+                }
+            });
+
+        });
+    </script>
+</body>
+
+</html>

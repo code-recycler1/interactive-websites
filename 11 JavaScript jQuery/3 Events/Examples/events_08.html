@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery Events: 8 - .off() — removing event handlers</title>
+	<link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body>
+	<ul id="myList">
+		<li>item 1</li>
+		<li>item 2</li>
+		<li>item 3</li>
+	</ul>
+	<button id="btnButton1">Add list item</button>
+	<button id="btnButton2">Remove click event</button>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * Delegated click handler — works for dynamically added items too.
+			 * Same pattern as file 7. See that file for a full explanation.
+			 */
+			$('#myList').on('click', 'li', function () {
+				alert('Clicked on a list item: ' + $(this).text());
+			});
+
+			/* Adds a new <li> to the list — will respond to clicks immediately
+			   because the handler is delegated to #myList, not bound to <li>. */
+			$('#btnButton1').on('click', function () {
+				var itemCount = $('#myList li').length + 1;
+				$('#myList').append('<li>item ' + itemCount + '</li>');
+			});
+
+			/*
+			 * .off(eventName) — removes ALL handlers for the given event
+			 * from the matched element.
+			 *
+			 * $('#myList').off('click') removes the delegated click handler
+			 * that was attached to #myList above. After this runs, clicking
+			 * any <li> — including newly added ones — produces no response.
+			 *
+			 * .off() is the exact inverse of .on().
+			 *
+			 * MORE PRECISE ALTERNATIVES:
+			 * If #myList had multiple click handlers and you only wanted
+			 * to remove one specific handler, you would use a named function:
+			 *
+			 *   function handleListClick() { alert(...); }
+			 *   $('#myList').on('click', 'li', handleListClick);
+			 *   $('#myList').off('click', 'li', handleListClick); // removes only this one
+			 *
+			 * Using .off('click') without specifying the handler removes ALL
+			 * click listeners on the element at once — use with care.
+			 */
+			$('#btnButton2').on('click', function () {
+				$('#myList').off('click');
+			});
+
+		});
+	</script>
+</body>
+
+</html>

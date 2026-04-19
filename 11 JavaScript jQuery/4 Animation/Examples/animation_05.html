@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Animation: 5 - .fadeIn() and .fadeOut() with easing</title>
+	<link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body>
+	<div id="divResult" class="result-box-anim">Text in the div</div>
+	<button id="btnFadeIn">Fade in</button>
+	<button id="btnFadeOut">Fade out</button>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+
+		/*
+		 * BASIC VERSION (commented out) — both fade calls use only a duration.
+		 * Left in as a reference showing the minimal form before the extended
+		 * version below was added.
+		 *
+		 * $(function() {
+		 *     $('#btnFadeIn').on('click', function () {
+		 *         $('#divResult').fadeIn(800);
+		 *     });
+		 *     $('#btnFadeOut').on('click', function () {
+		 *         $('#divResult').fadeOut(800);
+		 *     });
+		 * });
+		 */
+
+		$(function () {
+
+			/*
+			 * .fadeIn(duration) — animates opacity from 0 to 1.
+			 * The element must currently be hidden (display:none) for this
+			 * to have a visible effect — if it is already visible, nothing happens.
+			 *
+			 * 800 = 800 milliseconds (0.8 seconds).
+			 */
+			$('#btnFadeIn').on('click', function () {
+				$('#divResult').fadeIn(800);
+			});
+
+			/*
+			 * .fadeOut(duration, easing, callback) — three-argument form.
+			 * Animates opacity from 1 to 0, then sets display:none.
+			 *
+			 * ARGUMENT 1 — duration: 3000ms (3 seconds).
+			 *   The fade-out is intentionally slow so the easing is visible.
+			 *
+			 * ARGUMENT 2 — easing: 'swing'
+			 *   Controls the acceleration curve of the animation.
+			 *   jQuery includes two built-in easing functions:
+			 *     'swing' (default) — starts slow, speeds up, then slows at the end
+			 *     'linear'          — constant speed throughout
+			 *   Additional easing curves (e.g. easeInOutCubic) are available
+			 *   via the jQuery UI or jQuery Easing plugins.
+			 *
+			 * ARGUMENT 3 — callback function
+			 *   Runs after the animation fully completes (opacity reaches 0).
+			 *   Currently empty — a placeholder for any post-animation logic.
+			 *   Example uses: show a "reload" button, log to console,
+			 *   trigger a follow-up animation.
+			 */
+			$('#btnFadeOut').on('click', function () {
+				$('#divResult').fadeOut(3000, 'swing', function () {
+					// Animation complete — add any follow-up actions here
+				});
+			});
+
+		});
+	</script>
+</body>
+
+</html>

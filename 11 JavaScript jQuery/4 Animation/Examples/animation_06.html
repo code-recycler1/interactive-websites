@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Animation: 6 - .fadeToggle()</title>
+	<link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body>
+	<div id="divResult" class="result-box-anim">Text in the div</div>
+	<button id="btnFadeToggle">Toggle fade</button>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * .fadeToggle(duration) — checks the element's current visibility:
+			 *   visible → runs .fadeOut() (fades it out)
+			 *   hidden  → runs .fadeIn()  (fades it in)
+			 *
+			 * 800 = 800 milliseconds.
+			 *
+			 * This is the fade equivalent of .toggle() and .slideToggle().
+			 * The three toggle methods compared:
+			 *   .toggle()      — collapses width + height (or just shows/hides)
+			 *   .slideToggle() — collapses height only
+			 *   .fadeToggle()  — fades opacity only, element still occupies space
+			 *                    until fully faded out, then sets display:none
+			 */
+			$('#btnFadeToggle').on('click', function () {
+				$('#divResult').fadeToggle(800);
+			});
+
+		});
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Events: bubbling and stopPropagation()</title>
+    <link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body>
+    <!--
+        Nested structure — three levels of event listeners:
+        #bubble div
+          └─ <ul>   ← has a click handler
+               ├─ <li>  ← has a click handler
+               │    └─ text only
+               ├─ <li>  ← has a click handler
+               │    └─ <a>  ← has a click handler + stopPropagation
+               └─ <li>  ← has a click handler
+                    └─ <a>  ← has a click handler + stopPropagation
+    -->
+    <div id="bubble">
+        <ul>
+            <li>item 0: Ullamco laboris nisi quis nostrud exercitation</li>
+            <li>item 1: <a href="#!">link 0</a> ex ea commodo consequat</li>
+            <li>item 2: Sunt in culpa <a href="#!">link 1</a> cupidatat non proident, eu fugiat nulla pariatur</li>
+        </ul>
+    </div>
+
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script>
+        $(function () {
+
+            /*
+             * EVENT BUBBLING — how click events travel up the DOM.
+             *
+             * When an element is clicked, the browser fires the click event
+             * on that element first, then on its parent, then its grandparent,
+             * and so on up to document. This upward travel is called "bubbling".
+             *
+             * Without intervention, clicking <a> would trigger ALL THREE alerts
+             * in order: a → li → ul. This file demonstrates how to stop that.
+             */
+
+            /*
+             * <a> click — has stopPropagation().
+             *
+             * e.stopPropagation() tells the browser: "do not let this event
+             * travel any further up the DOM". The <a>'s own handler runs,
+             * but the click event is consumed — it never reaches <li> or <ul>.
+             *
+             * Result of clicking a link: ONE alert ('clicked an a tag'), then stops.
+             *
+             * NOTE: stopPropagation() does NOT prevent the default browser
+             * action (following the href link). To also prevent navigation,
+             * add e.preventDefault(). To do both at once, return false —
+             * in jQuery, return false inside a handler calls both
+             * stopPropagation() AND preventDefault().
+             */
+            $('#bubble a').click(function (e) {
+                e.stopPropagation();
+                alert('You clicked an a tag');
+            });
+
+            /*
+             * <li> click — no stopPropagation().
+             *
+             * Clicking directly on the <li> text (not the <a> inside it)
+             * triggers this handler AND bubbles up to the <ul> handler.
+             * Result: TWO alerts ('clicked a li tag', then 'clicked a ul tag').
+             *
+             * If the click lands on the <a> inside the <li>, stopPropagation()
+             * on the <a> prevents this handler from running at all.
+             */
+            $('#bubble li').click(function () {
+                alert('You clicked a li tag');
+            });
+
+            /*
+             * <ul> click — no stopPropagation().
+             *
+             * Only fires when a click bubbles up from a child without being stopped,
+             * OR when the user clicks directly on the <ul>'s own padding area
+             * (the red-bordered region between the list items and the edge).
+             *
+             * Result of clicking <ul> padding directly: ONE alert ('clicked a ul tag').
+             * Result of clicking <li> text:             TWO alerts (li then ul).
+             * Result of clicking <a>:                   ONE alert (a tag only, stops there).
+             */
+            $('#bubble ul').click(function () {
+                alert('You clicked a ul tag');
+            });
+
+        });
+    </script>
+</body>
+
+</html>

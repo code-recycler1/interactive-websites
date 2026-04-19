@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animation: Global properties bis - (.animate() with step callback)</title>
+    <link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body class="page-helvetica">
+    <button id="disable">jQuery.fx.off = true (Disable)</button>
+    <button id="enable">jQuery.fx.off = false (Enable)</button>
+    <br><br>
+    <button id="toggle">Toggle animation</button>
+    <div id="cube"></div>
+
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script>
+        $(function () {
+
+            $('#disable').click(function () {
+                jQuery.fx.off = true;
+            });
+
+            $('#enable').click(function () {
+                jQuery.fx.off = false;
+            });
+
+            /*
+             * .animate() with an OPTIONS OBJECT as the second argument.
+             *
+             * Instead of passing duration as a plain number (e.g. 5000),
+             * you can pass a configuration object with multiple settings:
+             *
+             * OPTION: duration — 5000ms (5 seconds)
+             *   Same as the plain number form. Any easing could also be
+             *   specified here as easing: 'swing' or easing: 'linear'.
+             *
+             * OPTION: step — a function called on EVERY ANIMATION FRAME.
+             *   Runs many times per second throughout the animation,
+             *   not just at the end like the completion callback.
+             *
+             *   PARAMETERS:
+             *     now — the current interpolated value of the property
+             *           being animated at this frame (e.g. 0.87, 0.64)
+             *     fx  — the jQuery animation "tween" object containing:
+             *             fx.elem  — the raw DOM element being animated
+             *             fx.prop  — the CSS property name (e.g. 'opacity')
+             *             fx.start — the starting value
+             *             fx.end   — the target value
+             *             fx.now   — same as `now`
+             *
+             *   USE CASES for the step callback:
+             *     - Real-time progress indicators or gauges
+             *     - Synchronising a secondary element with the animation
+             *     - Logging / debugging animation values frame by frame
+             *     - Driving a canvas or WebGL render in sync with CSS animation
+             *
+             *   Here it logs each property's current value to the console
+             *   on every frame — useful for understanding how interpolation works.
+             *
+             * NOTE: jQuery.fx.off = true will skip the animation entirely,
+             * meaning the step callback will fire zero or only once.
+             */
+            $('#toggle').click(function () {
+                $('#cube').animate(
+                    {
+                        opacity: .33,
+                        height: '100',
+                        width: '100'
+                    },
+                    {
+                        duration: 5000,
+                        step: function (now, fx) {
+                            // Logs e.g. "cube opacity: 0.856" on every frame
+                            var data = fx.elem.id + ' ' + fx.prop + ': ' + now;
+                            console.log(data);
+                        }
+                    }
+                );
+            });
+
+        });
+    </script>
+</body>
+
+</html>

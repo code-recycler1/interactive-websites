@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery HTML-CSS: 3 - addClass / removeClass</title>
+	<link rel="stylesheet" href="../../css/examples.css">
+</head>
+
+<body>
+	<h1>jQuery html-css examples</h1>
+	<!--
+        Index comments added to make the :even/:odd selector behaviour visible.
+        jQuery uses zero-based indexing:
+          index 0 = first paragraph  (even)
+          index 1 = second paragraph (odd)
+          index 2 = third paragraph  (even)
+    -->
+	<p>This is the first paragraph: index 0</p>
+	<p>This is the second paragraph: index 1</p>
+	<p>This is the third paragraph: index 2</p>
+
+	<!-- Load jQuery from a local file -->
+	<script src="../../js/jquery-3.6.0.js"></script>
+	<script>
+		$(function () {
+			/*
+			 * APPROACH 1 (commented out): add to all, then remove from odd
+			 *
+			 * Step 1: $('p').addClass('blue')     — all 3 paragraphs get .blue
+			 * Step 2: $('p:odd').removeClass('blue') — index 1 loses .blue
+			 * Net result: paragraphs at index 0 and 2 have .blue
+			 *
+			 * This two-step approach works but is less direct than approach 2.
+			 */
+			// $('p').addClass('blue');
+			// $('p:odd').removeClass('blue');
+
+			/*
+			 * APPROACH 2 (active): add only to even-indexed paragraphs directly.
+			 *
+			 * :even selects elements at index 0, 2, 4 ... (zero-based).
+			 * Here that means the 1st and 3rd paragraphs get .blue,
+			 * the 2nd paragraph is untouched.
+			 *
+			 * Same end result as approach 1, achieved in one line.
+			 */
+			$('p:even').addClass('blue');
+		});
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Events - exercise 1</title>
+	<link rel="stylesheet" href="../../css/style.css">
+	<link rel="stylesheet" href="../../css/exercises.css">
+</head>
+
+<body>
+	<!-- Coordinate output — updated in real time as the mouse moves -->
+	<div id="divResult" class="result-box result-box--lg"></div>
+
+	<!-- Tracking zone — mouse movement is only detected inside this div -->
+	<div id="divMouseover"></div>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+
+		$(document).ready(function () {
+
+			/*
+			 * THE ONE CHANGE FROM events_09.html:
+			 *
+			 * Original:  $(document).on('mousemove', ...)
+			 * Exercise:  $('#divMouseover').on('mousemove', ...)
+			 *
+			 * Binding mousemove to #divMouseover instead of document means
+			 * the event only fires when the cursor is physically inside that
+			 * element. Moving the mouse anywhere else on the page produces
+			 * no update — #divResult simply keeps showing the last recorded
+			 * position until the cursor re-enters the green zone.
+			 *
+			 * Everything else — the event object, e.pageX/pageY, and the
+			 * .html() update — is identical to the original file.
+			 *
+			 * NOTE: e.pageX and e.pageY still measure from the TOP-LEFT
+			 * corner of the entire document, NOT from the top-left corner
+			 * of #divMouseover. To get the position relative to the div
+			 * itself, subtract the div's offset:
+			 *
+			 *   let offset = $('#divMouseover').offset();
+			 *   let relX = e.pageX - offset.left;
+			 *   let relY = e.pageY - offset.top;
+			 */
+			$('#divMouseover').on('mousemove', function (e) {
+				let posX = e.pageX;
+				let posY = e.pageY;
+				$('#divResult').html('position X: ' + posX + '<br />position Y: ' + posY);
+			});
+
+		}); // end document ready
+
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery HTML-CSS: 13 - .append() and .prepend()</title>
+	<link rel="stylesheet" href="../../css/examples.css">
+</head>
+
+<body>
+	<!-- Empty container — all content is injected into this div by jQuery -->
+	<div id="divResult"></div>
+
+	<script src="../../js/jquery-3.6.0.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * .append(content) — inserts content as the LAST CHILD inside the element.
+			 *
+			 * Think of it as adding to the END of whatever is already inside.
+			 * The element itself stays in place — only its inner content grows.
+			 *
+			 * ⚠️  XSS WARNING: .append() parses and renders the string as HTML.
+			 * If the string ever contains user-supplied data, sanitise it first
+			 * or use .text() / .createTextNode() to avoid script injection.
+			 * Here the string is hardcoded so it is safe.
+			 */
+			$('#divResult').append('<p>This text is added at the end</p>');
+
+			/*
+			 * .prepend(content) — inserts content as the FIRST CHILD inside the element.
+			 *
+			 * Inserts at the START of whatever is already inside.
+			 * Because .prepend() runs after .append() here, the final order is:
+			 *
+			 *   <div id="divResult">
+			 *     <p>This text is added at the beginning</p>   ← prepended (first)
+			 *     <p>This text is added at the end</p>         ← appended (second)
+			 *   </div>
+			 */
+			$('#divResult').prepend('<p>This text is added at the beginning</p>');
+
+
+			/*
+			 * EXERCISE SOLUTION (commented out) — demonstrates append/prepend in a loop.
+			 *
+			 * .append() in a loop adds items sequentially to the end:
+			 *   result: "added at end: 0", "added at end: 1" ... in that order
+			 *
+			 * .prepend() in a loop adds each item to the FRONT, pushing previous
+			 * items down — so the last iteration ends up at the top:
+			 *   result (top to bottom): "added at front: 4", "3", "2", "1", "0"
+			 *
+			 * Note: the second loop reuses `i` without re-declaring it with `let`.
+			 * This works because the first loop's `let i` is block-scoped to its
+			 * own for-block. The second loop's bare `i` becomes an implicit global —
+			 * a minor code quality issue; it should also be declared with `let`.
+			 */
+			/*
+			$('#divResult').append('<hr />');
+			for (let i = 0; i < 5; i++) {
+				$('#divResult').append('added at end: ' + i + '<br />');
+			}
+			for (i = 0; i < 5; i++) {
+				$('#divResult').prepend('added at front: ' + i + '<br />');
+			}
+			*/
+
+		}); // end document ready
+	</script>
+</body>
+
+</html>

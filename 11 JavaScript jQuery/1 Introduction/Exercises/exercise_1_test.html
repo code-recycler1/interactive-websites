@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 1 - Verify jQuery is working</title>
+    <link href="../../css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <h1>jQuery basic examples</h1>
+    <p>The first paragraph.</p>
+    <p>Another paragraph.</p>
+    <div>Text inside a div.</div>
+    <p>A third paragraph.</p>
+
+    <!--
+        Three buttons included as a scaffold for follow-up exercises —
+        not used in this exercise but ready to be wired up with jQuery.
+    -->
+    <button class="button" id="btn1">button 1</button>
+    <button class="button" id="btn2">button 2</button>
+    <button class="button" id="btn3">button 3</button>
+
+    <!-- Load jQuery from a local file -->
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script>
+
+        /*
+         * GOAL: confirm that jQuery has loaded and is executing correctly.
+         *
+         * $(document).ready(function() { ... }) is the long-form version of
+         * the shorthand $(function() { ... }) used throughout the series.
+         * Both are identical in behaviour — the callback runs once the full
+         * DOM has been parsed and is safe to query.
+         *
+         * If jQuery is NOT loaded (e.g. wrong file path), the $ symbol will
+         * be undefined and this entire block will throw a ReferenceError in
+         * the browser console — making the problem immediately obvious.
+         *
+         * The alert() fires as soon as the DOM is ready, before the user
+         * has interacted with anything. In production code, alert() is
+         * never used — console.log() or a UI message is preferred.
+         * Here it is intentional: a visible popup is the clearest possible
+         * proof that jQuery ran successfully.
+         */
+        $(document).ready(function () {
+            alert('The page has loaded and the code is running.');
+        });
+
+    </script>
+</body>
+
+</html>

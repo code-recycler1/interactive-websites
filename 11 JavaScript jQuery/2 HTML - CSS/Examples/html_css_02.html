@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery HTML-CSS: 2 - CSS options object</title>
+</head>
+
+<body>
+	<h1>jQuery html-css examples</h1>
+	<p>This is the first paragraph.</p>
+	<p>This is the second paragraph.</p>
+	<p>This is the third paragraph.</p>
+
+	<!-- Load jQuery from a local file -->
+	<script src="../../js/jquery-3.6.0.js"></script>
+	<script>
+		$(function () {
+			/*
+			 * SET MULTIPLE CSS PROPERTIES USING A PLAIN OBJECT
+			 *
+			 * Instead of calling .css() once per property, you can pass a
+			 * plain JS object where each key is a CSS property name and
+			 * each value is the desired value.
+			 *
+			 * jQuery applies all properties in a single DOM write, which is
+			 * cleaner and marginally more efficient than chaining multiple
+			 * .css() calls.
+			 *
+			 * Property names can use either:
+			 *   - CSS kebab-case in quotes:  'background-color', 'font-size'
+			 *   - JS camelCase unquoted:      backgroundColor,   fontSize
+			 * Both are valid in jQuery 3.x. Quoted kebab-case is used here.
+			 *
+			 * Storing the options object in a variable before passing it in
+			 * makes the .css() call itself shorter and easier to read,
+			 * and allows the same options object to be reused on other selectors.
+			 */
+			let cssOptions = {
+				'background-color': '#9F3',
+				'font-size': '48px',
+				'font-family': 'Arial, Helvetica'
+			};
+			$('p').css(cssOptions);
+		});
+	</script>
+</body>
+
+</html>

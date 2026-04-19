@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery HTML-CSS: 6</title>
+	<link rel="stylesheet" href="../../css/examples.css">
+</head>
+
+<body>
+	<h1>jQuery html-css examples</h1>
+
+	<!-- The <span> inside the heading carries class="blue" —
+         this is intentional: it lets us demonstrate that .html() preserves
+         inner tags while .text() strips them out -->
+	<h2>This is <span class="blue">a blue</span> heading</h2>
+	<div id="divResult"></div>
+
+	<!-- Load jQuery from a local file -->
+	<script src="../../js/jquery-3.6.0.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * .html() — GETTER: reads the inner HTML of the matched element.
+			 *
+			 * Returns everything inside the tag as a raw HTML string,
+			 * including any child tags and their attributes.
+			 * Here it returns: 'This is <span class="blue">a blue</span> heading'
+			 *
+			 * Equivalent to the vanilla JS property: element.innerHTML
+			 */
+			let text = $('h2').html();
+			console.log(text);
+			// Console output: 'This is <span class="blue">a blue</span> heading'
+
+			/*
+			 * .html() — SETTER: writes raw HTML into the matched element.
+			 *
+			 * Because we are writing a string that contains an HTML tag (<span>),
+			 * the browser will parse and render it — so the blue styling will
+			 * appear in the copy just as it does in the original heading.
+			 *
+			 * ⚠️  XSS WARNING: .html() with user-supplied content is dangerous.
+			 * If `text` ever came from user input rather than the DOM, an attacker
+			 * could inject malicious script tags. Always sanitise before using .html().
+			 * For plain text output, always prefer .text() (see below).
+			 */
+			$('#divResult').html('copy via .html: ' + text);
+
+			/*
+			 * .text() — GETTER: reads only the plain text content of the element.
+			 *
+			 * All HTML tags are stripped — only the visible text nodes remain.
+			 * Here it returns: 'This is a blue heading'
+			 * The <span> tag and its class are gone.
+			 *
+			 * Equivalent to the vanilla JS property: element.textContent
+			 */
+			text = $('h2').text();
+			console.log(text);
+			// Console output: 'This is a blue heading'
+
+			/*
+			 * .text() — SETTER: writes a plain text string into the element.
+			 *
+			 * Crucially, .text() HTML-encodes any special characters —
+			 * angle brackets become &lt; and &gt; — so no tags are rendered.
+			 * This OVERWRITES the previous .html() content set above.
+			 *
+			 * This is the safe choice whenever the content is plain text,
+			 * because it eliminates XSS risk entirely.
+			 *
+			 * Note: this call replaces everything written by .html() above,
+			 * so only the .text() version will be visible in #divResult.
+			 */
+			$('#divResult').text('text via .text: ' + text);
+
+			/*
+			 * .text() works on <title> too — updates the browser tab label.
+			 * <title> has no visible rendered output on the page itself.
+			 */
+			$('title').text('The .text() function');
+
+		}); // end document ready
+	</script>
+</body>
+
+</html>

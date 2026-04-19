@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery documentation</title>
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        /*
+         * Target section used as a live demo box.
+         * Width is intentionally fixed here so the getter/setter examples
+         * have a predictable starting value to read and modify.
+         */
+        #sect2 {
+            border: solid 1px red;
+            padding: 20px;
+            width: 600px;
+            margin: 10px auto;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+
+        <!-- Page title links to the official jQuery API docs for .css() -->
+        <h1>jQuery documentation (API): <a href="http://api.jquery.com/css/">method css()</a></h1>
+
+        <section>
+            <!--
+            GETTER examples:
+            .css('property') with a single string argument READS a computed CSS value.
+            jQuery returns the value as reported by the browser (e.g. "600px"),
+            not necessarily what is written in the stylesheet.
+        -->
+            <h2>Getter:</h2>
+            <ul>
+                <!-- The link text shows the exact jQuery call being demonstrated -->
+                <li><a href="javascript:;" id="getter">alert($('#sect2').css('width'))</a></li>
+            </ul>
+
+            <!--
+            SETTER examples:
+            .css('property', value)         — sets a single property
+            .css({ key: value, ... })       — sets multiple properties at once
+            .css({ key: function(){} })     — derives the new value from the current value
+        -->
+            <h2>Setter:</h2>
+            <ul>
+                <li><a href="javascript:;" id="setter1">$('#sect2').css('width', '400px');</a></li>
+                <li><a href="javascript:;" id="setter2">$('#sect2').css({'box-shadow': '5px 5px 3px grey', 'color':
+                        'green',
+                        'width': '700px'});</a></li>
+                <li><a href="javascript:;" id="setter3">$('#sect2').css({fontSize: function(){ return
+                        parseFloat($('#sect2').css('font-size')) * 1.2; }});</a></li>
+            </ul>
+        </section>
+
+        <!-- This is the live target element all the jQuery examples act on -->
+        <section id="sect2">
+            <h2>Section 2</h2>
+            <p>Maecenas sagittis rutrum nisi, non euismod dolor scelerisque faucibus. Pellentesque dictum eleifend justo
+                vitae condimentum. Nulla volutpat, ligula et euismod tristique, tellus purus sollicitudin libero, non
+                ornare
+                magna quam nec odio. Vestibulum eget dui orci. Suspendisse dolor turpis, scelerisque vitae tincidunt et,
+                fringilla rutrum arcu. Sed sed sapien leo. Praesent sagittis vestibulum tellus, sit amet gravida felis
+                volutpat a. Maecenas eu nulla nibh, vitae vehicula nulla. Morbi quis mi orci, et ornare risus.
+                Pellentesque
+                facilisis massa elit, sed gravida nibh. Nulla turpis risus, aliquam malesuada eleifend ac, auctor ut
+                tortor.
+                Proin sit amet turpis est. Nam adipiscing eros arcu. Vivamus vehicula dui at ante imperdiet vel ultrices
+                leo
+                tempus. Phasellus nec eros tortor, in suscipit mi. Nullam blandit, ipsum sed auctor scelerisque, purus
+                turpis sollicitudin enim, quis pellentesque leo neque ac urna.</p>
+        </section>
+
+    </main>
+
+    <script src="js/jquery-3.4.1.min.js"></script>
+
+    <script>
+        /*
+         * $(function() { ... }) is shorthand for $(document).ready(function() { ... }).
+         * Everything inside runs only after the full DOM has been parsed —
+         * safe to query any element by ID without risk of "not found" errors.
+         */
+        $(function () {
+
+            /*
+             * GETTER — reads the current computed width of #sect2.
+             *
+             * .css('width') asks the browser for the resolved pixel value,
+             * so even if CSS uses %, em, or rem, the return value will be in px.
+             * Result is shown in a native browser alert dialog.
+             */
+            $('#getter').click(function () {
+                alert($('#sect2').css('width'));
+            });
+
+            /*
+             * SETTER 1 — sets a single CSS property with a fixed string value.
+             *
+             * Signature: .css(propertyName, value)
+             * Shrinks the section from its default 600px to 400px.
+             */
+            $('#setter1').click(function () {
+                $('#sect2').css('width', '400px');
+            });
+
+            /*
+             * SETTER 2 — sets multiple CSS properties in one call using a plain object.
+             *
+             * Signature: .css({ property: value, property: value, ... })
+             * Equivalent to calling .css() three separate times, but more efficient
+             * because jQuery only touches the DOM once.
+             *
+             * Note: property names can use either:
+             *   - CSS kebab-case in quotes:  'box-shadow', 'font-size'
+             *   - JS camelCase unquoted:      boxShadow,   fontSize
+             * Both are valid in jQuery 3.x. The commented-out line below
+             * (_OUD = Dutch for "old") shows the camelCase version that was
+             * replaced — left in as a historical reference.
+             */
+            $('#setter2').click(function () {
+                $('#sect2').css({
+                    'box-shadow': '5px 5px 3px grey',   // adds a grey drop-shadow
+                    'color': 'green',                    // changes text colour
+                    'width': '700px'                     // widens the section
+                });
+                // Old/alternative camelCase syntax (commented out, kept for reference):
+                // $('#sect2').css({ boxShadow: '5px 5px 3px grey', color: 'green', width: '700px' });
+            });
+
+            /*
+             * SETTER 3 — derives a new value from the element's current computed value.
+             *
+             * Signature: .css({ property: function(index, currentValue) { return newValue; } })
+             * jQuery passes the element's index and current value as arguments,
+             * but here we re-query the font size manually instead of using them.
+             *
+             * How it works:
+             *   1. .css('font-size') returns the current size as a string, e.g. "16px".
+             *   2. parseFloat() strips the "px" unit, leaving the raw number (16).
+             *   3. Multiplying by 1.2 increases the size by 20%.
+             *   4. jQuery automatically appends "px" when the return value is a number.
+             *
+             * Each click increases font size by another 20% — it is cumulative.
+             */
+            $('#setter3').click(function () {
+                $('#sect2').css({
+                    fontSize: function () {
+                        // Read current font size → strip unit → scale up 20%
+                        return parseFloat($('#sect2').css('font-size')) * 1.2;
+                    }
+                });
+            });
+
+        });
+    </script>
+</body>
+
+</html>

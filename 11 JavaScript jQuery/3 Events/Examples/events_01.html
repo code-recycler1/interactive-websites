@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery Events: 1 - .click() basic event binding</title>
+	<link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body class="events-clickable">
+	<p>This is the first paragraph.</p>
+	<p>This is the second paragraph.</p>
+	<p>This is the third paragraph.</p>
+	<div id="divResult" class="result-box-subtle"></div>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * .click(handler) — attaches a click event listener to every
+			 * matched element. When any <p> is clicked, the handler runs.
+			 *
+			 * Inside the handler, $(this) refers to the specific paragraph
+			 * that was clicked as a jQuery object.
+			 * .text() reads its plain text content (no HTML tags).
+			 *
+			 * .click(fn) is shorthand for .on('click', fn).
+			 * Both are valid in jQuery 3.4.1 — .on() is the more explicit form
+			 * and is preferred for consistency (see files 4–7).
+			 *
+			 * NOTE: this handler is only bound to <p> elements that exist
+			 * in the DOM RIGHT NOW. Any paragraph added dynamically later
+			 * would NOT respond to clicks. See files 4–5 for the solution.
+			 */
+			$('p').click(function () {
+				$('#divResult').text('Clicked on: ' + $(this).text());
+			});
+
+		});
+	</script>
+</body>
+
+</html>

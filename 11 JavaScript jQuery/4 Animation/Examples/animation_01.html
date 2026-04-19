@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Animation: 1 - .hide() and .show()</title>
+	<link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body>
+	<div id="divResult" class="result-box-anim">Text in the div</div>
+	<button id="btnHide">Hide</button>
+	<button id="btnShow">Show</button>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * .hide() — sets display:none on the element instantly.
+			 * The element is removed from the layout flow — surrounding
+			 * content shifts to fill the space it occupied.
+			 *
+			 * No animation duration is specified here, so the change
+			 * is immediate. To animate the hide, pass a duration:
+			 *   $('#divResult').hide(400);   // 400ms
+			 *   $('#divResult').hide('slow'); // ~600ms
+			 */
+			$('#btnHide').on('click', function () {
+				$('#divResult').hide();
+			});
+
+			/*
+			 * .show() — reverses .hide() by restoring the element's
+			 * previous display value (block for a <div>).
+			 *
+			 * If the element was never hidden, .show() has no effect.
+			 * Same duration options apply as .hide().
+			 */
+			$('#btnShow').on('click', function () {
+				$('#divResult').show();
+			});
+
+		});
+	</script>
+</body>
+
+</html>

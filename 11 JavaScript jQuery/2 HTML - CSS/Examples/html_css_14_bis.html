@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery HTML-CSS: 14bis - Inverted syntax (.appendTo(), .prependTo(), .insertBefore(), .insertAfter())</title>
+	<link rel="stylesheet" href="../../css/examples.css">
+</head>
+
+<body>
+	<div id="divResult"></div>
+
+	<script src="../../js/jquery-3.6.0.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * INVERTED INSERTION SYNTAX
+			 *
+			 * jQuery provides mirror-image versions of all four insertion methods.
+			 * The subject and target swap positions — you select the NEW content
+			 * first, then specify WHERE it goes as the argument.
+			 *
+			 * Every pair below produces identical DOM output to its commented-out
+			 * counterpart from file 14. Only the reading direction differs.
+			 *
+			 * ┌─────────────────────────────────┬──────────────────────────────────┐
+			 * │ Original (target-first)         │ Inverted (content-first)         │
+			 * ├─────────────────────────────────┼──────────────────────────────────┤
+			 * │ $(target).append(content)       │ $(content).appendTo(target)      │
+			 * │ $(target).prepend(content)      │ $(content).prependTo(target)     │
+			 * │ $(target).before(content)       │ $(content).insertBefore(target)  │
+			 * │ $(target).after(content)        │ $(content).insertAfter(target)   │
+			 * └─────────────────────────────────┴──────────────────────────────────┘
+			 *
+			 * When to prefer the inverted form:
+			 * The inverted form is useful when you have already built the new
+			 * element as a jQuery object and want to chain further methods on it
+			 * after inserting — the chain continues on the INSERTED element,
+			 * not on the container:
+			 *   $('<p>New</p>').appendTo('#divResult').addClass('highlight');
+			 *
+			 * With the original form, the chain continues on the CONTAINER:
+			 *   $('#divResult').append('<p>New</p>').addClass('highlight');
+			 *   // ↑ adds 'highlight' to #divResult, not to the new <p>
+			 */
+
+			// Commented-out originals from file 14 (identical result):
+			// $('#divResult').append('<p>This text is added at the end</p>');
+			// $('#divResult').prepend('<p>This text is added at the beginning</p>');
+
+			$('<p>This text is added at the end</p>').appendTo('#divResult');
+			$('<p>This text is added at the beginning</p>').prependTo('#divResult');
+
+			// Commented-out originals from file 14 (identical result):
+			// $('#divResult').before('<p>Inserted with .before()</p>');
+			// $('#divResult').after('<p>Inserted with .after()</p>');
+
+			$('<p>Inserted with .before()</p>').insertBefore('#divResult');
+			$('<p>Inserted with .after()</p>').insertAfter('#divResult');
+
+		}); // end document ready
+	</script>
+</body>
+
+</html>

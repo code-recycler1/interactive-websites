@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery HTML-CSS: 9 - .val() on text inputs</title>
+	<link rel="stylesheet" href="../../css/examples.css">
+</head>
+
+<body>
+	Username: <input type="text" id="txtUsername" /><br />
+	Password: <input type="password" id="txtPassword" /><br />
+	<button id="btnButton1">Check!</button>
+	<div id="divResult"></div>
+
+	<!-- Load jQuery from a local file -->
+	<script src="../../js/jquery-3.6.0.js"></script>
+	<script>
+		$(function () {
+
+			$('#btnButton1').on('click', function () {
+
+				/*
+				 * .val() — reads the current value of a form input element.
+				 *
+				 * Works on: <input>, <textarea>, <select>.
+				 * Returns a string. Returns an empty string '' if the field is blank.
+				 *
+				 * Equivalent to: document.getElementById('txtUsername').value
+				 */
+				let username = $('#txtUsername').val();
+				let password = $('#txtPassword').val();
+				/*
+				 * Display both values in #divResult.
+				 *
+				 * ⚠️  XSS WARNING: .html() is used here with values that came
+				 * directly from user input. An attacker could inject malicious script tags,
+				 * it will be injected as live HTML.
+				 * 
+				 * Safe fix — use .text() instead, which encodes special characters:
+				 * $('#divResult').text('Username: ' + username + ', password: ' + password);
+				 *
+				 * Or sanitise the values before passing to .html().
+				 * In a real application, passwords should never be echoed back
+				 * to the screen at all.
+				 */
+
+				$('#divResult').html('Username: ' + username
+					+ ', password: ' + password);
+			});
+
+		}); // end document ready
+	</script>
+</body>
+
+</html>

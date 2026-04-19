@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery HTML-CSS: 8 - .attr() with multiple attributes object</title>
+	<link rel="stylesheet" href="../../css/examples.css">
+</head>
+
+<body>
+	<img src="../../img/kitten1.jpg" id="imgKitten" class="img-preview" />
+	<button id="btn1">Switch image</button>
+
+	<!-- Load jQuery from a local file -->
+	<script src="../../js/jquery-3.6.0.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * Same cycling counter as file 7 — persists across clicks.
+			 */
+			let i = 1;
+
+			$('#btn1').on('click', function () {
+				i++;
+
+				/*
+				 * SET MULTIPLE ATTRIBUTES AT ONCE using a plain object.
+				 *
+				 * Just like .css() accepts an options object, .attr() does too.
+				 * Each key is an attribute name, each value is the new attribute value.
+				 *
+				 * This is better practice than updating src alone because:
+				 *   - `title` gives a tooltip on hover (desktop browsers)
+				 *   - `alt`   provides a text fallback if the image fails to load,
+				 *             and is read by screen readers for accessibility.
+				 * All three are updated atomically in one jQuery call.
+				 */
+				let imgAttributes = {
+					'src': '../../img/kitten' + i + '.jpg',
+					'title': 'Image of cat ' + i,
+					'alt': 'Image of cat ' + i
+				};
+				$('#imgKitten').attr(imgAttributes);
+
+				// Reset counter after the last image — same logic as file 7
+				if (i > 2) {
+					i = 0;
+				}
+			});
+
+		}); // end document ready
+	</script>
+</body>
+
+</html>

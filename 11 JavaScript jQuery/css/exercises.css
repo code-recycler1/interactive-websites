@@ -1,0 +1,308 @@
+/* ==========================================================================
+   exercises.css — shared stylesheet for all exercises
+   covers: html-css exercises 1–3, events exercises 1–4,
+           animation exercises 1–4 (including 3 bis)
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   1. BASE
+   -------------------------------------------------------------------------- */
+
+body {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 24px;
+}
+
+/*
+ * .font-sm — reduces font size to 14px.
+ * Used in: html-css exercise 2, events exercise 2.
+ * Activate by adding class="font-sm" to <body> in those files.
+ */
+.font-sm {
+    font-size: 14px;
+}
+
+/*
+ * .font-helvetica — switches to the Helvetica font stack.
+ * Used in: all animation exercises (1, 2, 3, 3bis, 4).
+ * Activate by adding class="font-helvetica" to <body> in those files.
+ */
+.font-helvetica {
+    font-family: Helvetica, Arial, 'DejaVu Sans', 'Liberation Sans', Freesans, sans-serif;
+}
+
+/*
+ * .font-helvetica-16 — Helvetica at 16px.
+ * Used in: animation exercise 2 only (smaller text alongside the large div).
+ * Activate by adding class="font-helvetica font-helvetica-16" to <body>.
+ * The two classes combine: font-helvetica sets the family,
+ * font-helvetica-16 overrides the 24px base size.
+ */
+.font-helvetica-16 {
+    font-size: 16px;
+}
+
+/*
+ * .body-fixed — locks the body so the page cannot scroll.
+ * Used in: animation exercise 3 bis (boundary-checked arrow movement).
+ * Without position:fixed, arrow keys scroll the page instead of moving
+ * the block. margin:0 removes default body spacing so the full viewport
+ * is available as the playing field.
+ * Activate by adding class="body-fixed" to <body> in that file.
+ */
+.body-fixed {
+    position: fixed;
+    margin: 0;
+}
+
+
+/* --------------------------------------------------------------------------
+   2. UTILITY
+   -------------------------------------------------------------------------- */
+
+/*
+ * .blue — text colour utility, present in html-css exercises 1–3.
+ */
+.blue {
+    color: #06F;
+}
+
+/*
+ * .txt-input — 200px width for colour/value text inputs.
+ * Used in html-css exercises 1–3 where the input id differs per file
+ * (#txtColor, #txtChoice) but the width is always the same.
+ * Add class="txt-input" to the relevant <input> in each file.
+ */
+.txt-input {
+    width: 200px;
+}
+
+/*
+ * .demo-div — the pink clickable box used in events exercise 4.
+ * Replaces the original bare `div` element selector which would
+ * have affected every div on every page.
+ * Add class="demo-div" to the relevant <div> elements in events ex 4.
+ */
+.demo-div {
+    width: 300px;
+    height: 50px;
+    border: 1px solid #999;
+    background-color: #fcc;
+    border-radius: 4px;
+    margin: 4px;
+}
+
+
+/* --------------------------------------------------------------------------
+   3. PREVIEW BOX VARIANTS — html-css exercises 1–3
+   All three share the same border and margin — those live in the base class.
+   Apply BOTH .preview-box AND the matching size modifier to #divResult.
+   -------------------------------------------------------------------------- */
+
+/*
+ * Shared border and spacing for the colour/text preview box.
+ */
+.preview-box {
+    border: 2px solid #D3D3D3;
+    margin: 10px 0;
+}
+
+/* html-css exercise 3 — shopping list output (small) */
+.preview-box--sm {
+    width: 200px;
+    height: 150px;
+}
+
+/* html-css exercise 1 — colour picker preview (medium) */
+.preview-box--md {
+    width: 400px;
+    height: 150px;
+}
+
+/* html-css exercise 2 — extended picker preview (large) */
+.preview-box--lg {
+    width: 600px;
+    height: 250px;
+}
+
+
+/* --------------------------------------------------------------------------
+   4. RESULT BOX VARIANTS — events exercises 1–4
+   The yellow output box used across the events exercises.
+   Apply BOTH .result-box AND the matching size modifier to #divResult.
+   Optionally add .result-box--margin for the extra top/bottom spacing
+   needed in events exercises 2 and 3.
+   -------------------------------------------------------------------------- */
+
+/*
+ * Shared background, border and radius for all events result boxes.
+ */
+.result-box {
+    background-color: #ffc;
+    border: 1px solid #333;
+    border-radius: 4px;
+}
+
+/* events exercise 4 — small output area for click-counter */
+.result-box--sm {
+    width: 200px;
+    height: 30px;
+}
+
+/* events exercises 1, 2, 3 — taller output for coordinate / key readouts */
+.result-box--lg {
+    width: 300px;
+    height: 100px;
+}
+
+/*
+ * .result-box--margin — adds 15px margin around the box.
+ * Used in events exercises 2 and 3 where the box needs extra breathing room.
+ * Add this class in addition to .result-box and .result-box--lg.
+ */
+.result-box--margin {
+    margin: 15px;
+}
+
+
+/* --------------------------------------------------------------------------
+   5. EVENTS EXERCISES — component styles
+   -------------------------------------------------------------------------- */
+
+/*
+ * #divMouseover — events exercise 1 (mouse position tracking zone).
+ * 400×400px as required by the exercise brief.
+ * Light green makes the active tracking area clearly visible.
+ */
+#divMouseover {
+    background-color: #CCFF66;
+    width: 400px;
+    height: 400px;
+    border: 1px solid #333;
+    border-radius: 4px;
+}
+
+/*
+ * #divTooltip — events exercise 4 (static tooltip on list hover).
+ * position:absolute so it floats over other content.
+ * display:none — jQuery shows/hides it on mouseover/mouseleave.
+ */
+#divTooltip {
+    position: absolute;
+    top: 50px;
+    left: 200px;
+    display: none;
+    width: 150px;
+    border: 2px solid #999;
+    background-color: #FFFFCC;
+    color: #333;
+    border-radius: 4px;
+}
+
+/*
+ * span#msg — events exercise 4 (inline validation message).
+ * Hidden by default; jQuery shows it briefly with .fadeOut() when
+ * the user enters a non-numeric value in the count field.
+ */
+span#msg {
+    display: none;
+    margin-left: 10px;
+    color: red;
+    font-size: 12px;
+}
+
+
+/* --------------------------------------------------------------------------
+   6. ANIMATION EXERCISES — component styles
+   -------------------------------------------------------------------------- */
+
+/*
+ * #terms — animation exercise 1 (terms and conditions box).
+ * Styled to look like the tooltip used in the animation series.
+ * jQuery slides this up when the checkbox is checked and down when unchecked.
+ */
+#terms {
+    border: 2px solid #777;
+    border-radius: 4px;
+    padding: 2px 6px;
+    background-color: #FFFF99;
+    color: #333;
+}
+
+/*
+ * #animationDiv — animation exercise 2 (chained animation target).
+ * position:relative is required for animating `left` and `top`.
+ * margin:15px gives the initial left/top animations visible space to move into.
+ */
+#animationDiv {
+    position: relative;
+    margin: 15px;
+    width: 200px;
+    height: 150px;
+    border: 2px solid #777;
+    border-radius: 4px;
+    padding: 2px 6px;
+    background-color: rgb(170, 12, 99);
+    color: rgb(255, 255, 255);
+}
+
+/*
+ * #block — animation exercises 3 and 3 bis (arrow key movement).
+ * position:absolute is required so top/left can reposition it freely.
+ * Shared between both versions — 3 bis adds body-fixed for scroll prevention.
+ */
+#block {
+    width: 150px;
+    height: 150px;
+    top: 0;
+    left: 0;
+    position: absolute;
+    border: 2px solid #777;
+    border-radius: 4px;
+    padding: 2px 6px;
+    background-color: #FFFF99;
+    color: #333;
+}
+
+/*
+ * Photo gallery — animation exercise 4.
+ * #container   — wrapper that reserves vertical space for the large photo.
+ * #container img — large photo; fixed at 400px wide, block for clean layout.
+ * #strip       — thumbnail row with grey background.
+ * #strip img   — thumbnails at 100px wide; cursor:pointer signals clickability.
+ * #caption     — title bar below the strip; text is set by jQuery on each click.
+ */
+#container {
+    height: 435px;
+}
+
+#container img {
+    display: block;
+    width: 400px;
+    border: 4px solid #aaa;
+}
+
+#strip {
+    background-color: #ccc;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+#strip img {
+    width: 100px;
+    margin: 0 5px;
+    cursor: pointer;
+    border: 1px solid #222;
+}
+
+#caption {
+    height: 35px;
+    margin: 5px 15px;
+    border: 1px solid #222;
+    background-color: rgb(201, 28, 186);
+    color: azure;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 36px;
+}

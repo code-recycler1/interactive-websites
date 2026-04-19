@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Animation: 9 - Animated menu with relative += / -= values</title>
+	<link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body class="page-helvetica">
+	<ul id="menu">
+		<li>First item</li>
+		<li>Second item</li>
+		<li>Third item</li>
+		<li>Fourth item</li>
+		<li>Fifth item</li>
+	</ul>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * RELATIVE VALUES in .animate() — using '+=' and '-='.
+			 *
+			 * Instead of animating TO an absolute target value like '200px',
+			 * relative values animate BY a delta from the CURRENT value:
+			 *   '+=50px' means "add 50px to whatever the current value is"
+			 *   '-=50px' means "subtract 50px from whatever the current value is"
+			 *
+			 * This makes the hover effect safe to trigger multiple times —
+			 * if the user quickly moves in and out, the values always move
+			 * relative to where they currently are rather than jumping to
+			 * a fixed target.
+			 *
+			 * hoverInOptions  — slides right 50px, increases font by 2px
+			 * hoverOutOptions — slides back left 50px, decreases font by 2px
+			 *
+			 * Duration: 200ms — fast enough to feel snappy and responsive.
+			 */
+			let hoverInOptions = {
+				'margin-left': '+=50px',
+				'font-size': '+=2px'
+			};
+
+			let hoverOutOptions = {
+				'margin-left': '-=50px',
+				'font-size': '-=2px'
+			};
+
+			/*
+			 * .hover(handlerIn, handlerOut) binds mouseenter and mouseleave
+			 * to all five <li> elements at once.
+			 * $(this) inside each handler refers to the specific <li> being hovered.
+			 */
+			$('#menu li').hover(
+				function () {
+					$(this).animate(hoverInOptions, 200);
+				},
+				function () {
+					$(this).animate(hoverOutOptions, 200);
+				}
+			);
+
+		});
+	</script>
+</body>
+
+</html>

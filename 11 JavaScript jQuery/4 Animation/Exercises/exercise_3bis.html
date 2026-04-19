@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Animation: exercise 3 bis</title>
+	<link rel="stylesheet" href="../../css/exercises.css">
+</head>
+
+<body class="font-helvetica body-fixed">
+	<h2>Use the arrow keys to move the block</h2>
+	<div id="block"></div>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+		$(document).ready(function (e) {
+
+			$(document).on('keydown', function (e) {
+
+				/*
+				 * Read the current window dimensions on every keydown.
+				 * Using $(window).height() / .width() instead of hard-coded
+				 * values means the boundary checks still work correctly if
+				 * the browser window is resized while the page is open.
+				 */
+				let h = $(window).height();
+				let w = $(window).width();
+
+				/*
+				 * BOUNDARY CHECKING with .offset()
+				 *
+				 * .offset() returns the element's current position as
+				 * { top: N, left: N } measured from the document origin.
+				 * This reflects the element's actual rendered position —
+				 * including any previous .animate() movements.
+				 *
+				 * For each direction, two cases:
+				 *
+				 *   WITHIN BOUNDS → move 50px in that direction as normal
+				 *   AT OR PAST EDGE → snap to the boundary value and clear
+				 *                     the queue so no further drift occurs
+				 *
+				 * The block is 150×150px, so:
+				 *   Right boundary:  left + 150 < window width
+				 *   Bottom boundary: top  + 150 < window height
+				 *   Left boundary:   left > 0
+				 *   Top boundary:    top  > 0
+				 */
+				switch (e.which) {
+
+					case 37: // left arrow
+						if ($('#block').offset().left > 0) {
+							$('#block').animate({ 'left': '-=50px' });
+						} else {
+							// Already at the left edge — snap and stop
+							$('#block').animate({ 'left': '0' }).clearQueue();
+						}
+						break;
+
+					case 38: // up arrow
+						if ($('#block').offset().top > 0) {
+							$('#block').animate({ 'top': '-=50px' });
+						} else {
+							// Already at the top edge — snap and stop
+							$('#block').animate({ 'top': 0 }).clearQueue();
+						}
+						break;
+
+					case 39: // right arrow
+						if ($('#block').offset().left + 150 < w) {
+							$('#block').animate({ 'left': '+=50px' });
+						} else {
+							// Already at the right edge — snap flush to right boundary
+							$('#block').animate({ 'left': w - 150 }).clearQueue();
+						}
+						break;
+
+					case 40: // down arrow
+						if ($('#block').offset().top + 150 < h) {
+							$('#block').animate({ 'top': '+=50px' });
+						} else {
+							// Already at the bottom edge — snap flush to bottom boundary
+							$('#block').animate({ 'top': h - 150 }).clearQueue();
+						}
+						break;
+
+					default:
+						// Any other key — do nothing
+						break;
+				}
+			});
+
+			// Clear queued animations on key release — same as exercise 3
+			$(document).on('keyup', function (e) {
+				$('#block').clearQueue();
+			});
+
+		});
+	</script>
+</body>
+
+</html>

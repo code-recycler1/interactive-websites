@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery HTML-CSS: 16 - .empty() and .remove()</title>
+	<link rel="stylesheet" href="../../css/examples.css">
+</head>
+
+<body>
+	<div id="divResult-fixed">This is the content</div>
+	<button id="btnEmpty">Clear contents (empty)</button>
+	<button id="btnRemove">Remove element (remove)</button>
+	<button id="btnRemoveCon">Remove only if it contains text (remove/contains)</button>
+
+	<script src="../../js/jquery-3.6.0.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * .empty() — removes ALL child nodes and text from inside the element.
+			 * The element itself stays in the DOM — you can see the red-bordered
+			 * box remain on the page, but its text content disappears.
+			 *
+			 * Also destroys any event handlers attached to child elements,
+			 * preventing memory leaks (jQuery cleans these up internally).
+			 *
+			 * Equivalent to: element.innerHTML = '';
+			 */
+			$('#btnEmpty').on('click', function () {
+				$('#divResult-fixed').empty();
+			});
+
+			/*
+			 * .remove() — removes the element AND all its contents from the DOM entirely.
+			 * Unlike .empty(), the element itself is gone — the red box disappears.
+			 *
+			 * jQuery also cleans up any event handlers and data stored on the
+			 * removed element and its descendants, avoiding memory leaks.
+			 *
+			 * The removed element is returned by .remove(), so it can be stored
+			 * in a variable and re-inserted elsewhere if needed:
+			 *   let saved = $('#divResult').remove();
+			 *   $('body').append(saved); // puts it back
+			 *
+			 * Equivalent to: element.parentNode.removeChild(element);
+			 */
+			$('#btnRemove').on('click', function () {
+				$('#divResult-fixed').remove();
+			});
+
+			/*
+			 * .remove(selector) — conditional removal using a filter selector.
+			 *
+			 * The selector is tested AGAINST the element itself (not its children).
+			 * :contains('content') is a jQuery filter that matches elements whose
+			 * text content includes the given string.
+			 *
+			 * So this reads: "remove #divResult, but only if its text contains
+			 * the word 'content'".
+			 *
+			 * Because #divResult starts with "This is the content", the word
+			 * 'content' is present — clicking this button removes it.
+			 * After clicking "Clear contents" first (which empties the text),
+			 * this button will have NO effect because :contains('content')
+			 * no longer matches.
+			 *
+			 * NOTE: :contains() is case-sensitive in all jQuery versions.
+			 */
+			$('#btnRemoveCon').on('click', function () {
+				$('#divResult-fixed').remove(":contains('content')");
+			});
+
+		}); // end document ready
+	</script>
+</body>
+
+</html>

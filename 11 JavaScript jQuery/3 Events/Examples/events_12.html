@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Events: 12 - Mouse tracking with a following circle (combined mouse events)</title>
+    <link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body>
+    <section id="canvas">
+        <!-- Two <span> elements display live coordinate readouts inside the canvas -->
+        <span class="coordsx"></span>
+        <span class="coordsy"></span>
+    </section>
+
+    <!-- The circle element that tracks the mouse — sits outside #canvas so it
+         can move freely across the whole page -->
+    <div class="circle"></div>
+
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script>
+        $(function () {
+
+            /*
+             * Cache the circle jQuery object to avoid re-querying the DOM
+             * inside the mousemove handler, which fires on every pixel of movement.
+             */
+            let $circle = $('.circle');
+
+            /*
+             * mousemove on window — tracks cursor position across the entire viewport.
+             *
+             * e.pageX / e.pageY — position relative to the document origin (top-left).
+             * e.screenX / e.screenY — position relative to the physical SCREEN edge,
+             *   not the browser window. Useful for multi-monitor awareness.
+             *
+             * The circle is repositioned by setting its CSS top/left to the cursor
+             * coordinates. jQuery accepts plain numbers and appends 'px' automatically.
+             *
+             * The coordinate readouts inside #canvas are updated in the same handler
+             * to keep everything in sync.
+             */
+            $(window).on('mousemove', function (e) {
+                $('span').first().text('pageX, pageY: ' + e.pageX + ', ' + e.pageY);
+                $('span').last().text('screenX, screenY: ' + e.screenX + ', ' + e.screenY);
+
+                $circle.css({
+                    'left': e.pageX,
+                    'top': e.pageY
+                });
+            });
+
+            /*
+             * mousedown on window — fires when any mouse button is pressed anywhere.
+             * Changes the circle to black as a visual press indicator.
+             * Note: there is no mouseup handler to reset it — the colour stays
+             * black until the cursor leaves/enters #canvas.
+             */
+            $(window).on('mousedown', function (e) {
+                $circle.css('background', 'black');
+            });
+
+            /*
+             * mouseleave on #canvas — fires when the cursor moves OUT of the green area.
+             * Changes circle to dark orange to signal it has left the zone.
+             *
+             * mouseleave does NOT bubble (unlike mouseout) — it only fires when the
+             * cursor leaves #canvas itself, not when it leaves a child element inside it.
+             */
+            $('section#canvas').on('mouseleave', function (e) {
+                $circle.css('background', 'darkorange');
+            });
+
+            /*
+             * mouseenter on #canvas — fires when the cursor moves INTO the green area.
+             * Changes circle to dark green to signal it is inside the zone.
+             *
+             * mouseenter does NOT bubble (unlike mouseover).
+             */
+            $('section#canvas').on('mouseenter', function (e) {
+                $circle.css('background', 'darkgreen');
+            });
+        });
+    </script>
+</body>
+
+</html>

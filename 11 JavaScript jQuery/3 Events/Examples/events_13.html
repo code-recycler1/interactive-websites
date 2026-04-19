@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Events: 13 - resize event — keeping an element centred</title>
+    <link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body class="page-resize">
+    <div class="resized">
+        I stay in the centre... go ahead and resize the browser!
+    </div>
+
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script>
+        $(function () {
+
+            /*
+             * Call resizeMe() immediately on page load so the element starts
+             * centred — without this, it would only centre after the first resize.
+             * This is the "run once on load, then re-run on event" pattern.
+             */
+            resizeMe();
+
+            /*
+             * 'resize' event on window — fires whenever the browser window
+             * changes size (user drags the window edge, enters/exits fullscreen,
+             * rotates a mobile device, etc.).
+             *
+             * Like mousemove, resize fires continuously while dragging.
+             * For expensive recalculations, debouncing is recommended:
+             *   let resizeTimer;
+             *   $(window).on('resize', function() {
+             *       clearTimeout(resizeTimer);
+             *       resizeTimer = setTimeout(resizeMe, 100); // runs 100ms after dragging stops
+             *   });
+             */
+            $(window).on('resize', function () {
+                resizeMe();
+            });
+
+            /*
+             * resizeMe() — calculates the top/left values needed to centre
+             * .resized perfectly within the current window dimensions.
+             *
+             * MATHS:
+             *   Centre of window  = window dimension / 2
+             *   Centre of element = element dimension / 2
+             *   Top-left offset   = window centre - element centre
+             *
+             *   top  = (window height / 2) - (element height / 2)
+             *   left = (window width  / 2) - (element width  / 2)
+             *
+             * This is equivalent to the CSS approach:
+             *   position: fixed; top: 50%; left: 50%;
+             *   transform: translate(-50%, -50%);
+             * but done manually in jQuery as a learning exercise.
+             *
+             * Note: `var` is used throughout instead of `let` / `const`.
+             * In modern JS, `const` would be preferred for values that
+             * are not reassigned, and `let` for those that are.
+             */
+            function resizeMe() {
+                var element = $('.resized');
+
+                var w_width = $(window).width();   // current window width
+                var w_height = $(window).height();  // current window height
+
+                var el_width = element.width();     // element width  (400px from CSS)
+                var el_height = element.height();    // element height (200px from CSS)
+
+                // Calculate the top-left corner position that centres the element
+                var top_position = (w_height / 2) - (el_height / 2);
+                var left_position = (w_width / 2) - (el_width / 2);
+
+                element.css({ 'top': top_position, 'left': left_position });
+            }
+
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery HTML-CSS: 7 - .attr() getter + setter (image switcher)</title>
+	<link rel="stylesheet" href="../../css/examples.css">
+</head>
+
+<body>
+	<!-- Image starts pointing at kitten1.jpg — src will be changed by jQuery -->
+	<img src="../../img/kitten1.jpg" id="imgKitten" class="img-preview" />
+	<div id="divResult"></div>
+	<button id="btn1">Switch image</button>
+
+	<!-- Load jQuery from a local file -->
+	<script src="../../js/jquery-3.6.0.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * .attr('src') — GETTER: reads the current value of the src attribute.
+			 *
+			 * Returns the attribute value as a string, e.g. '../../img/kitten1.jpg'.
+			 * Equivalent to: document.getElementById('imgKitten').getAttribute('src')
+			 */
+			let url = $('#imgKitten').attr('src');
+			$('#divResult').text('source: ' + url);
+			// Identical one-liner (no caching variable):
+			// $('#divResult').text('source: ' + $('#imgKitten').attr('src'));
+
+
+			/*
+			 * Counter tracks which kitten image is currently showing.
+			 * Declared outside the click handler so it persists between clicks
+			 * (a variable declared inside the handler would reset to 1 every click).
+			 * Starts at 1 because kitten1.jpg is already loaded in the HTML.
+			 */
+			let i = 1;
+
+			$('#btn1').on('click', function () {
+
+				// Step 1 — increment the counter before building the filename
+				i++;
+
+				/*
+				 * Step 2 — .attr('src', value) SETTER: update the image source.
+				 *
+				 * String concatenation builds the filename dynamically:
+				 * i=2 → '../../img/kitten2.jpg'
+				 * i=3 → '../../img/kitten3.jpg'
+				 * The browser immediately loads the new image when src changes.
+				 */
+				$('#imgKitten').attr('src', '../../img/kitten' + i + '.jpg');
+
+				/*
+				 * Step 3 — reset the counter after the last image (index 2 = kitten3.jpg).
+				 * Setting i to 0 means the NEXT click will increment to 1 again,
+				 * cycling back to kitten1.jpg. The sequence is: 1 → 2 → 3 → 1 → 2 → ...
+				 *
+				 * Note: the reset happens AFTER the src is set, so kitten3.jpg does
+				 * display — it is not skipped.
+				 */
+				if (i > 2) {
+					i = 0;
+				}
+
+				// Step 4 — re-read the updated src attribute and display it
+				$('#divResult').text('source: ' + $('#imgKitten').attr('src'));
+			});
+
+		}); // end document ready
+	</script>
+</body>
+
+</html>

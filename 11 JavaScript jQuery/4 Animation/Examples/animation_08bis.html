@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Animation: 8 bis - .animate() with a completion callback</title>
+	<link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body>
+	<div id="divResult" class="result-box-anim">Text in the div</div>
+	<button id="btnAnimate">Animate</button>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+		$(function () {
+
+			let animationOptions = {
+				'width': '400px',
+				'font-size': '40px'
+			};
+
+			$('#btnAnimate').on('click', function () {
+
+				/*
+				 * .animate(properties, duration, callback) — three-argument form.
+				 *
+				 * ARGUMENT 3 — callback function:
+				 *   Runs AFTER the animation fully completes (after 1500ms).
+				 *   This is the same principle as file 7 — code that depends on
+				 *   the animated state must go inside the callback, not after
+				 *   the .animate() call.
+				 *
+				 * Here the callback updates the div's text content to confirm
+				 * the animation has finished. If this .text() call were placed
+				 * AFTER .animate() instead of inside the callback, it would
+				 * run immediately (before the animation even starts) and the
+				 * text would change while the div is still mid-animation.
+				 */
+				$('#divResult').animate(animationOptions, 1500, function () {
+					$('#divResult').text('Animation complete.');
+				});
+
+			});
+
+		});
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Animation: 3 - .slideUp() and .slideDown()</title>
+	<link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body>
+	<div id="divResult" class="result-box-anim">Text in the div</div>
+	<button id="btnSlideUp">Hide</button>
+	<button id="btnSlideDown">Show</button>
+
+	<!--
+        Commented-out speed selector — was intended to let the user
+        choose between 'slow' and 'fast' animation speeds.
+        Not yet wired up to the jQuery calls below.
+
+        <select id="speed">
+            <option value="slow" selected>Slow</option>
+            <option value="fast">Fast</option>
+        </select>
+    -->
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * .slideUp() — animates the element's height from its current
+			 * value down to zero, then sets display:none.
+			 * The element appears to "slide up" and disappear.
+			 *
+			 * Default duration when no argument is given: 400ms.
+			 * Accepts the same duration values as .hide():
+			 *   'slow', 'fast', or a number of milliseconds.
+			 *
+			 * DIFFERENCE FROM .hide():
+			 *   .hide()    — collapses width AND height simultaneously
+			 *   .slideUp() — collapses height only, width stays unchanged
+			 */
+			$('#btnSlideUp').on('click', function () {
+				$('#divResult').slideUp();
+			});
+
+			/*
+			 * .slideDown() — the reverse of .slideUp().
+			 * Animates the element's height from zero back to its
+			 * natural height, revealing it with a downward slide.
+			 *
+			 * If the element is already visible, .slideDown() has no effect.
+			 */
+			$('#btnSlideDown').on('click', function () {
+				$('#divResult').slideDown();
+			});
+
+		});
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery Events: 5 - Event delegation FIX (.on() with delegate selector)</title>
+	<link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body>
+	<div id="divResult" class="result-box-small"></div>
+	<div class="demo-div">Text in the div</div>
+	<div class="demo-div">Text in the div</div>
+	<button id="btnButton1">Add div</button>
+
+	<script src="../js/jquery-3.4.1.min.js"></script>
+	<script>
+		let counter = 0;
+
+		$(function () {
+
+			/*
+			 * SOLUTION — event delegation using .on(event, selector, handler).
+			 *
+			 * Instead of binding directly to each <div>, we bind ONE handler
+			 * to <body> — a stable ancestor that always exists.
+			 *
+			 * HOW IT WORKS:
+			 *   1. The user clicks anywhere inside <body>.
+			 *   2. The click event BUBBLES UP the DOM tree toward <body>.
+			 *   3. jQuery intercepts it at <body> and checks: did this event
+			 *      originate from an element matching 'div' (the delegate selector)?
+			 *   4. If yes — the handler runs. If no — it is ignored.
+			 *
+			 * Because the check happens at click-time (not at bind-time),
+			 * it works for ANY <div> — including ones added to the DOM
+			 * after this line has already executed.
+			 *
+			 * THREE-ARGUMENT FORM of .on():
+			 *   .on(eventName, delegateSelector, handler)
+			 *       │              │                └─ runs when the condition is met
+			 *       │              └─ filter: which descendant triggered the event
+			 *       └─ the event to listen for
+			 *
+			 * Compare with file 4's direct binding:
+			 *   $('div').click(fn)           — binds to existing divs only
+			 *   $('body').on('click','div',fn) — works for ALL divs, present and future
+			 *
+			 * IMPORTANT: 'div' here also matches #divResult because it IS a div.
+			 * Clicking the result box increments the counter too.
+			 * A tighter selector like 'div:not(#divResult)' would prevent that.
+			 */
+			$('body').on('click', 'div', function () {
+				$('#divResult').text(++counter + ' times clicked');
+			});
+
+			/*
+			 * Appends a new <div> to <body>.
+			 * Unlike file 4, this new div WILL respond to clicks immediately —
+			 * no re-binding needed because the handler lives on <body>.
+			 */
+			$('#btnButton1').click(function () {
+				$('body').append('<div class="demo-div">New div</div>');
+			});
+
+		});
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jQuery Events: 9 - mousemove and the event object (e.pageX / e.pageY)</title>
+	<link rel="stylesheet" href="../../css/custom.css">
+</head>
+
+<body>
+	<div id="divResult" class="result-box-large"></div>
+
+	<script src="../../js/jquery-3.4.1.min.js"></script>
+	<script>
+		$(function () {
+
+			/*
+			 * THE EVENT OBJECT (e / event)
+			 *
+			 * Every jQuery event handler receives a jQuery event object as its
+			 * first argument. It is commonly named `e`, `evt`, or `event`.
+			 * jQuery normalises this object across browsers so the same
+			 * properties work everywhere — in vanilla JS, `event.pageX` is
+			 * not reliably available in all older browsers.
+			 *
+			 * mousemove — fires continuously every time the mouse cursor moves
+			 * over the bound element. Bound to `document` here so it tracks
+			 * the cursor anywhere on the page.
+			 *
+			 * e.pageX — horizontal distance in pixels from the LEFT edge of
+			 *           the entire document (not the visible viewport).
+			 * e.pageY — vertical distance in pixels from the TOP edge of
+			 *           the entire document.
+			 *
+			 * Both values stay consistent even when the page is scrolled,
+			 * unlike e.clientX / e.clientY which measure from the viewport edge.
+			 *
+			 * NOTE: mousemove fires extremely frequently — every pixel of
+			 * movement triggers it. Avoid heavy DOM operations inside this
+			 * handler. For expensive work, consider throttling with
+			 * setTimeout or a library utility.
+			 */
+			$(document).on('mousemove', function (e) {
+				let posX = e.pageX;
+				let posY = e.pageY;
+
+				/*
+				 * .html() is used here to render the <br /> line break tag.
+				 * The content is safe — posX and posY are numbers from the
+				 * browser, not user input, so there is no XSS risk.
+				 */
+				$('#divResult').html('position X: ' + posX + '<br />position Y: ' + posY);
+			});
+
+		});
+	</script>
+</body>
+
+</html>
