@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON.parse() with a reviver</title>
+  <link rel="shortcut icon" href="#">
+</head>
+
+<body>
+  <h2>JSON.parse() with a reviver</h2>
+  <p>
+    Name: <span id="name"></span><br />
+    Score: <span id="score"></span><br />
+  </p>
+
+  <script>
+    const jsonString =
+      '{"student":[{"name":"John","score":51},{"name":"Jack","score":17}]}';
+
+    // JSON.parse() accepts an optional REVIVER function as its second argument.
+    // The reviver is called for every key/value pair in the parsed result.
+    // It receives the key and value, and whatever it returns becomes the final value.
+    // Here: any value whose key is "name" is converted to uppercase.
+    // All other keys are returned unchanged.
+    const jsonObj = JSON.parse(jsonString, function (key, value) {
+      return key === 'name' ? value.toUpperCase() : value;
+    });
+
+    // Accesses the first student (index 0) — name will be uppercase due to reviver
+    document.getElementById('name').innerHTML = jsonObj.student[0].name;  // → "JOHN"
+    document.getElementById('score').innerHTML = jsonObj.student[0].score; // → 51
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON.parse()</title>
+    <link rel="shortcut icon" href="#">
+</head>
+
+<body>
+    <h1>JSON parse()</h1>
+    <div id="divResult"></div>
+
+    <script>
+        const exampleJSON =
+            '{"id":"s1234567","quota":25,"isOnline":false,"start":"2023-09-01","courses":["Web Development","JavaScript Basics","Data Handling"],"student":{"name":"Emily","age":21,"city":"London"}}';
+
+        // JSON.parse() converts the raw JSON string into a JavaScript object.
+        // After this, all standard property access patterns work:
+        // dot notation, bracket notation, array indexing, nested access.
+        // FIX: `stud` was undeclared — added `const`
+        const stud = JSON.parse(exampleJSON);
+
+        // The original string — still just text, no properties accessible
+        console.log(exampleJSON);
+
+        // The parsed object — fully traversable
+        console.log(stud);
+
+        // Array element access — index 1 is "Interactive websites"
+        console.log(stud.courses[1]);
+
+        // Bracket notation for nested object property —
+        // equivalent to stud.student.name
+        console.log(stud.student['name']);
+
+        const el = document.querySelector('#divResult');
+
+        // Loop through the courses array and display each one
+        for (let i = 0; i < stud.courses.length; i++) {
+            el.innerHTML += stud.courses[i] + '<br />';
+        }
+    </script>
+</body>
+
+</html>

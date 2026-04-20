@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="shortcut icon" href="#">
+    <title>Exercise 1 - OMDB API</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Movie search (OMDB API)</h1>
+                <form id="searchForm" class="form-inline">
+                    <div class="form-group m-2">
+                        <label for="searchTerm">Search term</label>
+                        <input type="text" class="form-control mx-2" id="searchTerm" name="searchTerm">
+                    </div>
+                    <!-- type="submit" triggers form submission — we intercept with preventDefault -->
+                    <button type="submit" id="btnSearch" class="btn btn-primary m-2">Search</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="row m-2">
+            <div class="col-md-12">
+                <!-- Status message — shows result count (green) or error (red) -->
+                <div class="row p-2" id="divMsg"></div>
+                <!-- Movie cards are injected here by renderMovies() -->
+                <div class="row p-3" id="divResult"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    // --- CACHE ELEMENTS ---
+    const divMsg = document.querySelector('#divMsg');
+    const divRes = document.querySelector('#divResult');
+    const searchInput = document.querySelector('#searchTerm');
+    const searchForm = document.querySelector('#searchForm');
+
+    // Stores the parsed API response — array wrapper allows easy reset between searches
+    let arrRes = [];
+
+    // ⚠️ Insert your own OMDB API key here — register free at omdbapi.com
+    const MY_API_KEY = '';
+
+    // --- SEARCH BUTTON LISTENER ---
+    // Anonymous function as required by the exercise.
+    // type="submit" would normally reload the page — preventDefault() stops that.
+    document.querySelector('#btnSearch').addEventListener('click', function (e) {
+        e.preventDefault(); // Prevent default form submission / page reload
+
+        // Only proceed if the search term passes validation
+        if (validateSearch()) {
+            myRequest(searchInput.value);
+        }
+    });
+
+    // --- validateSearch() ---
+    // Checks the search term length: minimum 2, maximum 15 characters.
+    // Returns true if valid, false if not.
+    // Alerts the user with an appropriate message for each failure case.
+    function validateSearch() {
+        const value = searchInput.value;
+
+        if (value.length <= 2) {
+            window.alert('This search term is too short (2-15 characters allowed)');
+            return false;
+        }
+
+        if (value.length > 15) {
+            window.alert('This search term is too long (2-15 characters allowed)');
+            return false;
+        }
+
+        return true; // All checks passed
+    }
+
+    // --- myRequest() ---
+    // Makes an XHR GET request to the OMDB API using the provided search term.
+    // Handles three outcomes:
+    // 1. Network/HTTP error (e.g. wrong URL, no internet)
+    // 2. API-level error (e.g. missing API key, no results found)
+    // 3. Successful response with movie results
+    function myRequest(search) {
+        const xhr = new XMLHttpRequest();
+        arrRes = []; // Reset results from any previous search
+
+        // Construct the API URL with the search term and API key
+        // type=movie filters results to movies only (excludes series, episodes)
+        xhr.open('GET',
+            `http://www.omdbapi.com/?s=${search}&type=movie&apikey=${MY_API_KEY}`,
+            true);
+
+        xhr.send();
+
+        // onload fires when a response is received — even for API-level errors.
+        // Network failures go to onerror instead.
+        xhr.onload = function () {
+            if (xhr.status !== 200) {
+                // HTTP error — e.g. 404 if the URL path is wrong
+                showMessage('nok', `Error ${xhr.status}: ${xhr.statusText}`);
+                divRes.innerHTML = ''; // Clear any previous results
+            } else {
+                // Parse the JSON response string into a JavaScript object
+                // and push it into the results array
+                arrRes.push(JSON.parse(xhr.responseText));
+
+                // The OMDB API returns { Response: "True", ... } on success
+                // and { Response: "False", Error: "..." } when no results are found
+                // or when the API key is missing/invalid
+                if (arrRes[0].Response === 'True') {
+                    // Show the total number of matches found (OMDB returns max 10 per page)
+                    showMessage('ok', `Results found: ${arrRes[0].totalResults}`);
+                    renderMovies();
+                } else {
+                    // API returned an error message — e.g. "Movie not found!"
+                    showMessage('nok', arrRes[0].Error);
+                    divRes.innerHTML = ''; // Clear previous results on error
+                }
+            }
+        };
+
+        // onerror fires on network failures — wrong domain, no internet, CORS block
+        xhr.onerror = function () {
+            showMessage('nok', 'Request failed');
+            divRes.innerHTML = '';
+        };
+    }
+
+    // --- renderMovies() ---
+    // Loops through the Search array from the API response and builds
+    // a Bootstrap card for each movie showing its poster, title, and year.
+    function renderMovies() {
+        divRes.innerHTML = ''; // Clear previous results before rendering new ones
+
+        // arrRes[0].Search is the array of movie objects returned by the API
+        arrRes[0].Search.forEach(movie => {
+            divRes.innerHTML +=
+                `<div class="col-md-4 col-sm-6">
+                    <div class="card mb-3 shadow-sm">
+                        <!-- Poster image — OMDB provides a direct image URL or "N/A" -->
+                        <img src="${movie.Poster}" class="img-responsive" alt="${movie.Title} poster">
+                        <div class="card-body">
+                            <p class="card-text">${movie.Title}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">${movie.Year}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+        });
+    }
+
+    // --- showMessage() ---
+    // Updates the message div with a success (green) or error (red) Bootstrap alert.
+    // Toggles the appropriate Bootstrap alert classes and sets the message text.
+    function showMessage(type, msg) {
+        if (type === 'ok') {
+            divMsg.classList.add('alert-success');
+            divMsg.classList.remove('alert-danger');
+        } else {
+            divMsg.classList.add('alert-danger');
+            divMsg.classList.remove('alert-success');
+        }
+        divMsg.innerHTML = msg;
+    }
+</script>
+
+</html>

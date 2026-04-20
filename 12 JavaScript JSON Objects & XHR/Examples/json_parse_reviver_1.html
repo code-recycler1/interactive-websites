@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON.parse() with reviver</title>
+  <link rel="shortcut icon" href="#">
+</head>
+
+<body>
+  <h1>JSON.parse() with reviver</h1>
+  <div id="divResult"></div>
+
+  <script>
+    // Complex JSON string simulating a server response.
+    // Contains a mix of types: string, number, boolean, array, nested object.
+    // Note: JSON has no native Date type — dates are transmitted as strings.
+    const exampleJSON =
+      '{"id":"s1234567","quota":25,"isOnline":false,"start":"2023-09-01","courses":["Web Development","JavaScript Basics","Data Handling"],"student":{"name":"Emily","age":21,"city":"London"}}';
+
+    // The reviver intercepts the "start" key and converts its string value
+    // into a real JavaScript Date object.
+    // All other keys pass through unchanged.
+    // This is the standard pattern for restoring Date objects from JSON —
+    // JSON.stringify() serialises dates as strings, so JSON.parse() alone
+    // cannot restore them as Date objects without a reviver.
+    const student = JSON.parse(exampleJSON, function reviver(key, value) {
+      if (key === 'start') {
+        return new Date(value); // "2021-02-16" → Date object
+      }
+      return value;
+    });
+
+    console.log(student);
+
+    const el = document.querySelector('#divResult');
+
+    // Loop through the courses array and display each course
+    for (let i = 0; i < student.courses.length; i++) {
+      el.innerHTML += student.courses[i] + '<br />';
+    }
+
+    // Format the Date object using Intl.DateTimeFormat.
+    // This only works because the reviver converted the string to a Date —
+    // without the reviver, student.start would still be a string
+    // and .format() would produce unexpected results.
+    el.innerHTML += '<br />Start: ' + new Intl.DateTimeFormat('en-GB', {
+      weekday: 'long'
+    }).format(student.start);
+  </script>
+</body>
+
+</html>

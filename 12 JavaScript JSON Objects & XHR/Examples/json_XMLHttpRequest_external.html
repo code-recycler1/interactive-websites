@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="shortcut icon" href="#">
+    <title>XMLHttpRequest — school campuses</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>XMLHttpRequest — external JSON file school campuses</h1>
+                <button id="buttonRequest" class="btn btn-primary my-3">Show campuses</button>
+                <div class="row" id="divResult"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector('#buttonRequest').addEventListener('click', myRequest);
+
+        function myRequest() {
+            // XMLHttpRequest (XHR) is the classic way to fetch data from a server
+            // without reloading the page. The modern alternative is the Fetch API,
+            // but XHR is still widely found in existing codebases.
+            const xhr = new XMLHttpRequest();
+            const divRes = document.querySelector('#divResult');
+
+            // open() configures the request:
+            // - method: 'GET' (retrieve data)
+            // - url: path to the JSON file
+            // - async: true (don't block the browser while waiting for the response)
+            xhr.open('GET', 'files/example_school_campuses.json', true);
+
+            // send() dispatches the request over the network
+            xhr.send();
+
+            // onload fires when the response has been fully received.
+            // It does NOT fire for network errors — those go to onerror.
+            xhr.onload = function () {
+                if (xhr.status !== 200) {
+                    // Non-2xx status means the server responded but with an error
+                    // e.g. 404 Not Found — check the file path
+                    divRes.innerHTML = `Error ${xhr.status}: ${xhr.statusText}`;
+                } else {
+                    // xhr.responseText is always a string — parse it to get a JS object/array
+                    const arrResponse = JSON.parse(xhr.responseText);
+                    // Pass the parsed array to the card builder function
+                    divRes.innerHTML = createHTMLCard(arrResponse);
+                }
+            };
+
+            // onerror fires on network-level failures (no internet, CORS block, wrong domain)
+            xhr.onerror = function () {
+                divRes.innerHTML = 'Request failed';
+            };
+        }
+
+        // Builds a Bootstrap card grid from an array of campus objects.
+        // Separated from the XHR logic — each function has one responsibility.
+        function createHTMLCard(arrObj) {
+            let res = '';
+
+            for (let i = 0; i < arrObj.length; i++) {
+                // Card header — campus name, postcode, city
+                res +=
+                    `<div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="card m-2">
+                            <div class="card-body bg-danger text-white">
+                                <h5 class="card-title">${arrObj[i].name}</h5>
+                                <p>${arrObj[i].postalCode} ${arrObj[i].city}</p>
+                            </div>`;
+
+                // Card body — list of courses, only if there are any
+                if (arrObj[i].courses.length > 0) {
+                    res += '<ul class="list-group list-group-flush">';
+                    // for...of iterates the values directly — cleaner than an index loop here
+                    for (const course of arrObj[i].courses) {
+                        res += `<li class="list-group-item">${course}</li>`;
+                    }
+                    res += '</ul>';
+                }
+
+                // Card footer — ternary operator checks parking boolean
+                res +=
+                    `<div class="card-footer bg-dark text-white">
+                        ${arrObj[i].parkingAvailable ? 'Parking available' : 'No parking'}
+                    </div>
+                    </div>
+                    </div>`;
+            }
+            return res;
+        }
+    </script>
+</body>
+
+</html>

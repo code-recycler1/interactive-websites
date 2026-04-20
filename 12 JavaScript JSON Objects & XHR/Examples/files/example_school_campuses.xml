@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<campuses>
+   <campus>
+      <city>Manchester</city>
+      <courses>
+         <course>Computer Science</course>
+         <course>Software Development</course>
+         <course>Electrical Engineering</course>
+         <course>Network Administration</course>
+      </courses>
+      <name>North Campus</name>
+      <parkingAvailable>true</parkingAvailable>
+      <postalCode>M1 2AB</postalCode>
+   </campus>
+   <campus>
+      <city>Birmingham</city>
+      <courses>
+         <course>Nursing</course>
+         <course>Social Care</course>
+         <course>Software Development</course>
+         <course>Network Administration</course>
+      </courses>
+      <name>City Campus</name>
+      <parkingAvailable>false</parkingAvailable>
+      <postalCode>B4 7ET</postalCode>
+   </campus>
+   <campus>
+      <city>Bristol</city>
+      <courses>
+         <course>Business Administration</course>
+         <course>Nursing</course>
+         <course>Social Work</course>
+         <course>Software Development</course>
+      </courses>
+      <name>South Campus</name>
+      <parkingAvailable>true</parkingAvailable>
+      <postalCode>BS1 5TR</postalCode>
+   </campus>
+</campuses>

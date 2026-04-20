@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+    <title>Exercise 2 - Mayors</title>
+</head>
+
+<body>
+    <main class="container">
+        <div class="row">
+            <div class="col">
+                <!-- Populated by request() on page load -->
+                <h1 id="name"></h1>
+                <span id="version" class="lead"></span>
+                <!-- Error messages appear here -->
+                <div id="divResult"></div>
+                <table class="table table-sm table-striped table-hover">
+                    <tbody id="resultTable">
+                        <!-- Header row is in the HTML — append_table() adds data rows after it -->
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Vaccinated</th>
+                        <th>Date</th>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Cache elements once — used across both functions
+        const nameEl = document.querySelector('#name');
+        const versionEl = document.querySelector('#version');
+        const divResult = document.querySelector('#divResult');
+        const resultTable = document.querySelector('#resultTable');
+
+        // Initiate the request immediately on page load — no button click required
+        request();
+
+        // --- request() ---
+        // Fetches the JSON file via XHR, parses it, and delegates rendering.
+        // Handles three outcomes: HTTP error, network error, and success.
+        function request() {
+            const xhr = new XMLHttpRequest();
+
+            // Async GET request to the local JSON file
+            xhr.open('GET', 'json/mayors.json', true);
+            xhr.send();
+
+            // onload fires when a response arrives — regardless of HTTP status
+            xhr.onload = () => {
+                if (xhr.status !== 200) {
+                    // HTTP error — e.g. 404 if the file path is wrong.
+                    // textContent used as required — no HTML interpretation needed
+                    divResult.textContent = `${xhr.status}: ${xhr.statusText}`;
+                } else {
+                    // Parse the JSON string into a JavaScript object.
+                    // The reviver intercepts the "date" key and converts the date
+                    // string into a Date object. The final output uses the raw `date`
+                    // string field instead (see append_table), so this is optional —
+                    // included here to demonstrate the reviver pattern on real data.
+                    const response = JSON.parse(xhr.responseText, (key, value) => {
+                        if (key === 'date') {
+                            return new Date(value);
+                        }
+                        return value;
+                    });
+
+                    // Populate the page header with metadata from the JSON
+                    nameEl.textContent = response.name;
+                    versionEl.textContent = response.version;
+
+                    // Pass the array of mayor objects to the table renderer
+                    append_table(response.list);
+                }
+            };
+
+            // onerror fires on network-level failures — CORS, offline, wrong domain
+            xhr.onerror = () => {
+                alert(`Request failed: ${xhr.responseText || 'Network error'}`);
+            };
+        }
+
+        // --- append_table() ---
+        // Receives the array of mayor objects and appends one <tr> per mayor
+        // to the existing <tbody>. The header row is already in the HTML —
+        // this function only adds data rows, never touches the header.
+        function append_table(data) {
+            data.forEach(mayor => {
+                // Create a new row element for each mayor
+                const tr = document.createElement('tr');
+
+                // Convert the boolean `vaccinated` to a readable Yes/No string
+                const vaccinated = mayor.vaccinated ? 'Yes' : 'No';
+
+                // Build the four cells using a template literal.
+                // `date` is used as a raw string (YYYY/MM/DD) as required.
+                tr.innerHTML =
+                    `<td>${mayor.name}</td>` +
+                    `<td>${mayor.type}</td>` +
+                    `<td>${vaccinated}</td>` +
+                    `<td>${mayor.date}</td>`;
+
+                // Append the completed row to the tbody
+                resultTable.appendChild(tr);
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

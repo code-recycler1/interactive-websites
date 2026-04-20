@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON object literal (basic)</title>
+  <link rel="shortcut icon" href="#">
+</head>
+
+<body>
+  <h2>JSON object literal (basic)</h2>
+  <p>
+    Name: <span id="name"></span><br />
+    Age: <span id="age"></span><br />
+    Address: <span id="address"></span><br />
+    Phone: <span id="phone"></span><br />
+  </p>
+
+  <script>
+    // In a real application, data would arrive from a server as a JSON string
+    // and be converted to an object via JSON.parse().
+    // Here the object is defined directly as a JS object literal —
+    // the JSON syntax (quoted keys) is kept to show what parsed JSON looks like.
+    // `var` replaced with `const` per our conventions.
+    const JSONObject = {
+      name: "John Smith",
+      address: "221B Baker Street, London NW1 6XE",
+      age: 35,
+      phone: "+44 20 7946 0958"
+    };;
+
+    // Read each property and write it into the corresponding span
+    document.getElementById('name').innerHTML = JSONObject.name;
+    document.getElementById('age').innerHTML = JSONObject.age;
+    document.getElementById('address').innerHTML = JSONObject.address;
+    document.getElementById('phone').innerHTML = JSONObject.phone;
+  </script>
+</body>
+
+</html>

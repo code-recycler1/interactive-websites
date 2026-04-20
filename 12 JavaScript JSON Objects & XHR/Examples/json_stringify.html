@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON.stringify()</title>
+    <link rel="shortcut icon" href="#">
+</head>
+
+<body>
+    <h1>JSON stringify()</h1>
+    <div id="divResult"></div>
+
+    <script>
+        // A standard JavaScript object — properties, array, nested object
+        const exampleJSON =
+        {
+            "id": "s1234567",
+            "quota": 25,
+            "isOnline": false,
+            "start": "2023-09-01",
+            "courses": [
+                "Web Development",
+                "JavaScript Basics",
+                "Data Handling"
+            ],
+            "student": {
+                "name": "Emily",
+                "age": 21,
+                "city": "London"
+            }
+        };
+
+        // JSON.stringify() is the REVERSE of JSON.parse().
+        // It serialises a JavaScript object into a JSON-formatted string.
+        // This is how data is prepared before sending it to a server (e.g. via fetch/XHR).
+        // Rules: undefined values, functions, and symbols are omitted from the output.
+        // FIX: `stud` was undeclared — added `const`
+        const stud = JSON.stringify(exampleObj);
+
+        // Logs the raw JSON string to the console
+        console.log(stud);
+
+        // Display the JSON string directly in the page
+        document.querySelector('#divResult').innerHTML = stud;
+    </script>
+</body>
+
+</html>

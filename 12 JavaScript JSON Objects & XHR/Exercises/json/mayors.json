@@ -1,0 +1,30 @@
+{
+  "list": [
+    {
+      "name": "Victoria Harris",
+      "type": "Pfizer",
+      "vaccinated": true,
+      "date": "2021/03/04"
+    },
+    {
+      "name": "Robert Harris",
+      "type": "Moderna",
+      "vaccinated": true,
+      "date": "2021/03/15"
+    },
+    {
+      "name": "John Doe",
+      "type": "Pfizer",
+      "vaccinated": false,
+      "date": "2021/03/06"
+    },
+    {
+      "name": "Jane Smith",
+      "type": "AstraZeneca",
+      "vaccinated": true,
+      "date": "2021/04/09"
+    }
+  ],
+  "name": "List of mayors",
+  "version": "1.02"
+}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON.parse()</title>
+  <link rel="shortcut icon" href="#">
+</head>
+
+<body>
+  <h2>JSON.parse()</h2>
+  <p>
+    First name: <span id="firstName"></span><br />
+    Last name: <span id="lastName"></span><br />
+  </p>
+
+  <script>
+    // Simulates data received from a web server — always arrives as a STRING.
+    // JSON format rules: keys must be double-quoted strings,
+    // values can be strings, numbers, booleans, arrays, objects, or null.
+    const text =
+      '{"employees":[{"firstName":"John","lastName":"Doe"},{"firstName":"Jane","lastName":"Smith"},{"firstName":"Ben","lastName":"Johnson"}]}';
+
+    // JSON.parse() converts the JSON string into a usable JavaScript object.
+    // After parsing, standard dot and bracket notation works as normal.
+    // FIX: `obj` was undeclared — added `const`
+    const obj = JSON.parse(text);
+
+    // Access the second employee (index 1) from the employees array
+    document.getElementById('firstName').innerHTML = obj.employees[1].firstName;
+    document.getElementById('lastName').innerHTML = obj.employees[1].lastName;
+  </script>
+</body>
+
+</html>
