@@ -1,0 +1,38 @@
+[
+  {
+    "name": "North Campus",
+    "city": "Manchester",
+    "postalCode": "M1 2AB",
+    "parkingAvailable": true,
+    "courses": [
+      "Computer Science",
+      "Software Development",
+      "Electrical Engineering",
+      "Network Administration"
+    ]
+  },
+  {
+    "name": "City Campus",
+    "city": "Birmingham",
+    "postalCode": "B4 7ET",
+    "parkingAvailable": false,
+    "courses": [
+      "Nursing",
+      "Social Care",
+      "Software Development",
+      "Network Administration"
+    ]
+  },
+  {
+    "name": "South Campus",
+    "city": "Bristol",
+    "postalCode": "BS1 5TR",
+    "parkingAvailable": true,
+    "courses": [
+      "Business Administration",
+      "Nursing",
+      "Social Work",
+      "Software Development"
+    ]
+  }
+]

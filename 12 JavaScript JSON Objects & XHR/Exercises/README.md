@@ -23,12 +23,15 @@ The API returns a maximum of 10 results per page.
 Ensure that you catch the error messages below.
 
 E.g., URL incorrect => `http://www.omdbapi.com/?`
+
 ![Exercise 1 Image 4](./Screenshots/Exercise_1-4.png)
 
 E.g., searching for “jawz”
+
 ![Exercise 1 Image 5](./Screenshots/Exercise_1-5.png)
 
 E.g., not providing an api-key parameter
+
 ![Exercise 1 Image 6](./Screenshots/Exercise_1-6.png)
 
 Simulate the different types of errors:

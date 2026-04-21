@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="shortcut icon" href="#">
+    <title>Promise — then, catch, finally</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Promise — then, catch, finally</h1>
+                <div class="row" id="divResult"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    const output = document.querySelector('#divResult');
+
+    // EXAMPLE 1 — .then() with two callbacks: one for resolve, one for reject.
+    // The Promise resolves after 3 seconds.
+    let promiseExample = new Promise((resolve, reject) => {
+        setTimeout(() => resolve('Done after 3 seconds!'), 3000);
+    });
+
+    // .then(onFulfilled, onRejected) accepts two optional callbacks.
+    // The first runs if the Promise resolves, the second if it rejects.
+    promiseExample.then(
+        result => output.innerHTML = result, // fires after 3 seconds → "Done after 3 seconds!"
+        error => output.innerHTML = error   // will not run — Promise resolves, not rejects
+    );
+
+
+    // EXAMPLE 2 (commented out) — .then() when the Promise rejects with an Error object.
+    /*
+    let promiseExample = new Promise((resolve, reject) => {
+        setTimeout(() => reject(new Error('Whoops!')), 3000);
+    });
+
+    promiseExample.then(
+        result => output.innerHTML = result, // will not run — Promise rejects
+        error  => output.innerHTML = error   // fires after 3 seconds → "Error: Whoops!"
+    );
+    */
+
+
+    // EXAMPLE 3 (commented out) — .finally() always runs regardless of outcome.
+    // Use it for cleanup tasks: stopping loading spinners, closing connections etc.
+    /*
+    let promiseExample = new Promise((resolve, reject) => {
+        setTimeout(() => resolve('That took a while...  '), 5000);
+    });
+
+    promiseExample.then(
+        result => output.innerHTML += result, // fires after 5 seconds
+        error  => output.innerHTML += error   // will not run
+    );
+
+    // .finally() runs when the Promise settles — whether fulfilled OR rejected.
+    // It receives no argument — it doesn't know the outcome, just that it settled.
+    promiseExample.finally(() =>
+        output.innerHTML += 'Performing cleanup, stopping loading indicators...'
+    );
+    */
+</script>
+
+</html>
