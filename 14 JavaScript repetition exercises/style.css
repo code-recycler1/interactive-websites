@@ -1,0 +1,51 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.font-lora {
+    font-family: 'Lora', serif;
+}
+
+.container-fluid {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: rgb(251, 242, 133);
+    background: radial-gradient(circle,
+            rgba(251, 242, 133, 0.63) 0%,
+            rgba(224, 196, 91, 0.84) 35%,
+            rgb(234, 232, 195) 100%);
+}
+
+.date {
+    text-align: center;
+}
+
+.weather {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 15px 0;
+    font-size: 1.5rem;
+}
+
+#location {
+    font-size: 3rem;
+    font-weight: 800;
+    font-style: italic;
+}
+
+.desc {
+    font-size: 1.25rem;
+    text-transform: capitalize;
+    /* weather description is lowercase from API */
+}
+
+.vh-100 {
+    height: 100vh;
+}

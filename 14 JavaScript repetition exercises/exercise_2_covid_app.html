@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="shortcut icon" href="#">
+    <title>Exercise 2 - Covid-19 USA app</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="vh-100">
+    <div class="container">
+        <h1 class="text-center mt-4">Covid-19 USA — last 1200 days</h1>
+        <!-- Chart.js renders into a <canvas> element — the id is used to get the drawing context -->
+        <canvas id="myChart"></canvas>
+    </div>
+</body>
+
+<script>
+    // disease.sh is a free, open-source disease data API — no API key required.
+    // lastdays=100 returns cumulative data for the past 100 days.
+    const API_URL = 'https://disease.sh/v3/covid-19/historical/USA?lastdays=1200';
+
+    // --- getData() ---
+    // Async function that fetches the COVID data and returns the parsed JSON.
+    // Using async/await ensures the full response is received and parsed
+    // before the data is passed to the chart — no race conditions.
+    const getData = async () => {
+        const response = await fetch(API_URL);
+
+        if (response.ok) {
+            // await here waits for the response body to be fully read and parsed.
+            // Without the second await, we'd return a pending Promise, not the data.
+            return await response.json();
+        } else {
+            // Manually reject for non-2xx HTTP responses so .catch() fires below
+            return Promise.reject(response.status);
+        }
+    };
+
+    // --- Call getData() and chain .then() to handle the resolved data ---
+    // getData() returns a Promise — .then() runs when it resolves.
+    getData()
+        .then(data => {
+            // The API response structure:
+            // data.timeline.cases     → { "1/1/21": 123456, "1/2/21": 124000, ... }
+            // data.timeline.deaths    → same shape
+            // data.timeline.recovered → same shape
+            const timeline = data.timeline;
+
+            // Object.keys() extracts the date strings — used as chart x-axis labels
+            const dates = Object.keys(timeline.cases);
+
+            // Object.values() extracts the cumulative counts — used as chart datasets
+            const cases = Object.values(timeline.cases);
+            const deaths = Object.values(timeline.deaths);
+            const recovered = Object.values(timeline.recovered);
+
+            // Get the 2D drawing context from the canvas element.
+            // Chart.js draws onto this context.
+            const ctx = document.querySelector('#myChart').getContext('2d');
+
+            // --- CREATE THE CHART ---
+            // Chart.js v2 syntax — type, data, and options are the three main sections.
+            const myChart = new Chart(ctx, {
+                type: 'line', // Line chart — appropriate for time-series cumulative data
+
+                data: {
+                    // labels maps to the x-axis — one label per data point
+                    labels: dates,
+
+                    // datasets is an array — each entry becomes one line on the chart
+                    datasets: [
+                        {
+                            label: 'Total cases',
+                            data: cases,
+                            borderColor: 'rgba(34, 140, 189)', // blue line
+                            fill: false // no area fill under the line
+                        },
+                        {
+                            label: 'Deaths',
+                            data: deaths,
+                            borderColor: 'rgba(189, 34, 34, 1)', // red line
+                            fill: false
+                        }
+                        // recovered is fetched but not plotted — add a third dataset here if needed
+                    ]
+                },
+
+                options: {
+                    scales: {
+                        // yAxes and xAxes are arrays in Chart.js v2 — v3 uses a different syntax
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Number of cases'
+                            }
+                        }],
+                        xAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Date (MM/DD/YY)' // format as returned by the API
+                            }
+                        }]
+                    },
+                    title: {
+                        display: true,
+                        text: 'Coronavirus cases in the USA — last 1200 days'
+                    }
+                }
+            });
+        })
+        .catch(err => {
+            // Fires for both network errors and the Promise.reject() above
+            console.error('Error fetching COVID data:', err);
+            document.querySelector('#myChart').insertAdjacentHTML(
+                'beforebegin',
+                `<p class="text-danger text-center">Failed to load data: ${err}</p>`
+            );
+        });
+</script>
+
+<!-- Chart.js must be loaded AFTER the canvas element and BEFORE or AFTER the script —
+     here it is after the script, which works because the script only runs after the
+     fetch resolves, by which time Chart.js is already parsed and available. -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
+</html>
