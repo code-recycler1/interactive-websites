@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="John Doe">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link href="css/style.css" rel="stylesheet">
+    <title>Exercise 3 - Registration form</title>
+</head>
+
+<body>
+    <!-- Navbar with a CSS gradient defined in style.css -->
+    <nav class="navbar navbar-expand-lg gradient">
+        <div class="container-fluid">
+            <a class="navbar-brand text-white" href="#">Anoroc Services</a>
+        </div>
+    </nav>
+
+    <main class="container m-4">
+        <h1>Register</h1>
+        <p class="lead">Sign up with Anoroc Services — we protect your software against malware!</p>
+
+        <div class="row">
+            <!-- LEFT COLUMN — the registration form -->
+            <div class="col-12" id="form">
+                <form id="registrationForm">
+
+                    <!-- ROW 1: First name and last name — two equal columns -->
+                    <div class="row">
+                        <div class="col">
+                            <label for="firstName" class="form-label">First name</label>
+                            <input type="text" class="form-control" id="firstName" placeholder="Your first name"
+                                value="">
+                        </div>
+                        <div class="col">
+                            <label for="lastName" class="form-label">Last name</label>
+                            <input type="text" class="form-control" id="lastName" placeholder="Your last name" value="">
+                        </div>
+                    </div>
+
+                    <!-- ROW 2: Username and email address -->
+                    <div class="row">
+                        <div class="col-lg-12 col-6 mt-3">
+                            <label for="username" class="form-label">Username</label>
+                            <!-- Input group prepends an @ symbol as a visual prefix -->
+                            <div class="input-group">
+                                <span class="input-group-text" id="addon-wrapping">@</span>
+                                <input type="text" class="form-control" placeholder="u911236" aria-label="username"
+                                    aria-describedby="addon-wrapping" id="username">
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-6 mt-3">
+                            <label for="email" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="email" placeholder="mail@example.com">
+                        </div>
+                    </div>
+
+                    <!-- ROW 3: Password and repeat password -->
+                    <div class="row">
+                        <div class="col-lg-12 col-6 mt-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" aria-describedby="passwordHelp">
+                            <!-- Helper text shown below the input field -->
+                            <div id="passwordHelp" class="form-text">
+                                Your password must be at least 8 characters long.
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-6 mt-3">
+                            <label for="repeatPassword" class="form-label">Repeat password</label>
+                            <input type="password" class="form-control" id="repeatPassword">
+                        </div>
+                    </div>
+
+                    <!-- ROW 4: Full-width address field -->
+                    <div class="row">
+                        <div class="col-12 mt-3">
+                            <label for="address" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="address"
+                                placeholder="Your address and house number">
+                        </div>
+                    </div>
+
+                    <!-- ROW 5: Country, province, and postal code -->
+                    <div class="row mt-3">
+                        <div class="col">
+                            <label for="country" class="form-label">Country</label>
+                            <!-- onchange calls checkCountry() to populate the province dropdown -->
+                            <select class="form-select" id="country" onchange="checkCountry()">
+                                <option value="">Choose a country</option>
+                                <option value="Belgium">Belgium</option>
+                                <option value="Netherlands">Netherlands</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="province" class="form-label">Province</label>
+                            <!-- Populated dynamically by checkCountry() based on country selection -->
+                            <select class="form-select" id="province">
+                                <option value="">Choose a province</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="postalCode" class="form-label">Postal code</label>
+                            <input type="text" class="form-control" id="postalCode">
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- ROW 6: Newsletter checkbox + payment method radio buttons -->
+                    <div class="row">
+                        <div class="col">
+                            <h2>Keep me informed</h2>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="newsletter">
+                                <label class="form-check-label" for="newsletter">
+                                    Subscribe to our newsletter
+                                </label>
+                            </div>
+                            <!-- Terms and conditions — mandatory, validated in checkTerms() -->
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="terms">
+                                <label class="form-check-label" for="terms">
+                                    I agree to the general terms and conditions.
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Payment method — radio buttons, one always selected -->
+                        <div class="col" id="paymentMethod">
+                            <h2>Payment</h2>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="bankingApp"
+                                    value="Banking app" checked>
+                                <label class="form-check-label" for="bankingApp">Banking app</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="transfer"
+                                    value="Transfer">
+                                <label class="form-check-label" for="transfer">Transfer</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="visaCard"
+                                    value="Visa card">
+                                <label class="form-check-label" for="visaCard">Visa card</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="paypal"
+                                    value="PayPal">
+                                <label class="form-check-label" for="paypal">PayPal</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- Submit button — calls validateForm() on click, not a real form submit -->
+                    <div class="mb-3">
+                        <button class="btn btn-primary col-12 p-3" type="button" onclick="validateForm()">Wave your
+                            magic wand</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- RIGHT COLUMN — alert panels, hidden by script until validation runs -->
+            <div class="col" id="alerts">
+
+                <!-- Error alert — shown when the errors array is not empty -->
+                <div id="errorAlert" class="alert alert-danger" role="alert">
+                    <h4>Yikes, errors...</h4>
+                    <!-- Error messages are injected as list items here -->
+                    <ul class="list-group" id="errorText"></ul>
+                </div>
+
+                <!-- Payment alert — always shown on successful validation -->
+                <div id="paymentAlert" class="alert alert-primary" role="alert">
+                    <h4>Payment method</h4>
+                    <!-- Populated by validatePayment() with the selected radio value -->
+                    <p class="list-group" id="paymentText"></p>
+                </div>
+
+                <!-- Success alert — shown only when the errors array is empty -->
+                <div id="successAlert" class="alert alert-success" role="alert">
+                    <h4>Well done!</h4>
+                    <p>Aww yeah, you have been registered.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link href="css/style.css" rel="stylesheet">
+    <title>Exercise 3 - Registration form</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg gradient">
+        <div class="container-fluid">
+            <a class="navbar-brand text-white" href="#">Anoroc Services</a>
+        </div>
+    </nav>
+
+    <main class="container m-4">
+        <h1>Register</h1>
+        <p class="lead">Sign up with Anoroc Services — we protect your software against malware!</p>
+
+        <div class="row">
+            <!-- LEFT COLUMN: build your form here -->
+            <div class="col-12" id="form">
+                <form id="registrationForm">
+
+                </form>
+            </div>
+
+            <!-- RIGHT COLUMN: alert panels — hidden by script on page load -->
+            <div class="col" id="alerts">
+
+                <!-- Error alert (red) — shown when validation fails -->
+                <div id="errorAlert" class="alert alert-danger" role="alert">
+                    <h4>Yikes, errors...</h4>
+                    <ul class="list-group" id="errorText"></ul>
+                </div>
+
+                <!-- Payment alert (blue) — shown on successful validation -->
+                <div id="paymentAlert" class="alert alert-primary" role="alert">
+                    <h4>Payment method</h4>
+                    <p id="paymentText"></p>
+                </div>
+
+                <!-- Success alert (green) — shown on successful validation -->
+                <div id="successAlert" class="alert alert-success" role="alert">
+                    <h4>Well done!</h4>
+                    <p>Aww yeah, you have been registered.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

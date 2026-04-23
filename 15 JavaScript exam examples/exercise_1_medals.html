@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <title>Exercise 1 - Belgium at the Olympic Games 2020</title>
+</head>
+
+<body>
+    <main class="container">
+        <h1>Exercise 1: Belgium at the Olympic Games 2020</h1>
+        <hr>
+        <div class="row">
+            <div class="col-md mb-2">
+                <input type="text" class="form-control" id="name" placeholder="Name of the athlete">
+            </div>
+            <div class="col-md mb-2">
+                <select class="form-select" id="medal">
+                    <option value="0" selected>Select a medal</option>
+                    <option value="gold">Gold</option>
+                    <option value="silver">Silver</option>
+                    <option value="bronze">Bronze</option>
+                </select>
+            </div>
+            <div class="col-md mb-2">
+                <div class="d-grid">
+                    <input type="button" id="addAthlete" value="Add athlete" class="btn btn-success">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h2>Medal Overview</h2>
+                <!-- Pre-existing list — items are appended here when the button is clicked -->
+                <ul id="list"></ul>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Cache elements once
+        const nameInput = document.querySelector('#name');
+        const medalSelect = document.querySelector('#medal');
+        const list = document.querySelector('#list');
+
+        // Anonymous arrow function as required by the exercise
+        document.querySelector('#addAthlete').addEventListener('click', () => {
+
+            const name = nameInput.value.trim();
+            const medal = medalSelect.value;
+
+            // VALIDATION — both fields must be filled before adding.
+            // medal === '0' means the placeholder "Select a medal" is still selected.
+            if (name === '' || medal === '0') {
+                alert('Please enter an athlete name and select a medal.');
+                return;
+            }
+
+            // CREATE the list item — text combines name and medal
+            const li = document.createElement('li');
+            li.textContent = `${name} – ${medal}`;
+
+            // Give the list item a class name as required by the exercise.
+            // Bootstrap's list-unstyled parent handles layout;
+            // 'athlete-item' identifies these items for potential future styling.
+            li.classList.add('athlete-item');
+
+            // DELETION — clicking a list item removes it immediately, no confirmation.
+            // The listener is attached to the specific li element just created,
+            // so each item manages its own removal independently.
+            li.addEventListener('click', () => li.remove());
+
+            // Append the completed item to the list
+            list.appendChild(li);
+
+            // Reset both inputs ready for the next entry
+            nameInput.value = '';
+            medalSelect.value = '0';
+            nameInput.focus();
+        });
+    </script>
+</body>
+
+</html>
